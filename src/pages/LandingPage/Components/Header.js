@@ -13,7 +13,8 @@ const Header = () => {
       <div className="banner">
         <div className="title">
           <h1>Healthcare At<br/>Your Fingertips</h1>
-          <h4>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc odio in et, lectus sit lorem id integer.</h4>
+          <h4>Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+            Nunc odio in et, lectus sit lorem id integer.</h4>
           <button className="primary">Get Started</button>
         </div>
         <div className="images">
