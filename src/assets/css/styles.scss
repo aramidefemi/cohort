@@ -17,6 +17,14 @@ a {
 	margin-bottom: 0;
 }
 
+h2 {
+	font-weight: 600;
+	font-size: 40px;
+	line-height: 54px; 
+	color: #1B1C1E;
+
+}
+
 h4 {
 	font-style: normal;
 	font-weight: normal;
@@ -57,7 +65,7 @@ button {
 		height: 100vh;
 		max-height: 866px;
 		background: linear-gradient(180deg, #C7D8D2 0%, #D7E1E0 11.09%, #DEE7E6 23.96%, #E3E9E9 61.72%, #D9E4E0 100%);
-		padding: 0 8.7vw;
+		padding: 0 11vw;
 
 		.navbar {
 			display: flex;
@@ -106,7 +114,7 @@ button {
 
 			.title {
 
-				width: 50%;
+				width: 60%;
 
 				h1 {
 					font-style: normal;
@@ -121,18 +129,75 @@ button {
 
 				button {
 					margin-top: 32px;
+					width: 116px;
 				}
 			}
 
 			.images {
 
-				width: 50%;
+				width: 40%;
 
 				.ImageOne {}
 
 				.ImageTwo {}
 
 				.ImageThree {}
+			}
+		}
+	}
+
+	.publications {
+		ul {
+			list-style-type: none;
+			padding-left: 0;
+			display: flex;
+			margin-bottom: 0;
+			padding-bottom: 25px;
+			border-bottom: .4px solid rgba(0, 0, 0, .1);
+			justify-content: space-between;
+
+			li {
+				display: inline;
+			}
+		}
+
+		padding: 0 19vw;
+		padding-top: 25px;
+	}
+
+	.WhySection {
+		padding: 76px 11vw;
+		display: flex;
+
+		.image {
+			margin-right: 78px;
+
+			img {
+				height: 540px;
+				width: 540px;
+				border-radius: 8px;
+
+			}
+		}
+
+		.text {
+
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+		
+			h2 {}
+
+			h4 {
+				margin-top: 32px;
+			}
+
+			a {
+				font-weight: 600;
+				font-size: 20px;
+				line-height: 30px;
+				margin-top: 32px;
+				color: #2E7B8C;
 			}
 		}
 	}
