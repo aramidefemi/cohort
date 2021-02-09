@@ -1,0 +1,139 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap');
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+small,
+strong,
+b,
+button,
+a {
+	font-family: 'Poppins', sans-serif;
+	color: #1B1C1E;
+	margin-bottom: 0;
+}
+
+h4 {
+	font-style: normal;
+	font-weight: normal;
+	font-size: 18px;
+	line-height: 32px;
+}
+
+.btn,
+button {
+	background: #DAE3E6;
+
+	border-radius: 8px;
+	font-weight: 600;
+	font-size: 14px;
+	line-height: 20px;
+	text-align: center;
+	color: #2E7B8C;
+	padding: 10px 0;
+	border: none;
+	height: 40px;
+	min-width: 100px;
+
+	&.primary {
+		background: #2E7B8C;
+		color: #FFFFFF;
+
+		&:hover {
+			opacity: 0.7;
+		}
+	}
+
+}
+
+
+.landingpage {
+	.header {
+		width: 100vw;
+		height: 100vh;
+		max-height: 866px;
+		background: linear-gradient(180deg, #C7D8D2 0%, #D7E1E0 11.09%, #DEE7E6 23.96%, #E3E9E9 61.72%, #D9E4E0 100%);
+		padding: 0 8.7vw;
+
+		.navbar {
+			display: flex;
+
+			padding: 15px 0;
+
+			ul {
+				list-style-type: none;
+
+				li {
+					display: inline;
+				}
+			}
+
+			.logo {}
+
+			.links {
+				width: 100%;
+				padding-top: 8px;
+
+				a {
+					font-style: normal;
+					font-weight: 600;
+					font-size: 14px;
+					line-height: 20px;
+					font-feature-settings: 'liga'off;
+					color: #1B1C1E;
+					margin-right: 33px;
+				}
+			}
+
+			.actions {
+				display: flex;
+
+				.btn {
+					margin-left: 14px;
+				}
+			}
+		}
+
+		.banner {
+			display: flex;
+			flex-direction: row;
+			height: calc(100% - 76px);
+			align-items: center;
+
+			.title {
+
+				width: 50%;
+
+				h1 {
+					font-style: normal;
+					font-weight: 600;
+					font-size: 72px;
+					line-height: 98px;
+				}
+
+				h4 {
+					margin-top: 14px;
+				}
+
+				button {
+					margin-top: 32px;
+				}
+			}
+
+			.images {
+
+				width: 50%;
+
+				.ImageOne {}
+
+				.ImageTwo {}
+
+				.ImageThree {}
+			}
+		}
+	}
+}
