@@ -17,11 +17,11 @@ const TestimonySection = () => {
         <h4>Get inspired by these stories.</h4>
       </div>
 
-      <div className="testimonies">
+      {/* <div className="testimonies">
         <div className="testimony">
           <img src={logo} className="bg" alt="" />
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

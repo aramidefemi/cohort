@@ -17,8 +17,8 @@ const LandingPage = () => {
       <NetworkSection />
       <AboutSection />
       <TestimonySection />
-      <CTASection />
-      <FooterSection />
+      {/* <CTASection />
+      <FooterSection /> */}
     </div>
   );
 };
