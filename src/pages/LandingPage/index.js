@@ -13,9 +13,8 @@ const LandingPage = () => {
     <div className="landingpage">
       <Header />
       <Publications />
-      <WhySection />
+      <WhySection /> <AboutSection />
       <NetworkSection />
-      <AboutSection />
       <TestimonySection />
       {/* <CTASection />
       <FooterSection /> */}

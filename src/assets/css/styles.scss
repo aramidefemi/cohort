@@ -47,6 +47,13 @@ h5 {
 	line-height: 32px;
 }
 
+p {
+	font-style: normal;
+	font-weight: normal;
+	font-size: 18px;
+	line-height: 32px;
+}
+
 .btn,
 button {
 	background: #DAE3E6;
@@ -217,26 +224,40 @@ button {
 	}
 
 	.NetworkSection {
-		.text {
-			margin-top: 64px;
+		padding: 150px 11vw;
 
-			h2,
-			h4 {
-				text-align: center;
-			}
-		}
+		.content {
 
-		.image {
-			margin-top: 48px;
-		}
-
-		.action {
-			margin-top: 48px;
+			background: #8C30F5;
+			border-radius: 16px;
+			height: 350px;
+			width: 100%;
 			display: flex;
 
-			button {
-				margin: auto;
+			.text { 
+				padding: 40px 48px;
+
+				h2,
+				a {
+					color: #FFFFFF;
+					text-align: left;
+				} 
+
+				p {
+					color: #F1F2F6;
+					margin: 32px 0;
+				}
 			}
+
+			.image {
+				.phone {
+					height: 639px;
+					width: 282px;
+					position: relative;
+					bottom: 140px;
+				}
+			}
+
 		}
 	}
 
@@ -281,6 +302,7 @@ button {
 
 		.title {
 			position: relative;
+
 			.bg {
 				opacity: .6;
 			}
@@ -290,9 +312,10 @@ button {
 				left: 100px;
 				top: 70px;
 			}
+
 			h4 {
 				position: absolute;
-				left: 100px; 
+				left: 100px;
 				top: 170px;
 			}
 		}
