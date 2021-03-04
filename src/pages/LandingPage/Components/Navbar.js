@@ -29,9 +29,9 @@ const Navbar = () => {
       </div>
       <div className="actions">
          
-            <Link to="/" className='btn'>Login</Link>
+            <Link to="/login" className='btn'>Login</Link>
            
-            <Link to="/" className='btn primary'>Sign up</Link>
+            <Link to="/register" className='btn primary'>Sign up</Link>
           
       </div>
     </div>

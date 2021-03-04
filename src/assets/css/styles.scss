@@ -234,14 +234,14 @@ button {
 			width: 100%;
 			display: flex;
 
-			.text { 
+			.text {
 				padding: 40px 48px;
 
 				h2,
 				a {
 					color: #FFFFFF;
 					text-align: left;
-				} 
+				}
 
 				p {
 					color: #F1F2F6;
@@ -318,6 +318,51 @@ button {
 				left: 100px;
 				top: 170px;
 			}
+		}
+	}
+}
+
+.AuthWrapper {
+	display: flex;
+
+	.side {
+		height: 100vh;
+		display: flex;
+
+		position: relative;
+		.logo {
+			width: 165px;
+			height: 68px;
+			position: absolute;
+			left: 20px;
+			top: 20px;
+		}
+
+		.bg {
+			 
+		}
+	}
+
+	.auth {
+		width: 100%;
+
+		.back {}
+
+		.container {
+			h2 {
+				font-weight: bold;
+				font-size: 1.875rem;
+				line-height: 2.8125rem;
+				display: flex;
+				align-items: center;
+				color: #1B1C1E;
+			}
+
+		}
+
+		&.evaluate {
+			width: 100%;
+
 		}
 	}
 }

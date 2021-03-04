@@ -1,6 +1,8 @@
 import React from 'react';
 import Login from './pages/Authentication/Login';
 import LandingPage from './pages/LandingPage/';
+import Evaluation from './pages/Authentication/Evaluation';
+import SignUp from './pages/Authentication/SignUp'
 import {
   BrowserRouter as Router,
   Switch,
@@ -18,6 +20,9 @@ class App extends React.Component {
       <Router>
         <Switch>
           <Route exact path="/" component={LandingPage} /> 
+          <Route exact path="/login" component={Login} /> 
+          <Route exact path="/register" component={SignUp} /> 
+          <Route exact path="/evaluate" component={Evaluation} /> 
         </Switch>
       </Router>
     );
