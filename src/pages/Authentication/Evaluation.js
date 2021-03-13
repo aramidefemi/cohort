@@ -1,5 +1,5 @@
 import React from 'react';
-import AuthWrapper from './AuthWrapper';
+import AuthWrapper from './Components/AuthWrapper';
 
 const Evaluation = () => {
   return (

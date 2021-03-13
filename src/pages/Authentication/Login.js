@@ -1,5 +1,5 @@
 import React from 'react';
-import AuthWrapper from './AuthWrapper';
+import AuthWrapper from './Components/AuthWrapper';
 import { Link } from 'react-router-dom';
 import { Input } from 'antd';
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
@@ -23,11 +23,11 @@ const Login = () => {
               }
             />
           </div>
-          <Link to="/forgot-password" className='fwp'>Forgot Password?</Link>
-          <button className="btn primary btn-block">Login</button>
+          <Link to='/provider' className='fwp'>Forgot Password?</Link>
+          <button  className="btn primary btn-block">Login</button>
           <p>
             Don{'’'}t have an account?{' '}
-            <Link to="/register">Create Account</Link>
+            <Link to='/subscriber'>Create Account</Link>
           </p>
         </div>
       </div>

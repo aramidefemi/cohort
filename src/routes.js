@@ -2,7 +2,9 @@ import React from 'react';
 import Login from './pages/Authentication/Login';
 import LandingPage from './pages/LandingPage/';
 import Evaluation from './pages/Authentication/Evaluation';
-import SignUp from './pages/Authentication/SignUp'
+import SignUp from './pages/Authentication/SignUp';
+import SubscribersDashboard from './pages/Subscribers/'
+import ProvidersDashboard from './pages/Providers/'
 import {
   BrowserRouter as Router,
   Switch,
@@ -23,6 +25,9 @@ class App extends React.Component {
           <Route exact path="/login" component={Login} /> 
           <Route exact path="/register" component={SignUp} /> 
           <Route exact path="/evaluate" component={Evaluation} /> 
+          <Route exact path="/evaluate" component={Evaluation} /> 
+          <Route exact path="/provider" component={ProvidersDashboard} /> 
+          <Route exact path="/subscriber" component={SubscribersDashboard} /> 
         </Switch>
       </Router>
     );

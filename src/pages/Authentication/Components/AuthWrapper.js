@@ -1,6 +1,6 @@
 import React from 'react';
-import bg from '../../assets/images/auth.svg';
-import logo from '../../assets/images/logow.svg';
+import bg from '../../../assets/images/auth.svg';
+import logo from '../../../assets/images/logow.svg';
 import { Link } from 'react-router-dom';
 const AuthWrapper = ({ children }) => {
   return (
