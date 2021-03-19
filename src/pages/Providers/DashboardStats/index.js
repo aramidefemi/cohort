@@ -1,21 +1,21 @@
-import React from 'react'; 
-import { Link } from 'react-router-dom';
-import { Card } from 'antd'; 
+import React from 'react';
+// import { Link } from 'react-router-dom';
+import { Card } from 'antd';
 import { Input } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 
 // images
 import go from '../../../assets/images/go.svg';
-const DashboardStats = ({toggleRecords}) => {
+const DashboardStats = ({ toggleRecords }) => {
   return (
     <>
       <div className="searchbar">
         <Input
-          onClick={toggleRecords}
+          onClick={() => toggleRecords('SearchPatientRecord')}
           placeholder="Type policy number, card number or email to search subscribers"
           prefix={<SearchOutlined />}
         />
-         <img src={go} className="go" alt="" />
+        <img src={go} className="go" alt="" />
       </div>
       <div className="container">
         <Card style={{ width: '47%' }}>

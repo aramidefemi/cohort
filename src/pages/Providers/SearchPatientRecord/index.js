@@ -16,34 +16,18 @@ const SearchPatientRecord = ({ toggleRecords }) => {
             placeholder="Type policy number, card number or email to search subscribers"
             prefix={<SearchOutlined />}
           />
-          <p onClick={toggleRecords}>X</p>
+          <p onClick={() => toggleRecords('DashboardStats')}>X</p>
           <img onClick={toggleLoading} src={go} className="go" alt="" />
         </div>
-        <div className="body">{loading ? <Loaders /> : <Details />}</div>
+        <div className="body">
+          {loading ? <Loaders /> : <Details toggleRecords={toggleRecords} />}
+        </div>
       </div>
     </div>
   );
 };
 
-const Loaders = () => {
-  return (
-    <div className="Loaders">
-      <div>
-        <Skeleton.Avatar size={164} active shape="circle" />
-        <br />
-        <br />
-        <Skeleton active />
-        <Skeleton active />
-      </div>
-      <div className="centered">
-        <Skeleton.Input style={{ width: 200 }} active />
-        <Skeleton.Input style={{ width: 200 }} active />
-      </div>
-    </div>
-  );
-};
-
-const Details = ({}) => {
+const Details = ({ toggleRecords }) => {
   return (
     <div className="details">
       <div className="subscriber">
@@ -87,17 +71,39 @@ const Details = ({}) => {
       </div>
       <div className="actions">
         <button className="btn primary btn-block">Verify Patient</button>
-        
+
         <hr />
-        
+
         <div className="form-group">
           <label htmlFor="">Enter OTP</label>
           <Input placeholder="Email address" />
         </div>
-        <button className="btn primary btn-block">Verify</button>
+        <button
+          onClick={() => toggleRecords('PatientRecord')}
+          className="btn primary btn-block"
+        >
+          Verify
+        </button>
       </div>
     </div>
   );
 };
 
+const Loaders = () => {
+  return (
+    <div className="Loaders">
+      <div>
+        <Skeleton.Avatar size={164} active shape="circle" />
+        <br />
+        <br />
+        <Skeleton active />
+        <Skeleton active />
+      </div>
+      <div className="centered">
+        <Skeleton.Input style={{ width: 200 }} active />
+        <Skeleton.Input style={{ width: 200 }} active />
+      </div>
+    </div>
+  );
+};
 export default SearchPatientRecord;
