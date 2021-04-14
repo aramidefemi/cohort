@@ -3,6 +3,7 @@ import DashboardWrapper from '../../components/DashboardWrapper';
 import { Link } from 'react-router-dom';
 import { List, Avatar, Tooltip, Card, Tabs, Input } from 'antd';
 import { UserOutlined, SearchOutlined, EyeFilled } from '@ant-design/icons';
+import { useDispatch, useSelector } from 'react-redux';
 
 // images
 import help from '../../assets/images/help.svg';
@@ -25,6 +26,7 @@ const datah = [
   'Redition Hospital',
 ];
 const SubscribersDashboard = () => {
+  const { user } = useSelector((state) => state.auth);
   return (
     <DashboardWrapper type="subscriber">
       <div className="container">
@@ -42,11 +44,11 @@ const SubscribersDashboard = () => {
             <div className="ml col">
               <div className="name-group">
                 <label>Full name</label>
-                <p>Deji Adeniran</p>
+                <p>{user['fullname']}</p>
               </div>
               <div className="name-group">
-                <label>Card Number</label>
-                <p>028-3824</p>
+                <label>Policy Number</label>
+                <p>{user['policyNumber']}</p>
               </div>
             </div>
           </div>
@@ -54,18 +56,13 @@ const SubscribersDashboard = () => {
           <div className="row">
             <div className="name-group">
               <label>Phone number</label>
-              <p>080123456789</p>
-            </div>
-
-            <div className="ml name-group">
-              <label>Email Address</label>
-              <p>dejiadeniran@email.com</p>
+              <p>{user['phone']}</p>
             </div>
           </div>
           <div className="row">
             <div className="name-group">
-              <label>Policy number</label>
-              <p>028-3824</p>
+              <label>Email Address</label>
+              <p>{user['email']}</p>
             </div>
           </div>
         </Card>
@@ -190,7 +187,5 @@ const SubscribersDashboard = () => {
     </DashboardWrapper>
   );
 };
-
-
 
 export default SubscribersDashboard;

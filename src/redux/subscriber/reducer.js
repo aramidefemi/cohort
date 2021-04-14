@@ -1,15 +1,18 @@
 const initialState = {
-  aside: { which: '', data: {}},
-  user_token: null,
-  user: {}
+  aside: { which: '', data: {} },
+  token: null,
+  user: {},
 };
 
-export default function applicationReducer(state = initialState, { type, payload }) {
+export default function applicationReducer(
+  state = initialState,
+  { type, payload }
+) {
   switch (type) {
     case 'OPEN_ASIDE':
       const aside = { ...state, aside: payload };
       return aside;
-    case 'SIGN_IN':  
+    case 'LOGIN':
       const user = { ...state, ...payload };
       return user;
     default:

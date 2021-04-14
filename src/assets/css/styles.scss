@@ -67,7 +67,7 @@ p {
 
 .ant-input {
 	background: rgba(0, 0, 0, 0.05);
-	border-radius: 6px;
+	border-radius: 3px;
 	padding: 10px 30px;
 	border: none;
 }
@@ -80,7 +80,7 @@ p {
 }
 
 .ant-input-affix-wrapper {
-	border-radius: 6px;
+	border-radius: 3px;
 	padding: 0 !important;
 	padding-right: 15px !important;
 	background: rgba(0, 0, 0, 0.05);
@@ -92,7 +92,7 @@ p {
 button {
 	background: #DAE3E6;
 
-	border-radius: 8px;
+	border-radius: 3px;
 	font-weight: 500;
 	font-size: 14px;
 	line-height: 20px;
@@ -383,8 +383,9 @@ button {
 
 	.auth {
 		width: 65%;
-		padding: 5vw;
+		padding: 4vw;
 		padding-bottom: 0;
+
 
 		.back {
 			a {
@@ -400,6 +401,12 @@ button {
 		}
 
 		.container {
+			&.registration {
+				padding: 50px;
+				width: 100%;
+			}
+
+
 			padding: 15vh 5vw;
 			width: 520px;
 			margin-left: auto;
@@ -407,13 +414,23 @@ button {
 			padding-bottom: 0;
 
 
+
 			h2 {
 				font-weight: bold;
 				font-size: 1.875rem;
 				line-height: 2.8125rem;
-				display: flex;
-				align-items: center;
 				color: #1B1C1E;
+				display: block;
+
+				small {
+					font-family: Poppins;
+					font-style: normal;
+					font-weight: normal;
+					font-size: 1rem;
+					line-height: 1.5rem;
+					color: #8692A6;
+					display: block;
+				}
 			}
 
 			.form {
@@ -421,8 +438,49 @@ button {
 				padding-top: 15px;
 				border-top: 1px solid #F5F5F5;
 
+				.profile-photo {
+					width: 50%;
+
+					span { 
+
+						.ant-upload {
+							width: 100%;
+
+							.form-group {
+								position: relative;
+
+								button {
+									height: 30px;
+									padding: 5px;
+									font-size: 12px;
+									position: absolute;
+									margin-bottom: 0;
+									right: 6px;
+									bottom: 6px;
+									border-radius: 3px;
+								}
+							}
+
+						}
+					}
+				}
+
 				label {
 					margin-top: 20px;
+					margin-bottom: 5px;
+				}
+
+				.col {
+					display: flex;
+					flex-direction: row;
+
+					.form-group {
+						width: 100%;
+
+						&:first-child {
+							margin-right: 10px;
+						}
+					}
 				}
 
 				.fwp {
@@ -432,6 +490,7 @@ button {
 
 				button {
 					margin-bottom: 30px;
+					border-radius: 3px;
 				}
 
 				p,
@@ -546,6 +605,9 @@ button {
 				margin-left: auto;
 				margin-right: 70px;
 				display: flex;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
 
 				.details {
 					margin-left: 10px;
@@ -815,9 +877,11 @@ button {
 						padding: 0;
 						background: #EEEEEE;
 						border-radius: 5px;
+
 						.ant-input-affix-wrapper {
-							background: #EEEEEE; 
+							background: #EEEEEE;
 							border-radius: 5px;
+
 							input {
 								padding-left: 0 !important;
 								padding-right: 0 !important;
@@ -856,6 +920,17 @@ button {
 
 				.history-card {
 					bottom: 0px;
+				}
+
+				.HospitalHistory-card {
+					height: fit-content;
+					margin: 20px;
+					border-radius: 10px;
+
+					h4 {
+						margin-bottom: 20px;
+					}
+
 				}
 			}
 

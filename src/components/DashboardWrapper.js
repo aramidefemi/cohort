@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Menu } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+
 // images
 import logo from '../assets/images/logo.svg';
 import avatar from '../assets/images/avatar.svg';
@@ -12,11 +14,12 @@ import setting from '../assets/images/setting.svg';
 import thumbnail from '../assets/images/thumbnail.svg';
 
 const DashboardWrapper = ({ type, children }) => {
+  const { user } = useSelector((state) => state.auth);
   const handleClick = (e) => {
     console.log('click ', e);
   };
   const menus = type == 'provider' ? provider : subscriber;
-
+console.log('user',user);
   return (
     <div className="DashboardWrapper">
       <div className="sidebar">
@@ -47,10 +50,10 @@ const DashboardWrapper = ({ type, children }) => {
       <div className="main">
         <div className="header">
           <div className="profile">
-            <img src={avatar} className="avatar" alt="" />
+            <img src={user['profile_url']} className="avatar" alt="" />
             <div className="details">
-              <p>Deji Adeniran</p>
-              <small>dejiadeniran@gmail.com</small>
+              <p>{user['fullname']}</p>
+              <small>{user['email']}</small>
             </div>
           </div>
         </div>
@@ -66,14 +69,9 @@ const subscriber = [
     link: '/subscriber',
   },
   {
-    title: 'Kanban',
-    icon: thumbnail,
-    link: '/subscriber',
-  },
-  {
     title: 'History',
     icon: calendar,
-    link: '/subscriber',
+    link: '/history',
   },
   {
     title: 'Settings',
