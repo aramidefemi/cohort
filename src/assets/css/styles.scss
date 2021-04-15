@@ -441,7 +441,7 @@ button {
 				.profile-photo {
 					width: 50%;
 
-					span { 
+					span {
 
 						.ant-upload {
 							width: 100%;
@@ -516,6 +516,170 @@ button {
 
 .DashboardWrapper {
 	display: flex;
+
+	&.subscribe {
+		.sidebar {
+			max-width: 0px;
+
+			.title,
+			ul {
+				display: none;
+			}
+
+			.logo {
+				img {
+					margin-left: 50px;
+				}
+			}
+		}
+
+		.main {
+			.container-main {
+				background: #ffffff;
+			}
+		}
+	}
+
+	.subscribe {
+		.title {
+			h2 {
+				font-weight: 800;
+				font-size: 48px;
+				line-height: 72px;
+				text-align: center;
+
+				color: #2E7B8C;
+			}
+		}
+
+		.plans {
+			padding: 30px 16px;
+			margin-top: 10px;
+
+			.btn-st {
+				margin: 50px;
+			}
+
+			section {
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: space-evenly;
+			}
+
+			.plan {
+				padding: 30px;
+				margin-top: 40px;
+				width: 28%;
+				max-width: 403px;
+				height: auto;
+				background: #EDEDED;
+				border-radius: 20px;
+
+				h4 {
+					font-weight: bold;
+					font-size: 24px;
+					line-height: 36px;
+					text-transform: capitalize;
+					color: #2E7B8C;
+				}
+
+				h2 {
+					font-weight: 900;
+					font-size: 42px;
+					line-height: 72px;
+					color: #1DAFAC;
+
+					small {
+						font-size: 22px;
+						line-height: 36px;
+						color: #222222;
+						opacity: 0.5;
+						font-weight: 100;
+					}
+				}
+
+				h6 {
+					font-size: 13px;
+					line-height: 150%;
+					letter-spacing: 0.005em;
+					color: #222222;
+					margin: 0 0 20px 0;
+					opacity: 0.5;
+				}
+
+				.benefit {
+
+					display: flex;
+					margin-bottom: 10px;
+
+					p {
+						font-size: 16px;
+						line-height: 24px;
+						text-transform: capitalize;
+						color: #222222;
+						margin-left: 20px;
+					}
+				}
+
+				button {
+					border: 2.3px solid #2E7B8C;
+					box-sizing: border-box;
+					border-radius: 10px;
+					font-weight: bold;
+					font-size: 24px;
+					line-height: 36px;
+					background-color: transparent;
+					color: #2E7B8C;
+					margin-top: 20px;
+				}
+
+				&.best {
+					background: #5DCFFF;
+					position: relative;
+
+					button {
+						border: 2.3px solid #004656;
+						color: #004656;
+					}
+
+					h4,
+					h2 {
+						color: #004656;
+					}
+
+					h6 {
+						opacity: 0.8;
+					}
+
+					.best-banner {
+						position: absolute;
+						width: 120px;
+						border: 10px solid white;
+						height: 120px;
+						background: #2E7B8C;
+						border: 10px solid #FFFFFF;
+						border-radius: 100px;
+						top: -50px;
+						right: -27px;
+						display: flex;
+						flex-direction: column;
+						justify-content: center;
+
+						b {
+							font-family: Poppins;
+							font-style: normal;
+							font-weight: 900;
+							font-size: 20px;
+							line-height: 108%;
+							text-align: center;
+							color: #84F8FF;
+						}
+					}
+
+				}
+			}
+		}
+	}
 
 	.sidebar {
 		max-width: 260px;

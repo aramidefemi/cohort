@@ -1,7 +1,7 @@
 const initialState = {
-  aside: { which: '', data: {} },
-  token: null,
-  user: {},
+  subscription: {
+    active: false,
+  }
 };
 
 export default function applicationReducer(
@@ -9,12 +9,9 @@ export default function applicationReducer(
   { type, payload }
 ) {
   switch (type) {
-    case 'OPEN_ASIDE':
-      const aside = { ...state, aside: payload };
-      return aside;
-    case 'LOGIN':
-      const user = { ...state, ...payload };
-      return user;
+    case 'GET_SUBSCRIPTION':
+      const GET_SUBSCRIPTION = { ...state, subscription: payload };
+      return GET_SUBSCRIPTION;
     default:
       return state;
   }

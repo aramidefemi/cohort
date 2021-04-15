@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Link } from 'react-router-dom';
-import { Menu } from 'antd';
+import { Menu, Space, Button, Alert } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 
 // images
@@ -14,22 +14,30 @@ import setting from '../assets/images/setting.svg';
 import thumbnail from '../assets/images/thumbnail.svg';
 
 const DashboardWrapper = ({ type, children }) => {
-  const { user } = useSelector((state) => state.auth);
+  const { auth: { user }, subscriber: { subscription } } = useSelector((state) => state);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch({
+      type: 'GET_SUBSCRIPTION',
+    });
+  }, []); 
+
   const handleClick = (e) => {
     console.log('click ', e);
   };
   const menus = type == 'provider' ? provider : subscriber;
-console.log('user',user);
+
   return (
-    <div className="DashboardWrapper">
+    <div className={'DashboardWrapper ' + type}>
       <div className="sidebar">
         <div className="logo">
           <img src={logo} className="logo" alt="" />
         </div>
         <div className="title">
-            <h5>MAIN MENU</h5>
+          <h5>MAIN MENU</h5>
         </div>
-      
+
         <Menu
           onClick={handleClick}
           style={{ width: 256 }}
@@ -38,15 +46,16 @@ console.log('user',user);
           mode="inline"
         >
           {menus.map(({ icon, title, link }, i) => (
-            <Menu.Item key={i+1}>
-              <Link to={link} className='menu-item'>
-                <img src={icon}  alt="" />
+            <Menu.Item key={i + 1}>
+              <Link to={link} className="menu-item">
+                <img src={icon} alt="" />
                 <p>{title}</p>
               </Link>
             </Menu.Item>
           ))}
         </Menu>
       </div>
+
       <div className="main">
         <div className="header">
           <div className="profile">
@@ -57,6 +66,24 @@ console.log('user',user);
             </div>
           </div>
         </div>
+        { typeof subscription?.active !== 'undefined' ? (
+          <> </>
+        ) : type == 'subscribe' ? (
+          <> </>
+        ) : (
+          <Alert
+            message="Dear user please select a subscription plan, to get the best out of hadiel"
+            type="warning"
+            action={
+              <Space>
+                <Link to="subscribe" size="small" type="ghost">
+                  Click here!
+                </Link>
+              </Space>
+            }
+            closable
+          />
+        )}
         <div className="container-main">{children}</div>
       </div>
     </div>

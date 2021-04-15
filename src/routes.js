@@ -68,12 +68,11 @@ const ProtectedRoute = ({ path, component: Child }) => {
 const AuthRoute = ({ path, component: Child }) => {
   let { token, user } = useSelector((state) => state.auth);
   const utoken = token || window.localStorage.getItem('token') || null;
-  const uuser = user || JSON.parse(window.localStorage.getItem('user')) || null;
-  console.log('token auth route', utoken, uuser);
+  const uuser = user || JSON.parse(window.localStorage.getItem('user')) || null; 
 
   if (utoken !== null) {
     let path;
-    if (!user.hasSubscription) {
+    if (!uuser.hasSubscription) {
       path = '/subscribe';
     } else {
       path = {
@@ -81,6 +80,7 @@ const AuthRoute = ({ path, component: Child }) => {
         PROVIDER: '/provider',
         ADMIN: '/provider',
       };
+      path = path[uuser.userType]
     }
     return <Redirect to={path} />;
   }

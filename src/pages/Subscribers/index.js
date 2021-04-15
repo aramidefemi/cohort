@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import moment from 'moment';
 import DashboardWrapper from '../../components/DashboardWrapper';
 import { Link } from 'react-router-dom';
 import { List, Avatar, Tooltip, Card, Tabs, Input } from 'antd';
@@ -19,14 +20,13 @@ const data = [
   'Man charged over missing wedding girl.',
   'Los Angeles battles huge wildfires.',
 ];
-const datah = [
-  'Redition Hospital',
-  'Redition Hospital',
-  'Redition Hospital',
-  'Redition Hospital',
-];
+const datah = [];
 const SubscribersDashboard = () => {
-  const { user } = useSelector((state) => state.auth);
+  const { auth: { user }, subscriber: { subscription } } = useSelector((state) => state);
+
+
+  console.log('subscription',subscription);
+
   return (
     <DashboardWrapper type="subscriber">
       <div className="container">
@@ -86,7 +86,7 @@ const SubscribersDashboard = () => {
             <div className="col">
               <label>Subscription Plan</label>
               <h4>
-                <strong>₦</strong> 3,500<small>.00</small> <h5>/month</h5>
+                <strong>₦</strong> {subscription.cost}<small>.00</small> <h5>/month</h5>
               </h4>
             </div>
             <Tooltip
@@ -98,7 +98,7 @@ const SubscribersDashboard = () => {
           </div>
 
           <p>
-            Next payment on <strong>13-02-2021</strong>
+            Next payment on <strong>{moment(subscription.expiryDate).format("DD-MM-YYYY")}</strong>
           </p>
         </Card>
         <Card style={{ width: '37%' }} className="history-card">
@@ -164,23 +164,52 @@ const SubscribersDashboard = () => {
                 header={null}
                 footer={null}
                 bordered
-                dataSource={data}
-                renderItem={(item) => (
-                  <List.Item>
+                dataSource={subscription?.benefits || []}
+                renderItem={({title, privileges, limited}) => {
+                  if (!limited) {
+                    return  <List.Item>
                     <div className="benefits">
-                      <p>{item}</p>
-                      <small>10</small>
+                      <p>{title}</p>
+                      <small>{privileges}</small>
                     </div>
                   </List.Item>
-                )}
+                  }
+                }}
               />
             </TabPane>
             <TabPane tab="Limited Benefits" key="2">
-              Limited Benefits
+            <div className="searchbar">
+                <Input
+                  autoFocus
+                  placeholder="Search"
+                  prefix={<SearchOutlined />}
+                />
+              </div>
+              <div className="header">
+                <h5>Benefit</h5>
+                <h5>Nō of times left to use</h5>
+              </div>
+              <List
+                size="small"
+                header={null}
+                footer={null}
+                bordered
+                dataSource={subscription?.benefits || []}
+                renderItem={({title, privileges, limited}) => {
+                  if (limited) {
+                    return  <List.Item>
+                    <div className="benefits">
+                      <p>{title}</p>
+                      <small>{privileges}</small>
+                    </div>
+                  </List.Item>
+                  }
+                }}
+              />
             </TabPane>
-            <TabPane tab="Used-Up Benefits" key="3">
+            {/* <TabPane tab="Used-Up Benefits" key="3">
               Used-Up Benefits
-            </TabPane>
+            </TabPane> */}
           </Tabs>
         </Card>
       </div>

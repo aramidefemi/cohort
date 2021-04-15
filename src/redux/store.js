@@ -26,7 +26,7 @@ export const errorNotification = (error) => {
     },
   });
 };
-const local = 'https://my-cohort-api.herokuapp.com'; //'http://localhost:4000'; //
+const local = 'http://localhost:4000'; //'https://my-cohort-api.herokuapp.com';
 
 
 export const post = async (url, body, token) => {

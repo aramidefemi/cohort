@@ -8,14 +8,13 @@ import { Upload, message } from 'antd';
 const SignUp = () => {
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState('No File Selected');
-
+  const dispatch = useDispatch();
   const handleClick = () => {
     setLoading(!loading);
     dispatch({
       type: 'SIGN_UP',
     });
   };
-  const dispatch = useDispatch();
 
   const handleChange = ({ target: { name, value } }) => {
     setLoading(false);
@@ -29,7 +28,7 @@ const SignUp = () => {
 
   const props = {
     name: 'file',
-    action: 'https://my-cohort-api.herokuapp.com/image-upload',
+    action: 'http://localhost:4000/image-upload',
     onChange(info) {
       setUploading(info.file.status);
       if (info.file.status !== 'uploading') {
@@ -40,12 +39,14 @@ const SignUp = () => {
       } else if (info.file.status === 'error') {
         message.error(`${info.file.name} file upload failed.`);
       }
-      const res = { ...info.file.response};
-      const path = {...res.url} 
-      handleChange({ target: {
-        name: 'profile_url',
-        value: 'https://my-cohort-api.herokuapp.com/'+path.path
-      }})
+      const res = { ...info.file.response };
+      const path = { ...res.url };
+      handleChange({
+        target: {
+          name: 'profile_url',
+          value: 'http://localhost:4000/' + path.path,
+        },
+      });
     },
   };
 
