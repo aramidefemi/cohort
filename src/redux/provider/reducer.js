@@ -1,7 +1,5 @@
 const initialState = {
-  aside: { which: '', data: {} },
-  token: window.localStorage.getItem('token') || null,
-  user: JSON.parse(window.localStorage.getItem('user')) || {},
+  users: [],
 };
 
 export default function applicationReducer(
@@ -9,12 +7,9 @@ export default function applicationReducer(
   { type, payload }
 ) {
   switch (type) {
-    case 'OPEN_ASIDE':
-      const aside = { ...state, aside: payload };
-      return aside;
-    case 'SIGN_IN':
-      const user = { ...state, ...payload };
-      return user;
+    case 'FIND_USER':
+      const FIND_USER = { ...state, users: payload };
+      return FIND_USER;
     default:
       return state;
   }

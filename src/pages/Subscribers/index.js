@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import moment from 'moment';
+import accounting from 'accounting';
 import DashboardWrapper from '../../components/DashboardWrapper';
 import { Link } from 'react-router-dom';
 import { List, Avatar, Tooltip, Card, Tabs, Input } from 'antd';
@@ -86,7 +87,7 @@ const SubscribersDashboard = () => {
             <div className="col">
               <label>Subscription Plan</label>
               <h4>
-                <strong>₦</strong> {subscription.cost}<small>.00</small> <h5>/month</h5>
+                <strong>₦</strong> {accounting.formatMoney(subscription.cost,'')}<small>.00</small> <h5>/month</h5>
               </h4>
             </div>
             <Tooltip

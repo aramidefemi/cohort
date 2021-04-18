@@ -64,6 +64,9 @@ const SubscriptionPlansComponent = () => {
       reference,
       init: false,
     });
+    dispatch({
+      type: 'GET_SUBSCRIPTION',
+    });
     toggleModal();
   };
 
