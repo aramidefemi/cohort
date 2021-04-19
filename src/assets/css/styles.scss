@@ -1121,7 +1121,7 @@ button {
 
 				.go {
 					position: absolute;
-					top: 30px;
+					top: 25px;
 					z-index: 10;
 					right: 35px;
 					cursor: pointer;
@@ -1129,8 +1129,7 @@ button {
 			}
 
 			.PatientRecord {
-
-				border: 20px solid black;
+ 
 				height: calc(100vh - 70px);
 				background: #ffffff;
 
@@ -1148,15 +1147,15 @@ button {
 							color: #323232;
 							position: absolute;
 							right: 80px;
-							top: 24px;
+							top: 19px;
 							opacity: .5;
 							z-index: 10;
 							cursor: pointer;
 						}
 
 						.ant-input-affix-wrapper {
-							border-radius: 0;
-							border-bottom: 1px solid #00000059;
+							border-radius: 3px;
+							border-bottom: none;
 						}
 					}
 

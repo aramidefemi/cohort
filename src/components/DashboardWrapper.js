@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, Space, Button, Alert } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,19 +14,24 @@ import setting from '../assets/images/setting.svg';
 import thumbnail from '../assets/images/thumbnail.svg';
 
 const DashboardWrapper = ({ type, children }) => {
-  const { auth: { user }, subscriber: { subscription } } = useSelector((state) => state);
+  const {
+    auth: { user },
+    subscriber: { subscription },
+  } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch({
-      type: 'GET_SUBSCRIPTION',
-    });
-  }, []); 
+    if (type == 'subscribe') {
+      dispatch({
+        type: 'GET_SUBSCRIPTION',
+      });
+    }
+  }, []);
 
   const handleClick = (e) => {
     console.log('click ', e);
   };
-  const menus = type == 'provider' ? provider : subscriber;
+  const menus = { provider, subscriber, admin };
 
   return (
     <div className={'DashboardWrapper ' + type}>
@@ -45,7 +50,7 @@ const DashboardWrapper = ({ type, children }) => {
           defaultOpenKeys={['sub1']}
           mode="inline"
         >
-          {menus.map(({ icon, title, link }, i) => (
+          {menus[type].map(({ icon, title, link }, i) => (
             <Menu.Item key={i + 1}>
               <Link to={link} className="menu-item">
                 <img src={icon} alt="" />
@@ -66,7 +71,7 @@ const DashboardWrapper = ({ type, children }) => {
             </div>
           </div>
         </div>
-        { typeof subscription?.active !== 'undefined' ? (
+        {typeof subscription?.active !== 'undefined' ? (
           <> </>
         ) : type == 'subscribe' ? (
           <> </>
@@ -106,6 +111,23 @@ const subscriber = [
     link: '/subscriber',
   },
 ];
+const admin = [
+  {
+    title: 'Dashboard',
+    icon: dashboard,
+    link: '/subscriber',
+  },
+  {
+    title: 'History',
+    icon: calendar,
+    link: '/history',
+  },
+  {
+    title: 'Settings',
+    icon: setting,
+    link: '/subscriber',
+  },
+];
 
 const provider = [
   {
@@ -117,6 +139,11 @@ const provider = [
     title: 'Your Patients',
     icon: thumbnail,
     link: '/provider',
+  },
+  {
+    title: 'Search',
+    icon: thumbnail,
+    link: '/search',
   },
   {
     title: 'History',

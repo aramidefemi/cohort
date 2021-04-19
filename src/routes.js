@@ -7,6 +7,9 @@ import Plans from './pages/Authentication/SubscriptionPlansComponent';
 import SubscribersDashboard from './pages/Subscribers/';
 import HospitalHistory from './pages/Subscribers/History/';
 import ProvidersDashboard from './pages/Providers/';
+import SearchPatientRecord from './pages/Providers/SearchPatientRecord';
+import PatientRecord from './pages/Providers/PatientRecord';
+
 import {
   BrowserRouter as Router,
   Switch,
@@ -25,8 +28,7 @@ class App extends React.Component {
           <AuthRoute exact path="/" component={LandingPage} />
           <AuthRoute exact path="/login" component={Login} />
           <AuthRoute exact path="/register" component={SignUp} />
-          <ProtectedRoute exact path="/subscribe" component={Plans} />
-          <ProtectedRoute exact path="/evaluate" component={Evaluation} />
+          <ProtectedRoute exact path="/subscribe" component={Plans} /> 
           <ProtectedRoute exact path="/evaluate" component={Evaluation} />
           <ProtectedRoute
             exact
@@ -35,8 +37,18 @@ class App extends React.Component {
           />
           <ProtectedRoute
             exact
+            path="/patient-records"
+            component={PatientRecord}
+          />
+          <ProtectedRoute
+            exact
             path="/subscriber"
             component={SubscribersDashboard}
+          />
+          <ProtectedRoute
+            exact
+            path="/search"
+            component={SearchPatientRecord}
           />
           <ProtectedRoute exact path="/history" component={HospitalHistory} />
         </Switch>

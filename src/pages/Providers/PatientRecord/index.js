@@ -1,10 +1,29 @@
 import React, { useState } from 'react';
 import { Input, Skeleton, Avatar, Table } from 'antd';
 import { SearchOutlined, UserOutlined } from '@ant-design/icons';
+import { useDispatch, useSelector } from 'react-redux';
 
 const PatientRecord = ({ toggleRecords }) => {
   const [loading, setLoading] = useState(true);
   const toggleLoading = () => setLoading(!loading);
+
+  const {
+    provider: { verified, user },
+  } = useSelector((state) => state);
+  const [otp, setOTP] = useState(true);
+
+  const handleForm = ({ target: { value } }) => {
+    setOTP(value);
+  };
+  const dispatch = useDispatch();
+
+  const handleSendOTP = () => {
+    dispatch({
+      type: 'SEND_OTP',
+      payload: user.id,
+    });
+  };
+  
   return (
     <div className="PatientRecord area">
       <div className="record">

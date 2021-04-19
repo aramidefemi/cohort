@@ -1,68 +1,115 @@
 import React, { useState } from 'react';
 import { Input, Skeleton, Avatar } from 'antd';
 import { SearchOutlined, UserOutlined } from '@ant-design/icons';
-
+import DashboardWrapper from '../../../components/DashboardWrapper';
+import { useDispatch, useSelector } from 'react-redux';
+import { 
+  Redirect,
+} from 'react-router-dom';
 // images
 import go from '../../../assets/images/go.svg';
+import bg from '../../../assets/images/bg.svg';
 const SearchPatientRecord = ({ toggleRecords }) => {
   const [loading, setLoading] = useState(true);
-  const toggleLoading = () => setLoading(!loading);
+  const [policy, setPolicy] = useState(true);
+
+  const handleForm = ({ target: { value } }) => {
+    setLoading(!loading);
+    setPolicy(value);
+  };
+  const dispatch = useDispatch();
+
+  const handleSearch = () => {
+    dispatch({
+      type: 'FIND_USER',
+      payload: policy,
+    });
+  };
   return (
-    <div className="PatientRecord">
-      <div className="record">
-        <div className="searchbar">
-          <Input
-            autoFocus
-            placeholder="Type policy number, card number or email to search subscribers"
-            prefix={<SearchOutlined />}
-          />
-          <p onClick={() => toggleRecords('DashboardStats')}>X</p>
-          <img onClick={toggleLoading} src={go} className="go" alt="" />
-        </div>
-        <div className="body">
-          {loading ? <Loaders /> : <Details toggleRecords={toggleRecords} />}
+    <DashboardWrapper type="provider">
+      <div className="PatientRecord" style={{ backgroundImage: `url(${bg})` }}>
+        <div className="record">
+          <div className="searchbar">
+            <Input
+              autoFocus
+              onChange={handleForm}
+              placeholder="Type policy number, card number or email to search subscribers"
+              prefix={<SearchOutlined />}
+            />
+            <p onClick={() => toggleRecords('DashboardStats')}>X</p>
+            <img onClick={handleSearch} src={go} className="go" alt="" />
+          </div>
+          <div className="body">
+            {loading ? <Loaders /> : <Details toggleRecords={toggleRecords} />}
+          </div>
         </div>
       </div>
-    </div>
+    </DashboardWrapper>
   );
 };
 
 const Details = ({ toggleRecords }) => {
+  const {
+    provider: { verified, user },
+  } = useSelector((state) => state);
+  const [otp, setOTP] = useState(true);
+
+  const handleForm = ({ target: { value } }) => {
+    setOTP(value);
+  };
+  const dispatch = useDispatch();
+
+  const handleSendOTP = () => {
+    dispatch({
+      type: 'SEND_OTP',
+      payload: user.id,
+    });
+  };
+  const handleVerifyOTP = () => {
+    dispatch({
+      type: 'VERIFY_OTP',
+      payload: {
+        otp,
+      },
+    });
+  };
+  if (verified) {
+    return <Redirect to={'/patient-records'} />;
+  }
+
   return (
     <div className="details">
       <div className="subscriber">
         <h4>Results for “028-3842”</h4>
-        <Avatar
+        <img src={user['profile_url']} className="avatar" alt="" />
+        {/* <Avatar
           style={{
             color: '#f56a00',
             backgroundColor: '#fde3cf',
           }}
           size={164}
           icon={<UserOutlined />}
-        />
+        /> */}
         <div className="name-group">
           <label>Full name</label>
-          <p>Deji Adeniran</p>
+          <p>{user.fullname}</p>
         </div>
         <div className="name-group">
           <label>Card Number</label>
-          <p>028-3824</p>
+          <p>{user.policyNumber}</p>
         </div>
         <div className="row">
           <div className="name-group">
             <label>Phone number</label>
-            <p>080123456789</p>
+            <p>{user.phone}</p>
           </div>
           <div className="name-group">
             <label>Email Address</label>
-            <p>dejiadeniran@email.com</p>
+            <p>{user.email}</p>
           </div>
         </div>
         <div className="row">
-          <div className="name-group">
-            <label>Policy number</label>
-            <p>028-3824</p>
-          </div>
+ 
           <div className="name-group">
             <label>Company Logo</label>
             <p>028-3824</p>
@@ -70,18 +117,17 @@ const Details = ({ toggleRecords }) => {
         </div>
       </div>
       <div className="actions">
-        <button className="btn primary btn-block">Verify Patient</button>
+        <button className="btn primary btn-block" onClick={handleSendOTP}>
+          Verify Patient
+        </button>
 
         <hr />
 
         <div className="form-group">
           <label htmlFor="">Enter OTP</label>
-          <Input placeholder="Email address" />
+          <Input onChange={handleForm} placeholder="Email address" />
         </div>
-        <button
-          onClick={() => toggleRecords('PatientRecord')}
-          className="btn primary btn-block"
-        >
+        <button onClick={handleVerifyOTP} className="btn primary btn-block">
           Verify
         </button>
       </div>
