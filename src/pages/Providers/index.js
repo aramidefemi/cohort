@@ -9,11 +9,9 @@ import { useDispatch, useSelector } from 'react-redux';
 
 const SubscribersDashboard = () => {
   const {
-    auth: { user },
-    subscriber: { subscription },
+    auth: { user }, 
   } = useSelector((state) => state);
-
-  console.log('subscription', subscription);
+ 
 
   return (
     <DashboardWrapper type="provider">

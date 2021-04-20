@@ -1,5 +1,6 @@
 const initialState = {
-  user: [],
+  user: {},
+  found: false,
   verified: false
 };
 
@@ -9,7 +10,7 @@ export default function applicationReducer(
 ) {
   switch (type) {
     case 'FIND_USER':
-      const FIND_USER = { ...state, user: payload };
+      const FIND_USER = { ...state, ...payload };
       return FIND_USER;
     case 'VERIFY_OTP':
       const VERIFY_OTP = { ...state, ...payload };

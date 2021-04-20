@@ -7,9 +7,11 @@ const api = (store) => (next) => async (action) => {
     case 'FIND_USER':
       response = await get('/find/user/' + action.payload, token);
       action.payload = response?.data;
+      action.payload.found = true;
+      console.log('payload',action)
       return next(action);
     case 'SEND_OTP':
-      response = await get('/otp/send/' + action.payload.id, token);
+      response = await get('/otp/send/' + action.payload, token);
       errorNotification('OTP SENT');
       return next(action);
     case 'VERIFY_OTP':
@@ -18,8 +20,11 @@ const api = (store) => (next) => async (action) => {
         action.payload,
         token
       );
+      console.log('response?.data',response?.data)
+
       if (response?.data?.verified) {
-        action.payload = response?.data.user;
+        errorNotification('OTP Verification Successful!');
+        action.payload = response?.data;
       } else {
         errorNotification('Incorrect OTP');
       }
