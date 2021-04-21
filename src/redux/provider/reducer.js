@@ -1,5 +1,6 @@
 const initialState = {
   user: {},
+  subscription: {},
   found: false,
   verified: false
 };
@@ -15,6 +16,8 @@ export default function applicationReducer(
     case 'VERIFY_OTP':
       const VERIFY_OTP = { ...state, ...payload };
       return VERIFY_OTP;
+    case 'SAVE_RECORDS':
+      return payload;
     default:
       return state;
   }

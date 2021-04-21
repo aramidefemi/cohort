@@ -121,6 +121,18 @@ button {
 
 }
 
+.ant-spin-dot-item {
+	background: #2E7B8C;
+}
+
+.ant-spin-nested-loading>div>.ant-spin .ant-spin-text {
+	color: #2E7B8C;
+}
+
+.ant-spin {
+	background: #2e7b8c12;
+	border-radius: 3px;
+}
 
 .landingpage {
 	.header {
@@ -1160,10 +1172,10 @@ button {
 					}
 
 					.body {
-					    margin: 20px;
-    padding: 20px;
-    margin-top: 0;
-    background-color: #fff;
+						margin: 20px;
+						padding: 20px;
+						margin-top: 0;
+						background-color: #fff;
 
 						.Loaders {
 							display: flex;

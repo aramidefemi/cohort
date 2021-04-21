@@ -26,7 +26,7 @@ export const errorNotification = (error) => {
     },
   });
 };
-const local = 'https://my-cohort-api.herokuapp.com';
+const local =  'https://my-cohort-api.herokuapp.com';
 
 
 export const post = async (url, body, token) => {

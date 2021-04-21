@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Input, Skeleton, Avatar } from 'antd';
+import { Input, Skeleton, Avatar, Spin } from 'antd';
 import { SearchOutlined, UserOutlined } from '@ant-design/icons';
 import DashboardWrapper from '../../../components/DashboardWrapper';
 import { useDispatch, useSelector } from 'react-redux';
@@ -35,7 +35,7 @@ const SearchPatientRecord = ({ toggleRecords }) => {
               onChange={handleForm}
               placeholder="Type policy number, card number or email to search subscribers"
               prefix={<SearchOutlined />}
-            /> 
+            />
             <img onClick={handleSearch} src={go} className="go" alt="" />
           </div>
           <div className="body">
@@ -56,27 +56,39 @@ const Details = ({ toggleRecords }) => {
     provider: { verified, user },
   } = useSelector((state) => state);
   const [otp, setOTP] = useState(true);
-
+  const [loadingSend, setLoadingSend] = useState(false);
+  const [loadingVerify, setLoadingVerify] = useState(false);
   const handleForm = ({ target: { value } }) => {
     setOTP(value);
   };
   const dispatch = useDispatch();
 
   const handleSendOTP = () => {
+    setLoadingSend(true);
+    setTimeout(function () {
+      setLoadingSend(false);
+    }, 3000);
+
     dispatch({
       type: 'SEND_OTP',
       payload: user.id,
     });
   };
   const handleVerifyOTP = () => {
+    setLoadingVerify(true);
+    setTimeout(function () {
+      setLoadingVerify(false);
+    }, 3000);
+
     dispatch({
       type: 'VERIFY_OTP',
       payload: {
         otp,
-        id: user.id
+        id: user.id,
       },
     });
   };
+
   if (verified) {
     return <Redirect to={'/patient-records'} />;
   }
@@ -117,14 +129,16 @@ const Details = ({ toggleRecords }) => {
                   <label>Email Address</label>
                   <p>{user.email}</p>
                 </div>
-              </div> 
+              </div>
             </div>
           </div>
 
           <div className="actions">
-            <button className="btn primary btn-block" onClick={handleSendOTP}>
-              Verify Patient
-            </button>
+            <Spin tip="Sending OTP..." spinning={loadingSend}>
+              <button className="btn primary btn-block" onClick={handleSendOTP}>
+                Send OTP
+              </button>
+            </Spin>
 
             <hr />
 
@@ -132,9 +146,15 @@ const Details = ({ toggleRecords }) => {
               <label htmlFor="">Enter OTP</label>
               <Input onChange={handleForm} placeholder="Email address" />
             </div>
-            <button onClick={handleVerifyOTP} className="btn primary btn-block">
-              Verify
-            </button>
+
+            <Spin spinning={loadingVerify}>
+              <button
+                onClick={handleVerifyOTP}
+                className="btn primary btn-block"
+              >
+                Verify
+              </button>
+            </Spin>
           </div>
         </>
       )}
@@ -150,11 +170,9 @@ const Loaders = () => {
         <br />
         <br />
         <Skeleton active />
-        <Skeleton active />
       </div>
       <div className="centered">
-        <Skeleton.Input style={{ width: 200 }} active />
-        <Skeleton.Input style={{ width: 200 }} active />
+        <Skeleton active />
       </div>
     </div>
   );

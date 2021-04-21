@@ -2,14 +2,18 @@ import React, { useState } from 'react';
 import { Input, Skeleton, Avatar, List } from 'antd';
 import { SearchOutlined, UserOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 const PatientRecord = ({ toggleRecords }) => {
+  const {
+    provider: { verified, user, subscription },
+  } = useSelector((state) => state);
+  const [benefits, setBenefits] = useState(subscription.benefits);
+  const [history, setHistory] = useState([]);
+
   const [loading, setLoading] = useState(true);
   const toggleLoading = () => setLoading(!loading);
 
-  const {
-    provider: { verified, user },
-  } = useSelector((state) => state);
   const [otp, setOTP] = useState(true);
 
   const handleForm = ({ target: { value } }) => {
@@ -17,12 +21,22 @@ const PatientRecord = ({ toggleRecords }) => {
   };
   const dispatch = useDispatch();
 
-  const handleSendOTP = () => {
+  const handleBenefitsUse = () => {};
+  const handleBenefitsUndoUse = () => {};
+
+  const saveRecords = () => {
     dispatch({
-      type: 'SEND_OTP',
-      payload: user.id,
+      type: 'SAVE_RECORDS',
+      payload: {
+        benefits,
+        history
+      },
     });
   };
+
+  if (!verified) {
+    return <Redirect to={'/provider'} />;
+  }
 
   return (
     <div className="PatientRecordDetails">
@@ -41,30 +55,28 @@ const PatientRecord = ({ toggleRecords }) => {
           <div className="row">
             <div className="name-group">
               <label>Full name</label>
-              <p>Deji Adeniran</p>
+              <p>{user.fullname}</p>
             </div>
             <div className="name-group">
               <label>Email Address</label>
-              <p>dejiadeniran@email.com</p>
+              <p>{user.email}</p>
             </div>
           </div>
 
           <div className="row">
-          <div className="name-group">
+            <div className="name-group">
               <label>Policy number</label>
-              <p>028-3824</p>
+              <p>{user.policyNumber}</p>
             </div>
             <div className="name-group">
               <label>Phone number</label>
-              <p>080123456789</p>
+              <p>{user.phone}</p>
             </div>
-          
           </div>
-        
         </div>
         <div className="actions">
           <button
-            onClick={() => toggleRecords('DashboardStats')}
+            onClick={saveRecords}
             className="btn primary btn-block"
           >
             Save {'&'} Exit Patient Record
@@ -88,15 +100,20 @@ const PatientRecord = ({ toggleRecords }) => {
             header={null}
             footer={null}
             bordered
-            dataSource={[{},{},{},{},{},{},{},{},]}
-            renderItem={(item) => (
-              <List.Item>
-                <div className="benefits">
-                  <p>Ashlynn Levin</p> 
-                  <button className="btn primary bg-black">Use</button>
-                </div>
-              </List.Item>
-            )}
+            dataSource={benefits || []}
+            renderItem={(item) => {
+              const { title, privileges, limited } = item;
+              if (!limited) {
+                return (
+                  <List.Item>
+                    <div className="benefits">
+                      <p>{title}</p> 
+                  <button onClick={()=>handleBenefitsUse(item)} className="btn primary bg-black">Use</button>
+                    </div>
+                  </List.Item>
+                );
+              }
+            }}
           />
         </div>
         <div className="row">
@@ -114,73 +131,54 @@ const PatientRecord = ({ toggleRecords }) => {
             header={null}
             footer={null}
             bordered
-            dataSource={[{},{},]}
-            renderItem={(item) => (
-              <List.Item>
-                <div className="benefits">
-                  <p>Ashlynn Levin</p> 
-                  <button className="btn primary">Use</button>
-                </div>
-              </List.Item>
-            )}
+            dataSource={benefits || []}
+            renderItem={(item) => {
+              const { title, privileges, limited } = item;
+              if (limited) {
+                return (
+                  <List.Item>
+                    <div className="benefits">
+                      <p>{title}</p>
+                      <button onClick={()=>handleBenefitsUse(item)} className="btn primary">Use</button>
+                    </div>
+                  </List.Item>
+                );
+              }
+            }}
           />
         </div>
         <div className="row bg-black">
-          <h5>Benefits used in the session <small>Count: <b>0</b></small></h5>
+          <h5>
+            Benefits used in the session{' '}
+            <small>
+              Count: <b>0</b>
+            </small>
+          </h5>
 
           <List
             size="small"
             header={null}
             footer={null}
             bordered
-            dataSource={[]}
-            renderItem={(item) => (
-              <List.Item>
-                <div className="benefits">
-                  <p>Ashlynn Levin</p>
-                  <small>A Minute Ago</small>
-                  <button className="btn primary">Re-open</button>
-                </div>
-              </List.Item>
-            )}
+            dataSource={history || []}
+            renderItem={(item) => {
+              const { title, privileges, limited } = item;
+               
+                return (
+                  <List.Item>
+                    <div className="benefits">
+                      <p>{title}</p>
+                      <button onClick={()=>handleBenefitsUndoUse(item)} className="btn primary Remove">Use</button>
+                    </div>
+                  </List.Item>
+                );
+              
+            }}
           />
         </div>
       </div>
     </div>
   );
 };
-
-const dataSource = [
-  {
-    key: '1',
-    name: 'Mike',
-    age: 32,
-    address: '10 Downing Street',
-  },
-  {
-    key: '2',
-    name: 'John',
-    age: 42,
-    address: '10 Downing Street',
-  },
-];
-
-const columns = [
-  {
-    title: 'Name',
-    dataIndex: 'name',
-    key: 'name',
-  },
-  {
-    title: 'Age',
-    dataIndex: 'age',
-    key: 'age',
-  },
-  {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'address',
-  },
-];
 
 export default PatientRecord;

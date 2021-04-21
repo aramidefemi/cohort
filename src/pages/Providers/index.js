@@ -1,28 +1,31 @@
-import React, { useEffect } from 'react';
-import moment from 'moment';
-import accounting from 'accounting';
+import React, { useState } from 'react';
 import DashboardWrapper from '../../components/DashboardWrapper';
 import { Link } from 'react-router-dom';
 import { List, Avatar, Tooltip, Card, Tabs, Input } from 'antd';
 import { UserOutlined, SearchOutlined, EyeFilled } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 const SubscribersDashboard = () => {
   const {
-    auth: { user }, 
+    auth: { user },
   } = useSelector((state) => state);
- 
+  const [searching, setSearching] = useState(false);
+
+  if (searching) {
+    return <Redirect to={'/search'} />;
+  }
 
   return (
     <DashboardWrapper type="provider">
-      
-          <div className="searchbar">
-            <Input
-              placeholder="Type policy number, card number or email to search subscribers"
-              prefix={<SearchOutlined />}
-            />
-          </div>
-        
+      <div className="searchbar">
+        <Input
+          onFocus={() => setSearching(true)}
+          placeholder="Type policy number, card number or email to search subscribers"
+          prefix={<SearchOutlined />}
+        />
+      </div>
+
       <div className="container">
         <Card style={{ width: '37%' }} className="subscriber-card">
           <h4>Provider Info</h4>

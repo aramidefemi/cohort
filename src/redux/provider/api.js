@@ -30,6 +30,19 @@ const api = (store) => (next) => async (action) => {
       }
 
       return next(action);
+    case 'SAVE_RECORDS':
+      response = await post(
+        '/save/records' + action.payload.id,
+        action.payload,
+        token
+      ); 
+      action.payload = {
+        user: {},
+        subscription: {},
+        found: false,
+        verified: false
+      }
+      return next(action);
     default:
       return next(action);
   }
