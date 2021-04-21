@@ -25,7 +25,7 @@ const PatientRecord = ({ toggleRecords }) => {
   };
 
   return (
-    <div className="PatientRecord">
+    <div className="PatientRecordDetails">
       <div className="record">
         <div className="subscriber-img">
           <Avatar

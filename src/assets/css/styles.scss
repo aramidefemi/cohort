@@ -1128,6 +1128,175 @@ button {
 				}
 			}
 
+			.PatientRecord {
+				height: calc(100vh - 70px);
+				background: #ffffff;
+
+				.record {
+					border-radius: 3px;
+
+
+
+					.searchbar {
+						padding: 15px 20px;
+						padding-bottom: 0;
+
+						p {
+							font-size: 14px;
+							font-weight: 900;
+							color: #323232;
+							position: absolute;
+							right: 80px;
+							top: 24px;
+							opacity: .5;
+							z-index: 10;
+							cursor: pointer;
+						}
+
+						.ant-input-affix-wrapper {
+							border-radius: 0;
+							border-bottom: 1px solid #00000059;
+						}
+					}
+
+					.body {
+					    margin: 20px;
+    padding: 20px;
+    margin-top: 0;
+    background-color: #fff;
+
+						.Loaders {
+							display: flex;
+
+							div {
+								width: 100%;
+							}
+
+							.centered {
+								.ant-skeleton {
+									display: flex;
+									justify-content: center;
+									width: 50%;
+								}
+							}
+						}
+
+						.details {
+							display: flex;
+
+							h4 {
+								font-weight: bold;
+								color: #00616E;
+								font-size: 14px;
+								line-height: 0;
+								margin-bottom: 24px;
+							}
+
+							.name-group {
+								margin-top: 15px;
+
+								label {
+									font-weight: bold;
+									font-size: 12px;
+									line-height: 18px;
+									color: #000000;
+									opacity: 0.55;
+								}
+
+								p {
+									font-weight: 500;
+									font-size: 20px;
+									line-height: 36px;
+									color: #000000;
+								}
+							}
+
+							.subscriber {
+								width: 70%;
+								padding-right: 50px;
+
+								.row {
+									display: flex;
+									justify-content: space-between;
+								}
+							}
+
+							.actions {
+								width: 30%;
+
+								hr {
+									opacity: 0.1;
+									border: 1px solid #000000;
+									margin: 50px 0;
+								}
+
+								button {
+									margin-top: 20px;
+								}
+							}
+						}
+					}
+				}
+
+				&.area {
+					border: none;
+					padding: 20px;
+					height: 100%;
+					background: #E5E5E5;
+
+					.record {
+						background: #ffffff;
+
+						.body {
+							.details {
+
+								.subscriber {
+									width: 40%;
+									padding-right: 0px;
+
+									.row {
+										.name-group {
+											margin-top: 15px;
+
+											label {
+												font-size: 10px;
+											}
+
+											p {
+												font-size: 16px;
+											}
+										}
+									}
+								}
+
+								.actions {
+									width: 60%;
+									padding-left: 20px;
+
+									.ant-input-affix-wrapper {
+										.ant-input-prefix {
+											margin-left: 15px;
+
+										}
+
+										input {
+											padding-left: 5px !important;
+										}
+									}
+
+									h4 {
+										font-weight: bold;
+										font-size: 14px;
+										line-height: 27px;
+										color: #000000;
+										opacity: 0.5;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
 
 		}
 	}
@@ -1135,7 +1304,7 @@ button {
 }
 
 
-.PatientRecord {
+.PatientRecordDetails {
 	height: 100vh;
 	border: 20px solid #F1F1F1;
 	background: #ffffff;
@@ -1215,6 +1384,7 @@ button {
 				contain: content;
 				overflow: auto;
 			}
+
 			.ant-list-bordered {
 				border: none;
 			}

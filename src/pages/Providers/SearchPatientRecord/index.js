@@ -35,8 +35,7 @@ const SearchPatientRecord = ({ toggleRecords }) => {
               onChange={handleForm}
               placeholder="Type policy number, card number or email to search subscribers"
               prefix={<SearchOutlined />}
-            />
-            <p onClick={() => toggleRecords('DashboardStats')}>X</p>
+            /> 
             <img onClick={handleSearch} src={go} className="go" alt="" />
           </div>
           <div className="body">
