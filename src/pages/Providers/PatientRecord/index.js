@@ -1,35 +1,74 @@
 import React, { useState } from 'react';
-import { Input, Skeleton, Avatar, List } from 'antd';
+import { Input, Avatar, List, Popover, InputNumber } from 'antd';
 import { SearchOutlined, UserOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import accounting from 'accounting';
 
 const PatientRecord = ({ toggleRecords }) => {
   const {
     provider: { verified, user, subscription },
   } = useSelector((state) => state);
-  const [benefits, setBenefits] = useState(subscription.benefits);
+  const stockBenefits = subscription.benefits;
+  const [benefits, setBenefits] = useState(stockBenefits || []);
   const [history, setHistory] = useState([]);
-
-  const [loading, setLoading] = useState(true);
-  const toggleLoading = () => setLoading(!loading);
-
-  const [otp, setOTP] = useState(true);
+  const [privilege, setPrivileges] = useState(1);
 
   const handleForm = ({ target: { value } }) => {
-    setOTP(value);
+    const sort = benefits.filter((item) => item.title.search(value));
+    setBenefits(sort);
   };
+
+  console.log('history', history);
+  console.log('benefits', benefits);
   const dispatch = useDispatch();
 
-  const handleBenefitsUse = () => {};
-  const handleBenefitsUndoUse = () => {};
+  const handleBenefitsUse = (value) => {
+    console.log('value', value);
+    const mybenefits = benefits;
+    const fooBenefits = mybenefits.map((item) => {
+      if (item.title === value.title) {
+        return value;
+      } else {
+        return item;
+      }
+    });
+    const fooHistory = history;
+    fooHistory.push(value);
+    setBenefits(fooBenefits);
+    setHistory(fooHistory);
+  };
+
+  const handleBenefitsUndoUse = (value) => {
+    console.log('value', value);
+    const mybenefits = benefits;
+    const fooHistory = history;
+
+    const fooBenefits = mybenefits.map((item) => {
+      if (item.title === value) {
+        return value;
+      } else {
+        return item;
+      }
+    });
+
+    const fooHistoryRedo = fooHistory.filter(
+      (item) => item.title !== value.title
+    );
+
+    setBenefits(fooBenefits);
+    setHistory(fooHistoryRedo);
+  };
 
   const saveRecords = () => {
     dispatch({
       type: 'SAVE_RECORDS',
       payload: {
+        id: user._id,
         benefits,
-        history
+        history: {
+          benefits: history,
+        },
       },
     });
   };
@@ -75,10 +114,7 @@ const PatientRecord = ({ toggleRecords }) => {
           </div>
         </div>
         <div className="actions">
-          <button
-            onClick={saveRecords}
-            className="btn primary btn-block"
-          >
+          <button onClick={saveRecords} className="btn primary btn-block">
             Save {'&'} Exit Patient Record
           </button>
         </div>
@@ -102,16 +138,28 @@ const PatientRecord = ({ toggleRecords }) => {
             bordered
             dataSource={benefits || []}
             renderItem={(item) => {
-              const { title, privileges, limited } = item;
+              const { title, privileges, used, limited } = item;
+              const handle = () => {
+                item.used = true;
+                handleBenefitsUse(item);
+              };
               if (!limited) {
-                return (
-                  <List.Item>
-                    <div className="benefits">
-                      <p>{title}</p> 
-                  <button onClick={()=>handleBenefitsUse(item)} className="btn primary bg-black">Use</button>
-                    </div>
-                  </List.Item>
-                );
+                if (!used) {
+                  return (
+                    <List.Item>
+                      <div className="benefits">
+                        <p>{title}</p>
+
+                        <button
+                          onClick={handle}
+                          className="btn primary bg-black"
+                        >
+                          Use
+                        </button>
+                      </div>
+                    </List.Item>
+                  );
+                }
               }
             }}
           />
@@ -133,25 +181,77 @@ const PatientRecord = ({ toggleRecords }) => {
             bordered
             dataSource={benefits || []}
             renderItem={(item) => {
-              const { title, privileges, limited } = item;
+              const { title, used, privileges, limited } = item;
+              const isMoney = privileges > 999;
+              const handle = () => {
+                const consumed = isMoney ? privilege : 1;
+                const used = privileges - consumed;
+                item.privileges = used;
+                item.used = true;
+                item.consumed = consumed;
+                item.isMoney = isMoney;
+                console.log('used', used, privileges, privilege);
+                handleBenefitsUse(item);
+              };
               if (limited) {
-                return (
-                  <List.Item>
-                    <div className="benefits">
-                      <p>{title}</p>
-                      <button onClick={()=>handleBenefitsUse(item)} className="btn primary">Use</button>
-                    </div>
-                  </List.Item>
-                );
+                if (!used) {
+                  const lim = isMoney
+                    ? accounting.formatMoney(privileges, 'N')
+                    : privileges;
+                  return (
+                    <List.Item>
+                      <div className="benefits">
+                        <p>
+                          {title} <small>({lim})</small>{' '}
+                        </p>
+                        {isMoney ? (
+                          <Popover
+                            content={
+                              <div
+                                style={{
+                                  display: 'flex',
+                                  justifyContent: 'center',
+                                }}
+                              >
+                                <InputNumber
+                                  min={1}
+                                  max={privileges}
+                                  defaultValue={1}
+                                  onChange={(value) => setPrivileges(value)}
+                                  className="form-group"
+                                />
+                              </div>
+                            }
+                            title={`Customer Cash limit is ${lim}`}
+                          >
+                            <button onClick={handle} className="btn primary">
+                              Use
+                            </button>
+                          </Popover>
+                        ) : privileges >= 1 ? (
+                          <button
+                            onClick={handle}
+                            className="btn primary"
+                            type="button"
+                          >
+                            Use
+                          </button>
+                        ) : (
+                          ''
+                        )}
+                      </div>
+                    </List.Item>
+                  );
+                }
               }
             }}
           />
         </div>
         <div className="row bg-black">
           <h5>
-            Benefits used in the session{' '}
+            Benefits used in the session
             <small>
-              Count: <b>0</b>
+              Count: <b>{history.length}</b>
             </small>
           </h5>
 
@@ -162,17 +262,38 @@ const PatientRecord = ({ toggleRecords }) => {
             bordered
             dataSource={history || []}
             renderItem={(item) => {
-              const { title, privileges, limited } = item;
-               
-                return (
-                  <List.Item>
-                    <div className="benefits">
-                      <p>{title}</p>
-                      <button onClick={()=>handleBenefitsUndoUse(item)} className="btn primary Remove">Use</button>
-                    </div>
-                  </List.Item>
-                );
-              
+              const { title, used, privileges, consumed, limited } = item;
+              const isMoney = privileges > 999;
+              const handle = () => {
+                const consumed = isMoney ? privilege : 1;
+                const used = privileges + consumed;
+                item.privileges = used;
+                item.consumed = 0;
+                item.used = false;
+                handleBenefitsUndoUse(item);
+              };
+              return (
+                <List.Item>
+                  <div className="benefits">
+                    <p>
+                      {title}{' '}
+                      {isMoney ? (
+                        <small>({accounting.formatMoney(consumed, 'N')})</small>
+                      ) : (
+                        ''
+                      )}
+                    </p>
+                    <button
+                      onClick={handle}
+                      className={`btn primary ${
+                        item.limited ? '' : 'bg-black'
+                      }`}
+                    >
+                      Remove
+                    </button>
+                  </div>
+                </List.Item>
+              );
             }}
           />
         </div>

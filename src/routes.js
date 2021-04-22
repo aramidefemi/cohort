@@ -60,12 +60,6 @@ class App extends React.Component {
 const ProtectedRoute = ({ path, component: Child }) => {
   let { token, user } = useSelector((state) => state.auth);
   const utoken = token || window.localStorage.getItem('token') || null;
-  
-  console.log(
-    'token hood',
-    token,
-    token || window.localStorage.getItem('token') || null
-  );
 
   if (utoken === null) {
     return <Redirect to={'/'} />;

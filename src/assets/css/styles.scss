@@ -902,6 +902,7 @@ button {
 
 				.ant-card-bordered {
 					border: 0;
+					border-radius: 6px;
 				}
 
 				.benefits-card {
@@ -911,6 +912,7 @@ button {
 					.ant-card-body {
 						padding: 0;
 						border: 0;
+						border-radius: 6px;
 					}
 
 					label {
@@ -993,7 +995,7 @@ button {
 					height: fit-content;
 					position: relative;
 					bottom: 145px;
-					border-radius: 10px;
+					border-radius: 6px;
 
 					.header {
 						display: flex;

@@ -144,7 +144,8 @@ const Details = ({ toggleRecords }) => {
 
             <div className="form-group">
               <label htmlFor="">Enter OTP</label>
-              <Input onChange={handleForm} placeholder="Email address" />
+              <br />
+              <Input onChange={handleForm} placeholder="Enter OTP" />
             </div>
 
             <Spin spinning={loadingVerify}>
