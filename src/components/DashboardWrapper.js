@@ -21,7 +21,10 @@ const DashboardWrapper = ({ type, children }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (type == 'subscribe') {
+    dispatch({
+      type: 'FETCH_HISTORY',
+    });
+    if (type === 'subscribe') {
       dispatch({
         type: 'GET_SUBSCRIPTION',
       });

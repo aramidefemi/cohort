@@ -18,9 +18,7 @@ const PatientRecord = ({ toggleRecords }) => {
     const sort = benefits.filter((item) => item.title.search(value));
     setBenefits(sort);
   };
-
-  console.log('history', history);
-  console.log('benefits', benefits);
+ 
   const dispatch = useDispatch();
 
   const handleBenefitsUse = (value) => {

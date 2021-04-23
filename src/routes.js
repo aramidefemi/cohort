@@ -50,6 +50,11 @@ class App extends React.Component {
             path="/search"
             component={SearchPatientRecord}
           />
+          <ProtectedRoute
+            exact
+            path="/search/:id"
+            component={SearchPatientRecord}
+          />
           <ProtectedRoute exact path="/history" component={HospitalHistory} />
         </Switch>
       </Router>

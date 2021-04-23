@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import DashboardWrapper from '../../components/DashboardWrapper';
+import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { List, Avatar, Tooltip, Card, Tabs, Input } from 'antd';
 import { UserOutlined, SearchOutlined, EyeFilled } from '@ant-design/icons';
@@ -9,6 +10,7 @@ import { Redirect } from 'react-router-dom';
 const SubscribersDashboard = () => {
   const {
     auth: { user },
+    history: { history },
   } = useSelector((state) => state);
   const [searching, setSearching] = useState(false);
 
@@ -75,13 +77,13 @@ const SubscribersDashboard = () => {
             header={null}
             footer={null}
             bordered
-            dataSource={[{}]}
-            renderItem={(item) => (
+            dataSource={history}
+            renderItem={({ subscriber: { fullname, policyNumber }, createdAt }) => (
               <List.Item>
                 <div className="benefits">
-                  <p>Ashlynn Levin</p>
-                  <small>A Minute Ago</small>
-                  <button className="btn primary">Re-open</button>
+                  <p>{fullname}</p>
+                  <small>{moment(createdAt).format('llll')}</small>
+                  <Link to={`/search/${policyNumber}`} className="btn primary">Re-open</Link>
                 </div>
               </List.Item>
             )}

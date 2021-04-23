@@ -19,8 +19,7 @@ const api = (store) => (next) => async (action) => {
         '/otp/verify/' + action.payload.id,
         action.payload,
         token
-      );
-      console.log('response?.data',response?.data)
+      ); 
 
       if (response?.data?.verified) {
         errorNotification('OTP Verification Successful!');
@@ -31,11 +30,12 @@ const api = (store) => (next) => async (action) => {
 
       return next(action);
     case 'SAVE_RECORDS':
-      response = await post(
-        '/save/records' + action.payload.id,
+      await post(
+        '/save/records/' + action.payload.id,
         action.payload,
         token
       ); 
+      
       action.payload = {
         user: {},
         subscription: {},

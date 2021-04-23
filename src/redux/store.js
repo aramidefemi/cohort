@@ -5,6 +5,7 @@ import auth from './authentication/api';
 import provider from './provider/api';
 import subscriber from './subscriber/api';
 import admin from './admin/api';
+import history from './history/api';
 import axios from 'axios';
 import { notification } from 'antd';
 
@@ -65,7 +66,7 @@ export const get = async (url, token = null) => {
 
 const initialstate = {};
 
-const middleware = [thunk, logger, auth, admin, provider, subscriber];
+const middleware = [thunk, logger, auth, admin, provider, subscriber, history];
 const devTools = window.__REDUX_DEVTOOLS_EXTENSION__
   ? window.__REDUX_DEVTOOLS_EXTENSION__()
   : (f) => f;
