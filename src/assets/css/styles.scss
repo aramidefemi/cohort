@@ -1101,7 +1101,8 @@ button {
 					bottom: 0px;
 				}
 
-				.HospitalHistory-card {
+				.HospitalHistory-card,
+				.HospitalHistory {
 					height: fit-content;
 					margin: 20px;
 					border-radius: 10px;
@@ -1480,6 +1481,80 @@ button {
 			}
 
 
+		}
+	}
+}
+
+.HospitalHistory {
+	h4 {
+		margin: 20px 0 13px !important;
+	}
+
+	.searchbar {
+		padding: 0 !important;
+		margin-bottom: 20px;
+
+		p {
+			font-size: 14px;
+			font-weight: 900;
+			color: #323232;
+			position: absolute;
+			right: 80px;
+			top: 24px;
+			opacity: .5;
+			z-index: 10;
+			cursor: pointer;
+		}
+
+		.ant-input-affix-wrapper {
+			border-radius: 3px !important;
+			border-bottom: none;
+			background-color: rgba(0, 0, 0, 0.05) !important;
+		}
+	}
+}
+
+.ant-table-wrapper {
+	.ant-table-thead>tr>th {
+		background-color: #fff;
+		font-family: Poppins;
+		font-style: normal;
+		font-weight: 600;
+		font-size: 13px;
+		line-height: 21px;
+		color: #1DAFAC;
+		padding: 10px;
+	}
+
+	.ant-table-tbody>tr>td {
+		font-family: Poppins;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 14px;
+		line-height: 21px;
+		color: #222222b0;
+
+		h6 {
+			font-family: Poppins;
+			font-style: normal;
+			font-weight: 500;
+			font-size: 16px;
+			line-height: 24px;
+			color: #000;
+		}
+
+		p {
+			font-family: Poppins;
+			font-style: normal;
+			font-weight: 500;
+			font-size: 13px;
+			line-height: 21px;
+			color: #000000b8;
+		}
+
+		.btn {
+			font-size: 12px;
+			padding: 7px 10px !important;
 		}
 	}
 }

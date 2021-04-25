@@ -5,10 +5,11 @@ import Evaluation from './pages/Authentication/Evaluation';
 import SignUp from './pages/Authentication/SignUp';
 import Plans from './pages/Authentication/SubscriptionPlansComponent';
 import SubscribersDashboard from './pages/Subscribers/';
-import HospitalHistory from './pages/Subscribers/History/';
+import SubscriberHistory from './pages/Subscribers/History/';
 import ProvidersDashboard from './pages/Providers/';
 import SearchPatientRecord from './pages/Providers/SearchPatientRecord';
 import PatientRecord from './pages/Providers/PatientRecord';
+import HospitalHistory from './pages/Providers/History';
 
 import {
   BrowserRouter as Router,
@@ -39,6 +40,16 @@ class App extends React.Component {
             exact
             path="/patient-records"
             component={PatientRecord}
+          />
+          <ProtectedRoute
+            exact
+            path="/provider/history"
+            component={HospitalHistory}
+          />
+          <ProtectedRoute
+            exact
+            path="/subscriber/history"
+            component={SubscriberHistory}
           />
           <ProtectedRoute
             exact

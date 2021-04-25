@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Menu, Space, Button, Alert } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -14,6 +14,8 @@ import setting from '../assets/images/setting.svg';
 import thumbnail from '../assets/images/thumbnail.svg';
 
 const DashboardWrapper = ({ type, children }) => {
+  const location = useLocation();
+  
   const {
     auth: { user },
     subscriber: { subscription },
@@ -34,8 +36,7 @@ const DashboardWrapper = ({ type, children }) => {
   const handleClick = (e) => {
     console.log('click ', e);
   };
-  const menus = { provider, subscriber, admin };
-
+  const menus = { provider, subscriber, admin }; 
   return (
     <div className={'DashboardWrapper ' + type}>
       <div className="sidebar">
@@ -49,12 +50,11 @@ const DashboardWrapper = ({ type, children }) => {
         <Menu
           onClick={handleClick}
           style={{ width: 256 }}
-          defaultSelectedKeys={['1']}
-          defaultOpenKeys={['sub1']}
+          defaultSelectedKeys={[location.pathname]}
           mode="inline"
         >
-          {menus[type].map(({ icon, title, link }, i) => (
-            <Menu.Item key={i + 1}>
+          {menus[type].map(({ icon, title, link }) => (
+            <Menu.Item key={link}>
               <Link to={link} className="menu-item">
                 <img src={icon} alt="" />
                 <p>{title}</p>
@@ -111,7 +111,7 @@ const subscriber = [
   {
     title: 'Settings',
     icon: setting,
-    link: '/subscriber',
+    link: '/settings',
   },
 ];
 const admin = [
@@ -139,11 +139,6 @@ const provider = [
     link: '/provider',
   },
   {
-    title: 'Your Patients',
-    icon: thumbnail,
-    link: '/provider',
-  },
-  {
     title: 'Search',
     icon: thumbnail,
     link: '/search',
@@ -151,12 +146,12 @@ const provider = [
   {
     title: 'History',
     icon: calendar,
-    link: '/provider',
+    link: '/provider/history',
   },
   {
     title: 'Settings',
     icon: setting,
-    link: '/provider',
+    link: '/settings',
   },
 ];
 
