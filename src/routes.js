@@ -10,6 +10,7 @@ import ProvidersDashboard from './pages/Providers/';
 import SearchPatientRecord from './pages/Providers/SearchPatientRecord';
 import PatientRecord from './pages/Providers/PatientRecord';
 import HospitalHistory from './pages/Providers/History';
+import SettingsComponent from './pages/Settings';
 
 import {
   BrowserRouter as Router,
@@ -60,6 +61,12 @@ class App extends React.Component {
             exact
             path="/search"
             component={SearchPatientRecord}
+          />
+          />
+          <ProtectedRoute
+            exact
+            path="/settings"
+            component={SettingsComponent}
           />
           <ProtectedRoute
             exact

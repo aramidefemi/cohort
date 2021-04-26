@@ -1510,6 +1510,9 @@ button {
 			border-radius: 3px !important;
 			border-bottom: none;
 			background-color: rgba(0, 0, 0, 0.05) !important;
+			input {
+				padding: 7px 30px !important;
+			}
 		}
 	}
 }

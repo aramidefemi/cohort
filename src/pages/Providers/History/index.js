@@ -1,64 +1,74 @@
-import React from 'react';
+import React, { useState } from 'react';
 import DashboardWrapper from '../../../components/DashboardWrapper';
 import { Link } from 'react-router-dom';
 import { Card, Table, Input } from 'antd';
 import { SearchOutlined, UserOutlined } from '@ant-design/icons';
-
-const dataSource = [
-  {
-    key: '1',
-    name: 'Mike',
-    age: 32,
-    ah: '10 Downing Street',
-    h: '10 Downing Street',
-    policyNumber: 32,
-    address: '10 Downing Street',
-  },
-];
+import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 
 const columns = [
   {
     title: 'Subscriber',
-    dataIndex: 'name',
-    key: 'name',
+    dataIndex: 'subscriber',
+    key: 'subscriber',
     render: (text, record) => (
       <>
-        <h6>Anika Ekstrom Bothman</h6>
-        <p>028-3824 | alma.lawson@example.com</p>
+        <h6>{text.fullname}</h6>
+        <p>{text.policyNumber} | {text.email}</p>
       </>
     ),
   },
   {
     title: 'Date Visited',
-    dataIndex: 'age',
-    key: 'date',
+    dataIndex: 'createdAt',
+    key: 'createdAt',
+    render: (text, record) => moment(text).format('ll')
   },
   {
     title: 'Time',
-    dataIndex: 'ah',
-    key: 'time',
+    dataIndex: 'createdAt',
+    key: 'createdAt',
+    render: (text, record) => moment(text).format('LT')
   },
   {
     title: 'Benefits Used',
-    dataIndex: 'h',
+    dataIndex: 'benefits',
     key: 'benefits',
-    render: (text, record) =>
-      ['Complement C3', 'Troponin-I Test'].map((i) => <p>{i}</p>),
+    render: (text, record) => text.map(({ title }) => <p>- {title}</p>),
   },
   {
     title: '',
-    dataIndex: 'policyNumber',
-    key: 'address',
-    render: (text, record) => (
-      <Link to={`/search/${text.policyNumber}`} className="btn primary">
-        Re-open
-      </Link>
-    ),
+    dataIndex: 'subscriber',
+    key: 'subscriber',
+    render: (text, record) => { 
+      return (
+        <Link to={`/search/${text.policyNumber}`} className="btn primary">
+          Re-open
+        </Link>
+      );
+    },
   },
 ];
 
 const HospitalHistory = () => {
-  const handleForm = () => {};
+  const {
+    auth: { user },
+    history: { history },
+  } = useSelector((state) => state);
+  const [ search, setSearch ] = useState('');
+  const dispatch = useDispatch();
+  const handleReload = () => {
+    dispatch({
+      type: 'FETCH_HISTORY',
+      payload: {
+        search
+      }
+    });
+  };
+  const handleForm = ({ target: { value }}) =>{
+    setSearch(value);
+    handleReload()
+  } 
   return (
     <DashboardWrapper type="provider">
       <div className="container">
@@ -72,7 +82,7 @@ const HospitalHistory = () => {
               prefix={<SearchOutlined />}
             />
           </div>
-          <Table dataSource={dataSource} columns={columns} />
+          <Table dataSource={history} onChange={(e)=>console.log('e',e)} columns={columns} />
         </Card>
       </div>
     </DashboardWrapper>
