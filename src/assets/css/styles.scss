@@ -587,6 +587,13 @@ button {
 				background: #EDEDED;
 				border-radius: 20px;
 
+				.benefits {
+
+					height: 206px;
+					overflow: hidden;
+
+				}
+
 				h4 {
 					font-weight: bold;
 					font-size: 24px;
@@ -1510,6 +1517,7 @@ button {
 			border-radius: 3px !important;
 			border-bottom: none;
 			background-color: rgba(0, 0, 0, 0.05) !important;
+
 			input {
 				padding: 7px 30px !important;
 			}

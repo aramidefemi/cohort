@@ -30,34 +30,34 @@ class App extends React.Component {
           <AuthRoute exact path="/" component={LandingPage} />
           <AuthRoute exact path="/login" component={Login} />
           <AuthRoute exact path="/register" component={SignUp} />
-          <ProtectedRoute exact path="/subscribe" component={Plans} /> 
+          <ProtectedRoute exact path="/subscribe" component={Plans} />
           <ProtectedRoute exact path="/evaluate" component={Evaluation} />
-          <ProtectedRoute
+          <ProviderProtectedRoute
             exact
             path="/provider"
             component={ProvidersDashboard}
           />
-          <ProtectedRoute
+          <ProviderProtectedRoute
             exact
             path="/patient-records"
             component={PatientRecord}
           />
-          <ProtectedRoute
+          <ProviderProtectedRoute
             exact
             path="/provider/history"
             component={HospitalHistory}
           />
-          <ProtectedRoute
+          <SubscriberProtectedRoute
             exact
             path="/subscriber/history"
             component={SubscriberHistory}
           />
-          <ProtectedRoute
+          <SubscriberProtectedRoute
             exact
             path="/subscriber"
             component={SubscribersDashboard}
           />
-          <ProtectedRoute
+          <ProviderProtectedRoute
             exact
             path="/search"
             component={SearchPatientRecord}
@@ -68,12 +68,11 @@ class App extends React.Component {
             path="/settings"
             component={SettingsComponent}
           />
-          <ProtectedRoute
+          <ProviderProtectedRoute
             exact
             path="/search/:id"
             component={SearchPatientRecord}
-          />
-          <ProtectedRoute exact path="/history" component={HospitalHistory} />
+          /> 
         </Switch>
       </Router>
     );
@@ -94,10 +93,59 @@ const ProtectedRoute = ({ path, component: Child }) => {
     </Route>
   );
 };
+const ProviderProtectedRoute = ({ path, component: Child }) => {
+  let { token, user } = useSelector((state) => state.auth);
+  const utoken = token || window.localStorage.getItem('token') || null;
+
+  if (utoken === null) {
+    return <Redirect to={'/'} />;
+  }
+  if (user.userType !== 'PROVIDER') {
+    const path = {
+      SUBSCRIBER: '/subscriber',
+      PROVIDER: '/provider',
+      ADMIN: '/provider',
+    };
+
+    const link = path[user.userType];
+    return <Redirect to={link} />;
+  }
+
+  return (
+    <Route path={path}>
+      <Child />
+    </Route>
+  );
+};
+const SubscriberProtectedRoute = ({ path, component: Child }) => {
+  let { token, user } = useSelector((state) => state.auth);
+  const utoken = token || window.localStorage.getItem('token') || null;
+
+  if (utoken === null) {
+    return <Redirect to={'/'} />;
+  }
+
+  if (user.userType !== 'SUBSCRIBER') {
+    const path = {
+      SUBSCRIBER: '/subscriber',
+      PROVIDER: '/provider',
+      ADMIN: '/provider',
+    };
+
+    const link = path[user.userType];
+    return <Redirect to={link} />;
+  }
+
+  return (
+    <Route path={path}>
+      <Child />
+    </Route>
+  );
+};
 const AuthRoute = ({ path, component: Child }) => {
   let { token, user } = useSelector((state) => state.auth);
   const utoken = token || window.localStorage.getItem('token') || null;
-  const uuser = user || JSON.parse(window.localStorage.getItem('user')) || null; 
+  const uuser = user || JSON.parse(window.localStorage.getItem('user')) || null;
 
   if (utoken !== null) {
     let path;
@@ -109,7 +157,7 @@ const AuthRoute = ({ path, component: Child }) => {
         PROVIDER: '/provider',
         ADMIN: '/provider',
       };
-      path = path[uuser.userType]
+      path = path[uuser.userType];
     }
     return <Redirect to={path} />;
   }

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import DashboardWrapper from '../../components/DashboardWrapper';
 import { CheckCircleFilled, CaretDownOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { Modal, Button } from 'antd';
+import { Modal, Button, Collapse } from 'antd';
 
 import {
   one,
@@ -16,9 +16,12 @@ import {
 } from '../../common/plans';
 import { usePaystackPayment } from 'react-paystack';
 import { Link } from 'react-router-dom';
-
+const { Panel } = Collapse;
 const SubscriptionPlansComponent = () => {
-  const { auth: { user }, subscriber: { subscription } } = useSelector((state) => state);
+  const {
+    auth: { user },
+    subscriber: { subscription },
+  } = useSelector((state) => state);
   const [show, toggleShow] = useState(false);
   const [config, setConfig] = useState({ init: false });
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -92,7 +95,7 @@ const SubscriptionPlansComponent = () => {
           </section>
           <div className="btn-st">
             <button className="btn primary btn-block " onClick={handleClick}>
-              Show More Plans <CaretDownOutlined style={{ color: '#ffffff' }} />
+              Show { show ? 'Less' : 'More' } Plans <CaretDownOutlined style={{ color: '#ffffff' }} />
             </button>
           </div>
 
@@ -139,6 +142,10 @@ const Plan = ({
   cost,
   benefits,
 }) => {
+  const [show, toggleShow] = useState(false);
+  const handleClick = () => {
+    toggleShow(!show);
+  };
   return (
     <div className={`plan  ${isBest ? 'best' : ''}`}>
       {isBest ? (
@@ -155,11 +162,15 @@ const Plan = ({
       </h2>
 
       <h6>Designed to give access to a good quality healthcare.</h6>
-      {benefits.map(({ title }) => (
-        <div className="benefit">
-          <CheckCircleFilled style={{ fontSize: '20px' }} /> <p>{title}</p>
-        </div>
-      ))}
+      <div className="benefits" style={{height: `${show ? 'auto' : '206px'}`}}>
+        {benefits.map(({ title }) => (
+          <div className="benefit">
+            <CheckCircleFilled style={{ fontSize: '20px' }} /> <p>{title}</p>
+          </div>
+        ))}{' '}
+      </div>
+
+      <h6 onClick={handleClick} style={{cursor: 'pointer', marginTop: '10px'}}>Show { show ? 'less' : 'more' } ...</h6>
 
       <button
         className="btn primary btn-block"

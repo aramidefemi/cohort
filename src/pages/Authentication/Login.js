@@ -54,7 +54,7 @@ const Login = () => {
           <Link to="/provider" className="fwp">
             Forgot Password?
           </Link>
-          <Spin spinning={loading} delay={500}>
+          <Spin spinning={loading}>
             <button className="btn primary btn-block" onClick={handleClick}>Login</button>
           </Spin>
           <p>

@@ -36,7 +36,13 @@ const DashboardWrapper = ({ type, children }) => {
   const handleClick = (e) => {
     console.log('click ', e);
   };
-  const menus = { provider, subscriber, admin }; 
+  const menus = {
+    SUBSCRIBER: subscriber,
+    PROVIDER: provider,
+    ADMIN: admin,
+  };
+
+  const menu = menus[user.userType]; 
   return (
     <div className={'DashboardWrapper ' + type}>
       <div className="sidebar">
@@ -53,7 +59,7 @@ const DashboardWrapper = ({ type, children }) => {
           defaultSelectedKeys={[location.pathname]}
           mode="inline"
         >
-          {menus[type].map(({ icon, title, link }) => (
+          {(menu || []).map(({ icon, title, link }) => (
             <Menu.Item key={link}>
               <Link to={link} className="menu-item">
                 <img src={icon} alt="" />
@@ -106,7 +112,7 @@ const subscriber = [
   {
     title: 'History',
     icon: calendar,
-    link: '/history',
+    link: '/subscriber/history',
   },
   {
     title: 'Settings',
