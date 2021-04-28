@@ -28,7 +28,7 @@ const SignUp = () => {
 
   const props = {
     name: 'file',
-    action: 'http://localhost:4000/image-upload',
+    action: 'https://my-cohort-api.herokuapp.com/image-upload',
     onChange(info) {
       setUploading(info.file.status);
       if (info.file.status !== 'uploading') {
@@ -44,7 +44,7 @@ const SignUp = () => {
       handleChange({
         target: {
           name: 'profile_url',
-          value: 'http://localhost:4000/' + path.path,
+          value: 'https://my-cohort-api.herokuapp.com/' + path.path,
         },
       });
     },

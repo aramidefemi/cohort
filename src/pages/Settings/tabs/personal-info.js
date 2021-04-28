@@ -1,4 +1,4 @@
-import React, { useState } from 'react'; 
+import React, { useState } from 'react';
 import {
   Card,
   Table,
@@ -10,7 +10,7 @@ import {
   Button,
 } from 'antd';
 import { SearchOutlined, UserOutlined } from '@ant-design/icons';
-import { useDispatch, useSelector } from 'react-redux'; 
+import { useDispatch, useSelector } from 'react-redux';
 import { CameraOutlined } from '@ant-design/icons';
 
 const PersonalInfoSettingsComponent = () => {
@@ -23,7 +23,7 @@ const PersonalInfoSettingsComponent = () => {
   const [user, setUser] = useState(stock);
   const handleClick = () => {
     setLoading(true);
-    setTimeout(() => setLoading(false),3000)
+    setTimeout(() => setLoading(false), 3000);
     dispatch({
       type: 'SAVE_USER',
       payload: user,
@@ -39,7 +39,7 @@ const PersonalInfoSettingsComponent = () => {
   console.log('process.env', process.env.API_URL);
   const props = {
     name: 'file',
-    action: 'http://localhost:4000/image-upload',
+    action: 'https://my-cohort-api.herokuapp.com/image-upload',
     onChange(info) {
       if (info.file.status === 'done') {
         message.success(`${info.file.name} Photo uploaded successfully`);
@@ -51,7 +51,7 @@ const PersonalInfoSettingsComponent = () => {
       handleChange({
         target: {
           name: 'profile_url',
-          value: 'http://localhost:4000/' + path.path,
+          value: 'https://my-cohort-api.herokuapp.com/' + path.path,
         },
       });
       handleClick();

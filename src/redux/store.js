@@ -20,10 +20,9 @@ export const logger = (store) => (next) => (action) => {
 };
 
 export const errorNotification = (error) => {
-  message.error(error)
+  message.error(error);
 };
-const local =  'https://my-cohort-api.herokuapp.com';
-
+const local = 'https://my-cohort-api.herokuapp.com'; // 'https://my-cohort-api.herokuapp.com';
 
 export const post = async (url, body, token) => {
   try {
@@ -34,9 +33,9 @@ export const post = async (url, body, token) => {
     });
     return { success: true, data: response.data };
   } catch (error) {
-    console.error(error); 
+    console.error(error);
     errorNotification(error.response.data.error);
-    
+
     return { success: false };
   }
 };
@@ -49,9 +48,9 @@ export const put = async (url, body, token) => {
     });
     return { success: true, data: response.data };
   } catch (error) {
-    console.error(error); 
+    console.error(error);
     errorNotification(error.response.data.error);
-    
+
     return { success: false };
   }
 };
@@ -72,11 +71,18 @@ export const get = async (url, token = null) => {
   }
 };
 
-
-
 const initialstate = {};
 
-const middleware = [thunk, logger, auth, admin, provider, subscriber, history, settings];
+const middleware = [
+  thunk,
+  logger,
+  auth,
+  admin,
+  provider,
+  subscriber,
+  history,
+  settings,
+];
 const devTools = window.__REDUX_DEVTOOLS_EXTENSION__
   ? window.__REDUX_DEVTOOLS_EXTENSION__()
   : (f) => f;
