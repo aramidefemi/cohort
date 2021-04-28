@@ -64,7 +64,7 @@ const SubscribersDashboard = () => {
         <Card style={{ width: '57%' }} className="history-card">
           <div className="header">
             <h4>History</h4>
-            <Link to="history">View All</Link>
+            <Link to="/provider/history">View All</Link>
           </div>
           <div className="header">
             <h5>Subscriber</h5>

@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import DashboardWrapper from '../../components/DashboardWrapper';
 import { Link } from 'react-router-dom';
-import { Card, Table, Input,Tabs } from 'antd';
+import { Card, Table, Input, Tabs } from 'antd';
 import { SearchOutlined, UserOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
+
+import PersonalInfoSettingsComponent from './tabs/personal-info';
+import AccountSettingsComponent from './tabs/account-info';
 
 const { TabPane } = Tabs;
 
@@ -26,21 +29,21 @@ const SettingsComponent = () => {
       },
     });
   };
- 
+
   return (
     <DashboardWrapper type="provider">
       <div className="container">
-        <Tabs defaultActiveKey="1" onChange={callback}>
-          <TabPane tab="Tab 1" key="1">
-            Content of Tab Pane 1
-          </TabPane>
-          <TabPane tab="Tab 2" key="2">
-            Content of Tab Pane 2
-          </TabPane>
-          <TabPane tab="Tab 3" key="3">
-            Content of Tab Pane 3
-          </TabPane>
-        </Tabs>
+        <Card style={{ width: '100%' }} className="HospitalHistory setting-page">
+          <h4>Settings</h4>
+          <Tabs defaultActiveKey="1" onChange={callback}>
+            <TabPane tab="Personal Info" key="1">
+              <PersonalInfoSettingsComponent />
+            </TabPane>
+            <TabPane tab={`Password ${'&'} Security`} key="3">
+              <AccountSettingsComponent />
+            </TabPane>
+          </Tabs>
+        </Card>
       </div>
     </DashboardWrapper>
   );

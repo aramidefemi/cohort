@@ -8,7 +8,7 @@ import admin from './admin/api';
 import history from './history/api';
 import settings from './settings/api';
 import axios from 'axios';
-import { notification } from 'antd';
+import { message } from 'antd';
 
 export const logger = (store) => (next) => (action) => {
   console.group(action.type);
@@ -20,20 +20,29 @@ export const logger = (store) => (next) => (action) => {
 };
 
 export const errorNotification = (error) => {
-  notification.open({
-    description: error,
-    className: 'custom-notification-class',
-    style: {
-      width: 600,
-    },
-  });
+  message.error(error)
 };
-const local = 'https://my-cohort-api.herokuapp.com';
+const local =  'https://my-cohort-api.herokuapp.com';
 
 
 export const post = async (url, body, token) => {
   try {
     const response = await axios.post(local + url, body, {
+      headers: {
+        Authorization: 'Bearer ' + token, //the token is a variable which holds the token
+      },
+    });
+    return { success: true, data: response.data };
+  } catch (error) {
+    console.error(error); 
+    errorNotification(error.response.data.error);
+    
+    return { success: false };
+  }
+};
+export const put = async (url, body, token) => {
+  try {
+    const response = await axios.put(local + url, body, {
       headers: {
         Authorization: 'Bearer ' + token, //the token is a variable which holds the token
       },

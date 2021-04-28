@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, Space, Button, Alert } from 'antd';
+import { Menu, Space, Button, Alert, Avatar } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
+import { SearchOutlined, UserOutlined } from '@ant-design/icons';
 
 // images
 import logo from '../assets/images/logo.svg';
@@ -26,7 +27,7 @@ const DashboardWrapper = ({ type, children }) => {
     dispatch({
       type: 'FETCH_HISTORY',
     });
-    if (type === 'subscribe') {
+    if (type === 'subscriber') {
       dispatch({
         type: 'GET_SUBSCRIPTION',
       });
@@ -73,7 +74,13 @@ const DashboardWrapper = ({ type, children }) => {
       <div className="main">
         <div className="header">
           <div className="profile">
-            <img src={user['profile_url']} className="avatar" alt="" />
+          <Avatar
+                 
+                className="avatar"
+                icon={<UserOutlined />}
+                src={user.profile_url || ''}
+              />
+ 
             <div className="details">
               <p>{user['fullname']}</p>
               <small>{user['email']}</small>

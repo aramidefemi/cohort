@@ -12,6 +12,9 @@ export default function authenticationReducer(state = initialState, { type, payl
 		case 'LOGIN':
 			 const login = { ...state, ...payload}
 			return login;
+		case 'SAVE_USER':
+			 const SAVE_USER = { ...state, ...payload}
+			return SAVE_USER;
 		default:
 			return state;
 	}

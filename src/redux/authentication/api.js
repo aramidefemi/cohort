@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { errorNotification, post, get } from '../store';
+import { errorNotification, post, get, put } from '../store';
 
 const api = (store) => (next) => async (action) => {
   let response;
@@ -41,7 +41,22 @@ const api = (store) => (next) => async (action) => {
           token: response.data['token'],
         };
       }
+      
 
+    return next(action);
+    case 'SAVE_USER': 
+    const token = store.getState()?.auth?.token;
+    await put('/profile',action.payload,token);
+    window.localStorage.setItem('user', JSON.stringify(action.payload));
+    return next(action);
+    case 'LOGOUT':
+    window.localStorage.setItem('token', null);
+    window.localStorage.setItem('user',null);
+    window.localStorage.removeItem('token');
+    window.localStorage.removeItem('user');
+
+    action.type = 'LOGIN';
+    action.payload = { user: null, token: null };
     return next(action);
     default:
       return next(action);
