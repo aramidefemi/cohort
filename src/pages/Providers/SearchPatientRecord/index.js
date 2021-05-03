@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Input, Skeleton, Avatar, Spin } from 'antd';
+import { Input, Skeleton, Avatar, Spin, Button } from 'antd';
 import { SearchOutlined, UserOutlined } from '@ant-design/icons';
 import DashboardWrapper from '../../../components/DashboardWrapper';
 import { useDispatch, useSelector } from 'react-redux';
@@ -101,13 +101,13 @@ const Details = ({ toggleRecords }) => {
         <>
           <div className="subscriber">
             {' '}
-            <div className="row">
-              {/* <img src={user['profile_url']} className="avatar" alt="" /> */}
+            <div className="row"> 
               <Avatar
                 style={{
                   color: '#f56a00',
                   backgroundColor: '#fde3cf',
                 }}
+                src={user.profile_url || ''}
                 size={200}
                 icon={<UserOutlined />}
               />
@@ -134,11 +134,13 @@ const Details = ({ toggleRecords }) => {
           </div>
 
           <div className="actions">
-            <Spin tip="Sending OTP..." spinning={loadingSend}>
-              <button className="btn primary btn-block" onClick={handleSendOTP}>
-                Send OTP
-              </button>
-            </Spin>
+            <Button
+              loading={loadingSend}
+              className="btn primary btn-block"
+              onClick={handleSendOTP}
+            >
+              Send OTP
+            </Button>
 
             <hr />
 
@@ -148,14 +150,13 @@ const Details = ({ toggleRecords }) => {
               <Input onChange={handleForm} placeholder="Enter OTP" />
             </div>
 
-            <Spin spinning={loadingVerify}>
-              <button
-                onClick={handleVerifyOTP}
-                className="btn primary btn-block"
-              >
-                Verify
-              </button>
-            </Spin>
+            <Button
+              loading={loadingVerify}
+              onClick={handleVerifyOTP}
+              className="btn primary btn-block"
+            >
+              Verify
+            </Button>
           </div>
         </>
       )}

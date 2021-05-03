@@ -1112,6 +1112,12 @@ button {
 								color: #222222;
 								opacity: 0.5;
 							}
+							button {
+								font-size: 12px;
+								padding: 7px 10px !important;
+								height: auto;
+								min-width: auto;
+							}
 						}
 					}
 				}
@@ -1251,7 +1257,7 @@ button {
 
 								.row {
 									display: flex;
-									justify-content: space-between;
+									justify-content: space-around;
 								}
 							}
 
@@ -1578,6 +1584,8 @@ button {
 		.btn {
 			font-size: 12px;
 			padding: 7px 10px !important;
+			height: auto;
+			min-width: auto;
 		}
 	}
 }

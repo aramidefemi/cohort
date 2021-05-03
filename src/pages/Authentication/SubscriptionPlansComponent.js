@@ -54,15 +54,14 @@ const SubscriptionPlansComponent = () => {
   };
 
   useEffect(() => {
-    if (config.init) {
-      console.log('currentConfig', config);
+    if (config.init) { 
       initializePayment(onSuccess, onClose);
     }
   });
 
   const onSuccess = (reference) => {
     // Implementation for whatever you want to do with reference and after success call.
-    console.log('reference', reference);
+  
     setConfig({
       reference,
       init: false,

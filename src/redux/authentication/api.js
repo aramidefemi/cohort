@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { errorNotification, post, get, put } from '../store';
+import { post, get, put } from '../store';
 
 const api = (store) => (next) => async (action) => {
   let response;

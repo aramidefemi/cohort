@@ -12,8 +12,9 @@ const LandingPage = () => {
   return (
     <div className="landingpage">
       <Header />
-      <Publications />
-      <WhySection /> <AboutSection />
+      {/* <Publications /> */}
+      <WhySection /> 
+      <AboutSection />
       <NetworkSection />
       <TestimonySection />
       {/* <CTASection />

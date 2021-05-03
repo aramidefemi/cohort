@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import AuthWrapper from './Components/AuthWrapper';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Input, Spin } from 'antd';
+import { Input,  Button } from 'antd';
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 
 const Login = () => {
@@ -10,6 +10,7 @@ const Login = () => {
 
   const handleClick = () => {
     setLoading(!loading);
+    setTimeout(() => setLoading(false), 5000);
     dispatch({
       type: 'SIGN_IN',
     });
@@ -54,9 +55,9 @@ const Login = () => {
           <Link to="/provider" className="fwp">
             Forgot Password?
           </Link>
-          <Spin spinning={loading}>
-            <button className="btn primary btn-block" onClick={handleClick}>Login</button>
-          </Spin>
+          
+            <Button loading={loading} className="btn primary btn-block" onClick={handleClick}>Login</Button>
+         
           <p>
             Don{'’'}t have an account?{' '}
             <Link to="/register">Create Account</Link>

@@ -89,7 +89,7 @@ const DashboardWrapper = ({ type, children }) => {
         </div>
         {typeof subscription?.active !== 'undefined' ? (
           <> </>
-        ) : type == 'subscribe' ? (
+        ) : user.userType === 'SUBSCRIBER' ? (
           <> </>
         ) : (
           <Alert

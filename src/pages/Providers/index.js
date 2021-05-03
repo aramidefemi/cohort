@@ -1,23 +1,39 @@
 import React, { useState } from 'react';
 import DashboardWrapper from '../../components/DashboardWrapper';
 import moment from 'moment';
-import { Link } from 'react-router-dom';
-import { List, Avatar, Tooltip, Card, Tabs, Input } from 'antd';
+import { Link, Redirect } from 'react-router-dom';
+import { List, Avatar, Tooltip, Card, Button, Tabs, Input } from 'antd';
 import { UserOutlined, SearchOutlined, EyeFilled } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { Redirect } from 'react-router-dom';
 
 const SubscribersDashboard = () => {
   const {
     auth: { user },
     history: { history },
+    provider: { verified },
   } = useSelector((state) => state);
-  const [searching, setSearching] = useState(false);
 
+  const [loading, setLoading] = useState(false);
+  const [searching, setSearching] = useState(false);
+  const dispatch = useDispatch();
+  const handleReopen = (id, history) => {
+    setLoading(true);
+    setTimeout(() => setLoading(false), 5000);
+    dispatch({
+      type: 'REOPEN',
+      payload: {
+        id,
+        benefits: history.benefits,
+        history: history.id
+      },
+    });
+  };
   if (searching) {
     return <Redirect to={'/search'} />;
   }
-
+  if (verified) {
+    return <Redirect to={'/patient-records'} />;
+  }
   return (
     <DashboardWrapper type="provider">
       <div className="searchbar">
@@ -78,12 +94,38 @@ const SubscribersDashboard = () => {
             footer={null}
             bordered
             dataSource={history}
-            renderItem={({ subscriber: { fullname, policyNumber }, createdAt }) => (
+            renderItem={({
+              benefits,
+              _id,
+              subscriber: {
+                id,
+                fullname,
+                policyNumber,
+                authorization: {
+                  isAuthorized,
+                  authorizedProvider,
+                  authorizedTill,
+                },
+              },
+              createdAt,
+            }) => (
               <List.Item>
                 <div className="benefits">
                   <p>{fullname}</p>
                   <small>{moment(createdAt).format('llll')}</small>
-                  <Link to={`/search/${policyNumber}`} className="btn primary">Re-open</Link>
+                  {isAuthorized &&
+                  authorizedProvider === user.id &&
+                  moment(authorizedTill).isAfter(moment().format()) ? (
+                    <Button
+                      loading={loading}
+                      onClick={() => handleReopen(id,{id: _id, benefits})}
+                      className="btn primary"
+                    >
+                      Re-open
+                    </Button>
+                  ) : (
+                    <p></p>
+                  )}
                 </div>
               </List.Item>
             )}

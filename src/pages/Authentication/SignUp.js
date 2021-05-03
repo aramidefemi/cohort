@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import AuthWrapper from './Components/AuthWrapper';
-import { Input, Spin } from 'antd';
+import { Input,  Button } from 'antd';
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { Upload, message } from 'antd';
@@ -11,6 +11,7 @@ const SignUp = () => {
   const dispatch = useDispatch();
   const handleClick = () => {
     setLoading(!loading);
+    setTimeout(() => setLoading(false), 5000);
     dispatch({
       type: 'SIGN_UP',
     });
@@ -32,7 +33,7 @@ const SignUp = () => {
     onChange(info) {
       setUploading(info.file.status);
       if (info.file.status !== 'uploading') {
-        console.log(info.file, info.fileList);
+        
       }
       if (info.file.status === 'done') {
         message.success(`${info.file.name} file uploaded successfully`);
@@ -115,12 +116,11 @@ const SignUp = () => {
           <br />
           <br />
 
-          <div className="profile-photo">
-            <Spin spinning={loading} delay={500}>
-              <button onClick={handleClick} className="btn primary btn-block">
+          <div className="profile-photo"> >
+              <Button loading={loading} onClick={handleClick} className="btn primary btn-block">
                 Sign Up
-              </button>
-            </Spin>
+              </Button>
+             
           </div>
         </div>
       </div>

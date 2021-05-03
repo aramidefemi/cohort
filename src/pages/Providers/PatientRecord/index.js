@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Input, Avatar, List, Popover, InputNumber } from 'antd';
+import { Input, Avatar, List, Popover,Button, InputNumber } from 'antd';
 import { SearchOutlined, UserOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
@@ -7,22 +7,28 @@ import accounting from 'accounting';
 
 const PatientRecord = ({ toggleRecords }) => {
   const {
-    provider: { verified, user, subscription },
+    provider: {
+      verified,
+      user,
+      subscription,
+      history: ReHistory,
+      benefits: ReBenefits,
+    },
   } = useSelector((state) => state);
   const stockBenefits = subscription.benefits;
   const [benefits, setBenefits] = useState(stockBenefits || []);
   const [history, setHistory] = useState([]);
   const [privilege, setPrivileges] = useState(1);
-
+  const [loading, setLoading] = useState(false);
+   
   const handleForm = ({ target: { value } }) => {
     const sort = benefits.filter((item) => item.title.search(value));
     setBenefits(sort);
   };
- 
+
   const dispatch = useDispatch();
 
   const handleBenefitsUse = (value) => {
-    console.log('value', value);
     const mybenefits = benefits;
     const fooBenefits = mybenefits.map((item) => {
       if (item.title === value.title) {
@@ -38,7 +44,7 @@ const PatientRecord = ({ toggleRecords }) => {
   };
 
   const handleBenefitsUndoUse = (value) => {
-    console.log('value', value);
+   
     const mybenefits = benefits;
     const fooHistory = history;
 
@@ -59,15 +65,26 @@ const PatientRecord = ({ toggleRecords }) => {
   };
 
   const saveRecords = () => {
+    setLoading(true);
+    setTimeout(() => setLoading(false), 5000);
+    const update = ReHistory;
+    let combined = history;
+
+    if (update) {
+      combined = ReBenefits.concat(history);
+    }
+    const payload = {
+      id: user._id,
+      benefits,
+      update,
+      history: {
+        benefits: combined,
+      },
+    };
+    
     dispatch({
       type: 'SAVE_RECORDS',
-      payload: {
-        id: user._id,
-        benefits,
-        history: {
-          benefits: history,
-        },
-      },
+      payload,
     });
   };
 
@@ -112,9 +129,10 @@ const PatientRecord = ({ toggleRecords }) => {
           </div>
         </div>
         <div className="actions">
-          <button onClick={saveRecords} className="btn primary btn-block">
+          <Button
+                      loading={loading} onClick={saveRecords} className="btn primary btn-block">
             Save {'&'} Exit Patient Record
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -188,7 +206,7 @@ const PatientRecord = ({ toggleRecords }) => {
                 item.used = true;
                 item.consumed = consumed;
                 item.isMoney = isMoney;
-                console.log('used', used, privileges, privilege);
+                 
                 handleBenefitsUse(item);
               };
               if (limited) {

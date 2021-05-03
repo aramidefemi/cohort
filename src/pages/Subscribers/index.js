@@ -25,8 +25,7 @@ const datah = [];
 const SubscribersDashboard = () => {
   const { auth: { user }, subscriber: { subscription } } = useSelector((state) => state);
 
-
-  console.log('subscription',subscription);
+ 
 
   return (
     <DashboardWrapper type="subscriber">
@@ -73,7 +72,7 @@ const SubscribersDashboard = () => {
             <div className="col">
               <label>Medical benefits allowance balance</label>
               <h4>
-                <strong>₦</strong> 200,000<small>.00</small>
+                <strong>₦</strong> {accounting.formatMoney(subscription.cost * 12,'')}
               </h4>
             </div>
             <Tooltip
@@ -85,9 +84,9 @@ const SubscribersDashboard = () => {
           </div>
           <div className="plan">
             <div className="col">
-              <label>Subscription Plan</label>
+              <label>Subscription Plan </label>
               <h4>
-                <strong>₦</strong> {accounting.formatMoney(subscription.cost,'')}<small>.00</small> <h5>/month</h5>
+                <strong>₦</strong> {accounting.formatMoney(subscription.cost,'')} <h5>/month</h5>
               </h4>
             </div>
             <Tooltip
@@ -99,7 +98,7 @@ const SubscribersDashboard = () => {
           </div>
 
           <p>
-            Next payment on <strong>{moment(subscription.expiryDate).format("DD-MM-YYYY")}</strong>
+            Next payment on <strong>{moment(subscription.expiryDate).format("DD-MM-YYYY")}</strong>  Plan Name: <b>{subscription.planName}</b>
           </p>
         </Card>
         <Card style={{ width: '37%' }} className="history-card">
@@ -171,7 +170,7 @@ const SubscribersDashboard = () => {
                     return  <List.Item>
                     <div className="benefits">
                       <p>{title}</p>
-                      <small>{privileges}</small>
+                      <small>♾️</small>
                     </div>
                   </List.Item>
                   }

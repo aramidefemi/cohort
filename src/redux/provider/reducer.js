@@ -2,7 +2,9 @@ const initialState = {
   user: {},
   subscription: {},
   found: false,
-  verified: false
+  verified: false,
+  history: null,
+  benefits: []
 };
 
 export default function applicationReducer(

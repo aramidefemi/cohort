@@ -20,10 +20,30 @@ export const logger = (store) => (next) => (action) => {
 };
 
 export const errorNotification = (error) => {
-  message.error(error);
+  message.error(error)
 };
-const local = 'https://my-cohort-api.herokuapp.com'; // 'https://my-cohort-api.herokuapp.com';
+const local =  'https://my-cohort-api.herokuapp.com';
 
+
+const handleError = (e) => {
+  console.error(e.message)
+  console.error(e)
+  if (e.response) {
+    // Request made and server responded
+    console.log(e.response.data);
+    console.log(e.response.status);
+    console.log(e.response.headers);
+    message.error(e?.response?.data?.error || `An error occurred, please try again.`);
+  } else if (e.request) {
+    // The request was made but no response was received
+    console.log(e.request);
+    message.error(`A ${e.message} occurred with our servers, please try again in 5 minutes`);
+  } else {
+    // Something happened in setting up the request that triggered an Error
+    console.log('Error', e.message);
+    message.error(e?.response?.data?.error || 'An error occurred please try again in 5 minutes');
+  } 
+} 
 export const post = async (url, body, token) => {
   try {
     const response = await axios.post(local + url, body, {
@@ -33,9 +53,7 @@ export const post = async (url, body, token) => {
     });
     return { success: true, data: response.data };
   } catch (error) {
-    console.error(error);
-    errorNotification(error.response.data.error);
-
+    handleError(error)
     return { success: false };
   }
 };
@@ -48,9 +66,7 @@ export const put = async (url, body, token) => {
     });
     return { success: true, data: response.data };
   } catch (error) {
-    console.error(error);
-    errorNotification(error.response.data.error);
-
+    handleError(error)
     return { success: false };
   }
 };
@@ -65,24 +81,16 @@ export const get = async (url, token = null) => {
     });
     return { success: true, data: response.data };
   } catch (error) {
-    errorNotification(error.response.data.error);
-    console.error(error);
+    handleError(error)
     return { success: false };
   }
 };
 
+
+
 const initialstate = {};
 
-const middleware = [
-  thunk,
-  logger,
-  auth,
-  admin,
-  provider,
-  subscriber,
-  history,
-  settings,
-];
+const middleware = [thunk, logger, auth, admin, provider, subscriber, history, settings];
 const devTools = window.__REDUX_DEVTOOLS_EXTENSION__
   ? window.__REDUX_DEVTOOLS_EXTENSION__()
   : (f) => f;
