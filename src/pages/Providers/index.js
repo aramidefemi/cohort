@@ -93,7 +93,8 @@ const SubscribersDashboard = () => {
             header={null}
             footer={null}
             bordered
-            dataSource={history}
+            loading={!history}
+            dataSource={history || []}
             renderItem={({
               benefits,
               _id,

@@ -128,6 +128,16 @@ button {
 			opacity: 0.98;
 		}
 	}
+
+	&.outline {
+		background: white;
+		border: 2px solid #2E7B8C;
+	}
+
+	&:hover {
+		cursor: pointer;
+		opacity: 0.98;
+	}
 }
 
 .ant-spin-dot-item {
@@ -1112,6 +1122,7 @@ button {
 								color: #222222;
 								opacity: 0.5;
 							}
+
 							button {
 								font-size: 12px;
 								padding: 7px 10px !important;
@@ -1662,8 +1673,26 @@ button {
 	color: #2E7B8C;
 }
 
+.stats {
+	padding: 25px;
+	margin: 25px;
+	background: #fff;
+	border-radius: 3px;
+	width: 100%;
 
+	.ant-statistic {
+		margin-bottom: 10px;
+	}
 
+	a {
+		color: #2E7B8C;
+		font-size: 13px;
+	}
+}
+
+.expandedTable {
+	padding: 0 50px;
+}
 // utilities 
 .centered {
 	display: flex;

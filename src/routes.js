@@ -11,6 +11,11 @@ import SearchPatientRecord from './pages/Providers/SearchPatientRecord';
 import PatientRecord from './pages/Providers/PatientRecord';
 import HospitalHistory from './pages/Providers/History';
 import SettingsComponent from './pages/Settings';
+import AdminDashboard from './pages/Admin';
+import AdminSubscribers from './pages/Admin/Subscribers';
+import AdminSubscriber from './pages/Admin/Subscriber';
+import AdminProvider from './pages/Admin/Provider';
+import AdminProviders from './pages/Admin/Providers';
 
 import {
   BrowserRouter as Router,
@@ -62,11 +67,36 @@ class App extends React.Component {
             path="/search"
             component={SearchPatientRecord}
           />
-          />
+          
           <ProtectedRoute
             exact
             path="/settings"
             component={SettingsComponent}
+          />
+          <AdminProtectedRoute
+            exact
+            path="/admin"
+            component={AdminDashboard}
+          />
+          <AdminProtectedRoute
+            exact
+            path="/admin/subscribers"
+            component={AdminSubscribers}
+          />
+          <AdminProtectedRoute
+            exact
+            path="/admin/subscriber/:id"
+            component={AdminSubscriber}
+          />
+          <AdminProtectedRoute
+            exact
+            path="/admin/providers"
+            component={AdminProviders}
+          />
+          <AdminProtectedRoute
+            exact
+            path="/admin/provider/:id"
+            component={AdminProvider}
           />
           <ProviderProtectedRoute
             exact
@@ -104,7 +134,7 @@ const ProviderProtectedRoute = ({ path, component: Child }) => {
     const path = {
       SUBSCRIBER: '/subscriber',
       PROVIDER: '/provider',
-      ADMIN: '/provider',
+      ADMIN: '/admin',
     };
 
     const link = path[user.userType];
@@ -129,7 +159,32 @@ const SubscriberProtectedRoute = ({ path, component: Child }) => {
     const path = {
       SUBSCRIBER: '/subscriber',
       PROVIDER: '/provider',
-      ADMIN: '/provider',
+      ADMIN: '/admin',
+    };
+
+    const link = path[user.userType];
+    return <Redirect to={link} />;
+  }
+
+  return (
+    <Route path={path}>
+      <Child />
+    </Route>
+  );
+};
+const AdminProtectedRoute = ({ path, component: Child }) => {
+  let { token, user } = useSelector((state) => state.auth);
+  const utoken = token || window.localStorage.getItem('token') || null;
+
+  if (utoken === null) {
+    return <Redirect to={'/'} />;
+  }
+
+  if (user.userType !== 'ADMIN') {
+    const path = {
+      SUBSCRIBER: '/subscriber',
+      PROVIDER: '/provider',
+      ADMIN: '/admin',
     };
 
     const link = path[user.userType];
@@ -155,7 +210,7 @@ const AuthRoute = ({ path, component: Child }) => {
       path = {
         SUBSCRIBER: '/subscriber',
         PROVIDER: '/provider',
-        ADMIN: '/provider',
+        ADMIN: '/admin',
       };
       path = path[uuser.userType];
     }

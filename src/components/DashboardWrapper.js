@@ -2,7 +2,16 @@ import React, { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, Space, Button, Alert, Avatar } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { SearchOutlined, UserOutlined } from '@ant-design/icons';
+import {
+  SearchOutlined,
+  HddFilled,
+  SmileFilled,
+  ContactsFilled,
+  SettingFilled,
+  HomeFilled,
+  UserOutlined,
+  BankFilled,
+} from '@ant-design/icons';
 
 // images
 import logo from '../assets/images/logo.svg';
@@ -16,7 +25,7 @@ import thumbnail from '../assets/images/thumbnail.svg';
 
 const DashboardWrapper = ({ type, children }) => {
   const location = useLocation();
-  
+
   const {
     auth: { user },
     subscriber: { subscription },
@@ -43,7 +52,15 @@ const DashboardWrapper = ({ type, children }) => {
     ADMIN: admin,
   };
 
-  const menu = menus[user.userType]; 
+  const menu = menus[user.userType];
+  const MenuIconStyle = (link) => {
+    return {
+      color: link === location.pathname ? '#3E7687' : '#A5A5A5',
+      fontSize: '22px',
+      position: 'relative',
+      top: '2px',
+    };
+  };
   return (
     <div className={'DashboardWrapper ' + type}>
       <div className="sidebar">
@@ -60,27 +77,28 @@ const DashboardWrapper = ({ type, children }) => {
           defaultSelectedKeys={[location.pathname]}
           mode="inline"
         >
-          {(menu || []).map(({ icon, title, link }) => (
-            <Menu.Item key={link}>
-              <Link to={link} className="menu-item">
-                <img src={icon} alt="" />
-                <p>{title}</p>
-              </Link>
-            </Menu.Item>
-          ))}
+          {(menu || []).map(({ icon, title, link }) => {
+            return (
+              <Menu.Item key={link}>
+                <Link to={link} className="menu-item">
+                  {icon(MenuIconStyle(link))}
+                  <p>{title}</p>
+                </Link>
+              </Menu.Item>
+            );
+          })}
         </Menu>
       </div>
 
       <div className="main">
         <div className="header">
           <div className="profile">
-          <Avatar
-                 
-                className="avatar"
-                icon={<UserOutlined />}
-                src={user.profile_url || ''}
-              />
- 
+            <Avatar
+              className="avatar"
+              icon={<UserOutlined />}
+              src={user.profile_url || ''}
+            />
+
             <div className="details">
               <p>{user['fullname']}</p>
               <small>{user['email']}</small>
@@ -110,60 +128,66 @@ const DashboardWrapper = ({ type, children }) => {
     </div>
   );
 };
+
 const subscriber = [
   {
     title: 'Dashboard',
-    icon: dashboard,
+    icon: (style) => <HomeFilled style={style} />,
     link: '/subscriber',
   },
   {
     title: 'History',
-    icon: calendar,
+    icon: (style) => <HddFilled style={style} />,
     link: '/subscriber/history',
   },
   {
     title: 'Settings',
-    icon: setting,
+    icon: (style) => <SettingFilled style={style} />,
     link: '/settings',
   },
 ];
 const admin = [
   {
     title: 'Dashboard',
-    icon: dashboard,
-    link: '/subscriber',
+    icon: (style) => <HomeFilled style={style} />,
+    link: '/admin',
   },
   {
-    title: 'History',
-    icon: calendar,
-    link: '/history',
+    title: 'Subscribers',
+    icon: (style) => <SmileFilled style={style} />,
+    link: '/admin/subscribers',
+  },
+  {
+    title: 'Providers',
+    icon: (style) => <BankFilled style={style} />,
+    link: '/admin/providers',
   },
   {
     title: 'Settings',
-    icon: setting,
-    link: '/subscriber',
+    icon: (style) => <SettingFilled style={style} />,
+    link: '/settings',
   },
 ];
 
 const provider = [
   {
     title: 'Dashboard',
-    icon: dashboard,
+    icon: (style) => <HomeFilled style={style} />,
     link: '/provider',
   },
   {
     title: 'Search',
-    icon: thumbnail,
+    icon: (style) => <ContactsFilled style={style} />,
     link: '/search',
   },
   {
     title: 'History',
-    icon: calendar,
+    icon: (style) => <HddFilled style={style} />,
     link: '/provider/history',
   },
   {
     title: 'Settings',
-    icon: setting,
+    icon: (style) => <SettingFilled style={style} />,
     link: '/settings',
   },
 ];

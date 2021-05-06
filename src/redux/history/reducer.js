@@ -1,5 +1,5 @@
 const initialState = {
-  history: [],
+  history: null,
 };
 
 export default function applicationReducer(

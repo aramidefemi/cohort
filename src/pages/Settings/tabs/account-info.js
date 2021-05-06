@@ -54,46 +54,51 @@ const AccountSettingsComponent = () => {
           onOk={handleOk}
           onCancel={handleCancel}
         >
-           <ChangePassword />
+          <ChangePassword />
         </Modal>
       </div>
     </div>
   );
 };
 const ChangePassword = ({ close }) => {
-      const dispatch = useDispatch();
-      const [loading, setLoading] = useState(false); 
-      const [payload, setPayload] = useState({}); 
-      const handleClick = () => {
-        setLoading(true);
-        setTimeout(() => setLoading(false),3000)
-        dispatch({
-          type: 'CHANGE_PASSWORD',
-          payload
-        });
-      };
-    
-      const handleChange = ({ target: { name, value } }) => {
-        setLoading(false);
-        const form = payload;
-        form[name] = value;
-        setPayload(form);
-      };
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
+  const [payload, setPayload] = useState({});
+  const handleClick = () => {
+    setLoading(true);
+    setTimeout(() => setLoading(false), 3000);
+    dispatch({
+      type: 'CHANGE_PASSWORD',
+      payload,
+    });
+  };
+
+  const handleChange = ({ target: { name, value } }) => {
+    setLoading(false);
+    const form = payload;
+    form[name] = value;
+    setPayload(form);
+  };
 
   return (
     <div className="settings-modal">
       <h4>Change Password</h4>
 
       <div className="form">
-
         <div className="form-group">
           <label htmlFor="">Current Password</label>
-          <Input.Password
+          <Input
             name="password"
             onChange={handleChange}
             placeholder="Password"
-            iconRender={(visible) =>
-              visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
+            suffix={
+              <Button
+              loading={loading}
+              onClick={handleClick}
+              className="btn primary"
+            >
+              Send OTP
+            </Button>
             }
           />
         </div>
@@ -108,14 +113,19 @@ const ChangePassword = ({ close }) => {
             }
           />
         </div>
- 
       </div>
-      <Button loading={loading} onClick={handleClick} className="btn primary btn-block">
-          Save
-        </Button>
-      <Button  onClick={close} className="btn primary btn-block">
-      Cancel
-        </Button>
+      <Button
+        loading={loading}
+        onClick={handleClick}
+        className="btn primary btn-block"
+      >
+        Save
+      </Button>
+      <br/>
+      <br/>
+      <Button onClick={close} className="btn btn-block outline">
+        Cancel
+      </Button>
     </div>
   );
 };
