@@ -33,12 +33,19 @@ const DashboardWrapper = ({ type, children }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch({
-      type: 'FETCH_HISTORY',
-    });
-    if (type === 'subscriber') {
+    if (user.userType !== 'ADMIN') {
+      dispatch({
+        type: 'FETCH_HISTORY',
+      });
+    }
+    if (user.userType === 'SUBSCRIBER') {
       dispatch({
         type: 'GET_SUBSCRIPTION',
+      });
+    }
+    if (user.userType === 'ADMIN') {
+      dispatch({
+        type: 'GET_STATS',
       });
     }
   }, []);

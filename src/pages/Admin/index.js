@@ -12,9 +12,18 @@ import help from '../../assets/images/help.svg';
 
 const SubscribersDashboard = () => {
   const {
-    auth: { user },
-    subscriber: { subscription },
-  } = useSelector((state) => state);
+    admin: { statistics },
+  } = useSelector((state) => state); 
+
+  const {
+    activeSubscribers,
+    payments,
+    providers,
+    sessions,
+    subscribers,
+    subscription,
+    totalPayments,
+  } = statistics;
 
   return (
     <DashboardWrapper type="admin">
@@ -22,47 +31,65 @@ const SubscribersDashboard = () => {
         <div className="stats">
           <Row>
             <Col span={6}>
-              <Statistic title="Total Subscribers" value={112893} loading />
-              <Link to='/admin/subscribers'>View</Link>
+              <Statistic
+                title="Total Subscribers"
+                value={subscribers}
+                loading={!statistics}
+              />
+              <Link to="/admin/subscribers">View</Link>
             </Col>
             <Col span={12} push={2}>
-              <Statistic title="Active Subscribers" value={112893} loading />
+              <Statistic
+                title="Subscribers With Active Subscriptions"
+                value={activeSubscribers}
+                loading={!statistics}
+              />
             </Col>
           </Row>
           <br />
           <Row>
-            <Col span={12}>
+            <Col push={3} span={12}>
               <Statistic
-                title="Total Subscriber - Provider Sessions"
-                value={112893}
-                loading
+                title="Total Hospital Sessions"
+                value={sessions}
+                loading={!statistics}
               />
               <Link>View</Link>
             </Col>
             <Col push={2} span={6}>
-              <Statistic title="Total Providers" value={112893} loading />
+              <Statistic
+                title="Total Providers"
+                value={providers}
+                loading={!statistics}
+              />
               <Link>View</Link>
+            </Col>
+          </Row>
+          <br />
+          <Row> 
+            <Col span={12}>
+              <Statistic
+                title="Active Subscriptions"
+                value={subscription}
+                loading={!statistics}
+              /> 
             </Col>
           </Row>
           <br />
           <Row>
             <Col span={6}>
-              <Statistic title="Subscriptions" value={112893} loading />
-            </Col>
-            <Col span={12} push={2}>
-              <Statistic title="Active Subscriptions" value={112893} loading />
-              <Link>View</Link>
-            </Col>
-          </Row>
-          <br />
-          <Row>
-            <Col span={12}>
               <Statistic
                 title="Total Subscriber Payments"
-                value={112893}
-                loading
-              />
-              <Link>View</Link>
+                value={payments}
+                loading={!statistics}
+              /> 
+            </Col>
+            <Col span={12} push={2}>
+              <Statistic
+                title="Total Subscriber Payments Amount"
+                value={totalPayments}
+                loading={!statistics}
+              /> 
             </Col>
           </Row>
         </div>

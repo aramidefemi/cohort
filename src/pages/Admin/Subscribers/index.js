@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import DashboardWrapper from '../../../components/DashboardWrapper';
 import { Link } from 'react-router-dom';
 import { Card, Table, Row, Col, Input,Modal, Statistic, Button, Space } from 'antd';
@@ -7,9 +7,44 @@ import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 
 const columns = [
-  { title: 'Name', dataIndex: 'name', key: 'name' },
-  { title: 'Age', dataIndex: 'age', key: 'age' },
-  { title: 'Address', dataIndex: 'address', key: 'address' },
+  {
+    title: 'Subscriber',
+    dataIndex: 'fullname',
+    key: 'subscriber',
+    render: (text, record) => (
+      <>
+        <h6>{record.fullname}</h6>
+        <p>
+          {record.policyNumber} | {record.email}
+        </p>
+      </>
+    ),
+  },
+  {
+    title: 'Contact Details',
+    dataIndex: 'email',
+    key: 'email',
+    render: (text, record) => (
+      <>
+        <h6>{record.phone}</h6>
+        <p>
+          {record.address}
+        </p>
+      </>
+    ),
+  },
+  {
+    title: 'Date Registered',
+    dataIndex: 'createdAt',
+    key: 'createdAt',
+    render: (text, record) => moment(text).format('lll'),
+  },
+  {
+    title: 'Has Active Subscription',
+    dataIndex: 'hasSubscription',
+    key: 'benefits',
+    render: (text, record) => `${text}`,
+  },
   // {
   //   title: 'Action',
   //   dataIndex: '',
@@ -22,20 +57,27 @@ const columns = [
 
 const AdminSubscribers = () => {
   const {
-    auth: { user },
-    history: { history },
+    admin: { subscribers }
   } = useSelector((state) => state);
   const [search, setSearch] = useState('');
   const dispatch = useDispatch();
-  console.log('history', history);
+  useEffect(() => {
+      dispatch({
+        type: 'GET_SUBSCRIBERS',
+      });
+  }, []);
+  console.log('subscribers',subscribers)
   const handleReload = () => {
     dispatch({
-      type: 'FETCH_HISTORY',
+      type: 'GET_SUBSCRIBERS',
       payload: {
         search,
       },
     });
   };
+  const handleTablePaginationChanges = (e) => {
+    console.log('e',e)
+  }
   const handleForm = ({ target: { value } }) => {
     setSearch(value);
     handleReload();
@@ -61,31 +103,31 @@ const AdminSubscribers = () => {
               expandedRowRender: (record) => (
                 <div className="expandedTable">
                   <Row>
-                    <Col span={12}>
+                    <Col span={6}>
                       <Statistic
                         title="Total Hospital Sessions"
-                        value={112893}
-                        loading
+                        value={record.visits}
+                         
                       />
                     </Col>
                     <Col span={6} push={2}>
                       <Statistic
                         title="Last Hospital Session"
-                        value={112893}
-                        loading
+                        value={moment(record.lastVisit).format('lll')}
+                        
                       />
                     </Col>
                   </Row>
                   <br />
                   <Row>
-                    <Col span={6}>
-                      <Statistic title="Subscription" value={112893} loading />
+                    <Col span={12}>
+                      <Statistic title="Subscription" value={record.subscription}  />
                     </Col>
-                    <Col span={12} push={2}>
+                    <Col span={6} push={2}>
                       <Statistic
                         title="Total Payments"
-                        value={112893}
-                        loading
+                        value={record.totalPayments / 100}
+                        
                       />
                     </Col>
                   </Row>
@@ -100,10 +142,10 @@ const AdminSubscribers = () => {
                 </div>
               ),
               expandIcon: ({ expanded, onExpand, record }) =>
-                expanded ? '-' : '+',
-              rowExpandable: (record) => record.name !== 'Not Expandable',
+                expanded ? '-' : '+', 
             }}
-            dataSource={data}
+            onChange={handleTablePaginationChanges}
+            dataSource={subscribers}
           />
         </Card>
       </div>
@@ -112,39 +154,6 @@ const AdminSubscribers = () => {
   );
 };
 
-const data = [
-  {
-    key: 1,
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-    description:
-      'My name is John Brown, I am 32 years old, living in New York No. 1 Lake Park.',
-  },
-  {
-    key: 2,
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-    description:
-      'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.',
-  },
-  {
-    key: 3,
-    name: 'Not Expandabcle',
-    age: 29,
-    address: 'Jiangsu No. 1 Lake Park',
-    description: 'This not expandable',
-  },
-  {
-    key: 4,
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
-    description:
-      'My name is Joe Black, I am 32 years old, living in Sidney No. 1 Lake Park.',
-  },
-];
 const AddSubscriberModal = ({isModalVisible,setIsModalVisible}) => {
 
   const handleOk = () => {

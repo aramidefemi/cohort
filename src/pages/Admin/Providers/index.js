@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DashboardWrapper from '../../../components/DashboardWrapper';
 import { Link } from 'react-router-dom';
 import {
@@ -17,9 +17,36 @@ import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 
 const columns = [
-  { title: 'Name', dataIndex: 'name', key: 'name' },
-  { title: 'Age', dataIndex: 'age', key: 'age' },
-  { title: 'Address', dataIndex: 'address', key: 'address' },
+  {
+    title: 'Subscriber',
+    dataIndex: 'fullname',
+    key: 'subscriber',
+    render: (text, record) => (
+      <>
+        <h6>{record.fullname}</h6>
+        <p>
+          {record.policyNumber} | {record.email}
+        </p>
+      </>
+    ),
+  },
+  {
+    title: 'Contact Details',
+    dataIndex: 'email',
+    key: 'email',
+    render: (text, record) => (
+      <>
+        <h6>{record.phone}</h6>
+        <p>{record.address}</p>
+      </>
+    ),
+  },
+  {
+    title: 'Date Registered',
+    dataIndex: 'createdAt',
+    key: 'createdAt',
+    render: (text, record) => moment(text).format('lll'),
+  },
   // {
   //   title: 'Action',
   //   dataIndex: '',
@@ -32,15 +59,20 @@ const columns = [
 
 const AdminProviders = () => {
   const {
-    auth: { user },
-    history: { history },
+    admin: { providers },
   } = useSelector((state) => state);
   const [search, setSearch] = useState('');
   const dispatch = useDispatch();
-  console.log('history', history);
+  console.log('providers', providers);
+
+  useEffect(() => {
+    dispatch({
+      type: 'GET_PROVIDERS',
+    });
+  }, []); 
   const handleReload = () => {
     dispatch({
-      type: 'FETCH_HISTORY',
+      type: 'GET_PROVIDERS',
       payload: {
         search,
       },
@@ -74,15 +106,15 @@ const AdminProviders = () => {
                     <Col span={12}>
                       <Statistic
                         title="Total Hospital Sessions"
-                        value={112893}
-                        loading
+                        value={record.visits}
+                        
                       />
                     </Col>
                     <Col span={6} push={2}>
                       <Statistic
                         title="Last Hospital Session"
-                        value={112893}
-                        loading
+                        value={moment(record.lastVisit).format('lll')}
+                        
                       />
                     </Col>
                   </Row>
@@ -98,10 +130,9 @@ const AdminProviders = () => {
                 </div>
               ),
               expandIcon: ({ expanded, onExpand, record }) =>
-                expanded ? '-' : '+',
-              rowExpandable: (record) => record.name !== 'Not Expandable',
+                expanded ? '-' : '+', 
             }}
-            dataSource={data}
+            dataSource={providers}
           />
         </Card>
       </div>
