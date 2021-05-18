@@ -23,7 +23,7 @@ const SubscribersDashboard = () => {
     subscribers,
     subscription,
     totalPayments,
-  } = statistics;
+  } = statistics || {};
 
   return (
     <DashboardWrapper type="admin">

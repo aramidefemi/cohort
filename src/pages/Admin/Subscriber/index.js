@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DashboardWrapper from '../../../components/DashboardWrapper';
 import { Link } from 'react-router-dom';
 import {
@@ -34,12 +34,15 @@ const columns = [
 const AdminSubscriber = () => {
  
   const {
-    auth: { user },
-    history: { history },
+    admin: { subscribers }
   } = useSelector((state) => state);
   const [search, setSearch] = useState('');
-  const dispatch = useDispatch();
-  console.log('history', history);
+  const dispatch = useDispatch();  
+  useEffect(() => {
+      dispatch({
+        type: 'GET_SUBSCRIBERS',
+      });
+  }, []);
   const handleReload = () => {
     dispatch({
       type: 'FETCH_HISTORY',
@@ -64,7 +67,7 @@ const AdminSubscriber = () => {
             <Col span={12}>
               <Statistic
                 title="Total Hospital Sessions"
-                value={112893}
+                value={444}
                 loading
               />
             </Col>

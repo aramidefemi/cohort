@@ -16,6 +16,8 @@ import AdminSubscribers from './pages/Admin/Subscribers';
 import AdminSubscriber from './pages/Admin/Subscriber';
 import AdminProvider from './pages/Admin/Provider';
 import AdminProviders from './pages/Admin/Providers';
+import GroupMembers from './pages/Subscribers/GroupMembers';
+import SubscriberPayments from './pages/Subscribers/Payments';
 
 import {
   BrowserRouter as Router,
@@ -61,6 +63,16 @@ class App extends React.Component {
             exact
             path="/subscriber"
             component={SubscribersDashboard}
+          />
+          <SubscriberProtectedRoute
+            exact
+            path="/group"
+            component={GroupMembers}
+          />
+          <SubscriberProtectedRoute
+            exact
+            path="/payments"
+            component={SubscriberPayments}
           />
           <ProviderProtectedRoute
             exact

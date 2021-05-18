@@ -4,6 +4,8 @@ import { Menu, Space, Button, Alert, Avatar } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   SearchOutlined,
+  PlusCircleFilled,
+  FundFilled,
   HddFilled,
   SmileFilled,
   ContactsFilled,
@@ -148,6 +150,16 @@ const subscriber = [
     link: '/subscriber/history',
   },
   {
+    title: 'Payments Record',
+    icon: (style) => <BankFilled style={style} />,
+    link: '/payments',
+  },
+  {
+    title: 'Group Members',
+    icon: (style) => <HddFilled style={style} />,
+    link: '/group',
+  },
+  {
     title: 'Settings',
     icon: (style) => <SettingFilled style={style} />,
     link: '/settings',
@@ -167,6 +179,11 @@ const admin = [
   {
     title: 'Providers',
     icon: (style) => <BankFilled style={style} />,
+    link: '/admin/providers',
+  },
+  {
+    title: 'Payments',
+    icon: (style) => <ContactsFilled style={style} />,
     link: '/admin/providers',
   },
   {

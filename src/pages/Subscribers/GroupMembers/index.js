@@ -57,7 +57,7 @@ const columns = [
   // },
 ];
 
-const AdminProviders = () => {
+const SubscriberPayments = () => {
   const {
     admin: { providers },
   } = useSelector((state) => state);
@@ -66,9 +66,9 @@ const AdminProviders = () => {
   console.log('providers', providers);
 
   useEffect(() => {
-    dispatch({
-      type: 'GET_PROVIDERS',
-    });
+    // dispatch({
+    //   type: 'GET_PROVIDERS',
+    // });
   }, []); 
   const handleReload = () => {
     dispatch({
@@ -90,10 +90,10 @@ const AdminProviders = () => {
     <DashboardWrapper type="admin">
       <div className="container">
         <Card style={{ width: '100%' }} className="HospitalHistory">
-          <h4>Providers </h4>
+          <h4>Members </h4>
           <Space style={{ margin: '16px 0', float: 'right' }}>
-            <Button onClick={showModal}>Add Provider</Button>
-            <Button>Add Bulk</Button>
+            <Button onClick={showModal}>Add Member</Button>
+            <Button>Add Members</Button>
           </Space>
 
           <Table
@@ -202,4 +202,4 @@ const AddSubscriberModal = ({ isModalVisible, setIsModalVisible }) => {
   );
 };
 
-export default AdminProviders;
+export default SubscriberPayments;

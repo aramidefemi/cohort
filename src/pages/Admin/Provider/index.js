@@ -58,7 +58,7 @@ const AdminProvider = () => {
     <DashboardWrapper type="admin">
       <div className="container">
         <Card style={{ width: '100%' }} className="HospitalHistory">
-          <h4>Subscriber - <small>John Doe</small> </h4>
+          <h4>Provider - <small>Hospital Doe</small> </h4>
           <Row>
             <Col span={12}>
               <Statistic
@@ -72,12 +72,25 @@ const AdminProvider = () => {
             </Col>
           </Row>
           
+         
+          <Space style={{ margin: '30px 0', float: 'right' }}>
+            <Button>Add Hospital Session</Button>
+            <Button>Add Bulk Hospital Session</Button>
+          </Space>
           <br />
           <br />
+          <br />
+          <br />
+           
 
-           <h4>Hospital Sessions</h4>
+          <Collapse defaultActiveKey={['1']} onChange={callback}>
+            <Panel header="Hospital Sessions" key="1">
               <Table columns={columns} dataSource={data} />
-       
+            </Panel>
+            <Panel header="Payments Due" key="2">
+              <Table columns={columns} dataSource={data} />
+            </Panel> 
+          </Collapse>
         </Card>
       </div>
       

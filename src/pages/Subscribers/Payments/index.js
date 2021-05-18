@@ -57,7 +57,7 @@ const columns = [
   // },
 ];
 
-const AdminProviders = () => {
+const GroupMembers = () => {
   const {
     admin: { providers },
   } = useSelector((state) => state);
@@ -90,11 +90,7 @@ const AdminProviders = () => {
     <DashboardWrapper type="admin">
       <div className="container">
         <Card style={{ width: '100%' }} className="HospitalHistory">
-          <h4>Providers </h4>
-          <Space style={{ margin: '16px 0', float: 'right' }}>
-            <Button onClick={showModal}>Add Provider</Button>
-            <Button>Add Bulk</Button>
-          </Space>
+          <h4>Payments History </h4>
 
           <Table
             columns={columns}
@@ -202,4 +198,4 @@ const AddSubscriberModal = ({ isModalVisible, setIsModalVisible }) => {
   );
 };
 
-export default AdminProviders;
+export default GroupMembers;

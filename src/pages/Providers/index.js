@@ -79,7 +79,7 @@ const SubscribersDashboard = () => {
 
         <Card style={{ width: '57%' }} className="history-card">
           <div className="header">
-            <h4>History</h4>
+            <h4>Active Encounters</h4>
             <Link to="/provider/history">View All</Link>
           </div>
           <div className="header">
@@ -117,6 +117,7 @@ const SubscribersDashboard = () => {
                   {isAuthorized &&
                   authorizedProvider === user.id &&
                   moment(authorizedTill).isAfter(moment().format()) ? (
+                    <>
                     <Button
                       loading={loading}
                       onClick={() => handleReopen(id,{id: _id, benefits})}
@@ -124,6 +125,14 @@ const SubscribersDashboard = () => {
                     >
                       Re-open
                     </Button>
+                    <Button
+                      loading={loading}
+                      onClick={() => handleReopen(id,{id: _id, benefits})}
+                      className="btn primary"
+                    >
+                      Upload Encounter CSV
+                    </Button>
+                    </>
                   ) : (
                     <p></p>
                   )}
