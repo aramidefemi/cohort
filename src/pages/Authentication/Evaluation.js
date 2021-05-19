@@ -36,8 +36,7 @@ const Evaluation = () => {
     const foo = {};
     foo[name] = value;
 
-    const newData = { ...data, ...foo };
-    console.log('newData', newData);
+    const newData = { ...data, ...foo }; 
     setData(newData);
     handleChange({ target: { data: newData } });
   };
@@ -90,7 +89,7 @@ const Evaluation = () => {
                 />
               }
             />
-            <Step title="Health Plan Estimate" description={EvaluationRates} />
+            <Step title="Health Plan Estimate"  description={<EvaluationRates step={current} next={next} />} />
 
             <Step
               title="Create Account"
@@ -263,16 +262,15 @@ const SignUpForm = ({ handleChange, handleClick, step }) => {
   );
 };
 const EvaluationForm = ({ state, step, next, handleChangeEvaluation }) => {
-  const [question, setQuestion] = useState('0a');
-
+  const [question, setQuestion] = useState(null);
+ 
   useEffect(() => {
-    const startingPoint = state['0'] ==='Group' ? '16' : state['0'] === 'Family' ? '14' : '0a';
-    setQuestion(startingPoint);
-  }, []);
+      const starting = state['0'] === 'Group' ? '16' : state['0'] === 'Family' ? '14' : '0a';
+      setQuestion(starting) 
+  }, [state['0']]); 
 
   const handleNextAnswer = () => {
     const value = state[question];
-
     console.log('state', state, value);
     const obj = questions[question];
     if (obj.final) {
@@ -282,13 +280,12 @@ const EvaluationForm = ({ state, step, next, handleChangeEvaluation }) => {
       setQuestion(destination);
     }
   };
-  console.log('e questions[question]', questions[question]);
+   
   if (step !== 1) return null;
-  if (state['0'] == 'Company') return <ForCompany />;
+  if (state['0'] === 'Company') return <ForCompany />;
   const inputType = {
     input: (
-      <Input
-        placeholder="Fullname"
+      <Input 
         name={question}
         onChange={handleChangeEvaluation}
       />
@@ -310,13 +307,15 @@ const EvaluationForm = ({ state, step, next, handleChangeEvaluation }) => {
       </Select>
     ),
   };
+  if (!questions[question]?.name) return (<>{next()}</>);
+
   return (
     <div className="questions">
       <br />
-      <h4>{questions[question]['name']}</h4>
+      <h4>{questions[question]?.name}</h4>
       <br />
 
-      {inputType[questions[question]['type']]}
+      {inputType[questions[question]?.type]}
 
       <Button className="btn primary btn-sm " onClick={handleNextAnswer}>
         Submit
@@ -560,7 +559,7 @@ const questions = {
     next: '0b',
   }, 
   '16': {
-    name: 'How old are you?',
+    name: 'Group Number',
     values: ['<10', '10-20','21-50','51-100','101-250','251-500','501-750','751-1000', '>1000'],
     type: 'select',
     options: false,
