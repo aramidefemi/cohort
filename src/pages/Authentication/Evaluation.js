@@ -607,7 +607,7 @@ const questions = {
   },
   '19d': {
     name: 'Procedures?', 
-    values: ['yes', 'no'],
+    values: ['minor', 'intermediate', 'major'],
     type: 'select',
     options: false,
     final: false, 
