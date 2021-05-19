@@ -65,7 +65,7 @@ p {
 	line-height: 32px;
 }
 
-.ant-input {
+.ant-input, select {
 	background: rgba(0, 0, 0, 0.05);
 	border-radius: 3px;
 	padding: 10px 30px;
@@ -398,7 +398,7 @@ button {
 	display: flex;
 
 	.side {
-		height: 100vh;
+		min-height: 100vh;
 		display: flex;
 		width: 35%;
 		max-width: 1000px;
@@ -499,6 +499,10 @@ button {
 				label {
 					margin-top: 20px;
 					margin-bottom: 5px;
+				}
+
+				.ant-radio-wrapper {
+					display: block;
 				}
 
 				.col {
@@ -858,9 +862,9 @@ button {
 				.ant-card {
 					margin: 0 10px;
 					margin-bottom: 10px;
- 
+
 					.ant-card-body {
-						
+
 
 						h4 {
 							font-weight: bold;
@@ -873,11 +877,11 @@ button {
 				}
 
 				.subscriber-card {
-					 
+
 					background: #5DCFFF;
 					border-radius: 10px;
 					border-color: #5DCFFF;
-					 
+
 					padding-right: 0px;
 					height: fit-content;
 
@@ -1019,7 +1023,7 @@ button {
 
 				.medical-benefits-usage-card,
 				.history-card {
-					height: fit-content; 
+					height: fit-content;
 					border-radius: 6px;
 
 					.header {
@@ -1686,9 +1690,54 @@ button {
 	}
 }
 
+.ant-steps-item-process>.ant-steps-item-container>.ant-steps-item-icon,
+.ant-steps-item-finish>.ant-steps-item-container>.ant-steps-item-tail::after,
+.ant-radio-group-solid .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled),
+.ant-steps-item-process .ant-steps-item-icon>.ant-steps-icon .ant-steps-icon-dot,
+.ant-steps-item-finish .ant-steps-item-icon > .ant-steps-icon .ant-steps-icon-dot {
+	background-color: #2E7B8C;
+	border-color: #2E7B8C;
+}
+
+.ant-steps-item-finish .ant-steps-item-icon {
+	border-color: #2E7B8C;
+	color: #2E7B8C;
+}
+
 .expandedTable {
 	padding: 0 50px;
 }
+
+.WhoHasIt {
+
+	button {
+		margin-top: 30px;
+	}
+}
+.questions {
+	width: 60%;
+    margin-top: 10px;
+	margin-left: 10px;
+	flex-direction: column;
+    display: flex;
+	button  {
+		margin-top: 10px; 
+		position: relative;
+		left: 0px;
+		top: 10px;
+	}
+}
+.btn-sm {
+	height: 30px;
+	padding: 5px;
+	font-size: 12px;
+	width: auto;
+	margin-bottom: 0;
+	right: 6px;
+	bottom: 6px;
+	border-radius: 3px;
+}
+
 // utilities 
 .centered {
 	display: flex;

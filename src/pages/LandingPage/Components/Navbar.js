@@ -17,7 +17,7 @@ const Navbar = () => {
             <Link to="/">About Us</Link>
           </li>
           <li>
-            <Link to="/">Health Plan</Link>
+            <Link to="/evaluation">Evaluation</Link>
           </li>
           <li>
             <Link to="/">Providers</Link>
@@ -31,7 +31,7 @@ const Navbar = () => {
          
             <Link to="/login" className='btn'>Login</Link>
            
-            <Link to="/register" className='btn primary'>Sign up</Link>
+            <Link to="/evaluation" className='btn primary'>Sign up</Link>
           
       </div>
     </div>

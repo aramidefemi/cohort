@@ -38,7 +38,7 @@ class App extends React.Component {
           <AuthRoute exact path="/login" component={Login} />
           <AuthRoute exact path="/register" component={SignUp} />
           <ProtectedRoute exact path="/subscribe" component={Plans} />
-          <ProtectedRoute exact path="/evaluate" component={Evaluation} />
+          <AuthRoute exact path="/evaluation" component={Evaluation} />
           <ProviderProtectedRoute
             exact
             path="/provider"
