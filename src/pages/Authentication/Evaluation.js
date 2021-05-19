@@ -38,7 +38,7 @@ const Evaluation = () => {
 
     const newData = { ...data, ...foo }; 
     setData(newData);
-    handleChange({ target: { data: newData } });
+    handleChange({ target: { name: 'data', value: newData } });
   };
 
   const next = () => {
