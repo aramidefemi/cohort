@@ -366,25 +366,126 @@ const questions = {
     next: '3a'
   },
   '3a': {
-    name: 'Have you been to the Asthma in the last 12 months',
+    name: 'Have you treated for Asthma in the last 12 months',
     values: ['yes', 'no'],
     type: 'select',
     options: false,
     next: '3b'
   },
   '3b': {
-    name: 'Have you been to the Hypertension in the last 12 months',
+    name: 'Have you treated for Hypertension in the last 12 months',
     values: ['yes', 'no'],
     type: 'select',
     options: false,
-    next: '3b'
+    next: '3c'
   },
   '3c': {
-    name: 'Have you been to the Ulcer in the last 12 months',
+    name: 'Have you treated for Ulcer in the last 12 months',
     values: ['yes', 'no'],
     type: 'select',
     options: false,
-    next: '3b'
+    next: '3d'
+  },
+  '3d': {
+    name: 'Have you treated for Sickle cell in the last 12 months',
+    values: ['yes', 'no'],
+    type: 'select',
+    options: false,
+    next: '3e'
+  },
+  '3e': {
+    name: 'Have you treated for Diabetes in the last 12 months',
+    values: ['yes', 'no'],
+    type: 'select',
+    options: false,
+    next: '3f'
+  },
+  '3f': {
+    name: 'Have you treated for Epilepsy or seizure disorders in the last 12 months',
+    values: ['yes', 'no'],
+    type: 'select',
+    options: false,
+    next: '4'
+  },
+  '4': {
+    name: 'what is your blood group?',
+    values: ['A', 'B', 'O','AB'],
+    type: 'select',
+    options: false,
+    next: '5'
+  },
+  '5': {
+    name: 'what is your blood group?',
+    values: ['AA', 'AS', 'SS', 'AC', 'SC'],
+    type: 'select',
+    options: false,
+    next: '6'
+  },
+  '6': {
+    name: 'Are you currently managing any chronic health conditions?',
+    values: ['yes', 'no'],
+    type: 'select',
+    options: false,
+    next: '7'
+  },
+  '7': {
+    name: 'Are you currently on any medications',
+    values: ['yes', 'no'],
+    type: 'select',
+    options: false,
+    next: '8'
+  },
+  '8': {
+    name: 'Do you have any drug allergies?',
+    values: ['yes', 'no'],
+    type: 'select',
+    options: false,
+    next: '9'
+  },
+  '9': {
+    name: 'Have you had any surgery in the past 12 months?',
+    values: ['yes', 'no'],
+    type: 'select',
+    options: true, 
+    answerOptions: {
+      'yes': '9a',
+      'no': '10',
+    }
+  },
+  '9a': {
+    name: 'Duration of time spent in the hospital in days',
+    values: ['<5', '6-10', '11-20','>20'],
+    type: 'select',
+    options: false,
+    next: '9b'
+  },
+  '9b': {
+    name: 'Any complications from previous surgery',
+    values: ['yes', 'no'],
+    type: 'select',
+    options: false,
+    next: '9c'
+  },
+  '9c': {
+    name: 'Were symptoms relieved after procedure',
+    values: ['yes', 'no'],
+    type: 'select',
+    options: false,
+    next: '9d'
+  },
+  '9d': {
+    name: 'Are you still receiving treatment for the procedure',
+    values: ['yes', 'no'],
+    type: 'select',
+    options: false,
+    next: '10'
+  },
+  '10': {
+    name: 'Any known allergies?',
+    values: ['yes', 'no'],
+    type: 'select',
+    options: false,
+    next: '11'
   },
 };
 export default Evaluation;
