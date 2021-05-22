@@ -11,8 +11,8 @@ exports.emergencies = [
 ];
 exports.one = {
   planName: 'COHORT 1',
-  planCode: "PLN_gg4576yqa6pmrjr",
-  cost: 5000,
+  
+  cost: 3750.00,
   benefits: [
     { title: 'Malaria', privileges:  0, limited: false },
     { title: 'URTI', privileges:  0, limited: false },
@@ -38,9 +38,9 @@ exports.one = {
   ],
 };
 exports.two = {
-  cost: 10000,
+  cost: 4500.00,
   planName: 'COHORT 2',
-  planCode: "PLN_8emy7jc98u2y9nm",
+  
   benefits: [
     { title: 'Malaria', privileges:  0, limited: false },
     {
@@ -73,9 +73,9 @@ exports.two = {
   ],
 };
 exports.three = {
-  cost: 15000,
+  cost: 5833.00,
   planName: 'COHORT 3',
-  planCode: "PLN_8emy7jc98u2y9nm",
+  
   benefits: [
     { title: 'Malaria', privileges:  0, limited: false },
     { title: 'URTI', privileges:  0, limited: false },
@@ -102,9 +102,9 @@ exports.three = {
 };
 
 exports.four = {
-  cost: 20000,
+  cost: 8333.00,
   planName: 'COHORT 4',
-  planCode: "PLN_8emy7jc98u2y9nm",
+  
   benefits: [
     { title: 'Malaria', privileges:  0, limited: false },
     { title: 'URTI', privileges:  0, limited: false },
@@ -131,9 +131,9 @@ exports.four = {
 };
 
 exports.five = {
-  cost: 25000,
+  cost: 11668.00,
   planName: 'COHORT 5',
-  planCode: "PLN_8emy7jc98u2y9nm",
+  
   benefits: [
     { title: 'Malaria', privileges:  0, limited: false },
     { title: 'URTI', privileges:  0, limited: false },
@@ -160,9 +160,9 @@ exports.five = {
 };
 
 exports.six = {
-  cost: 30000,
+  cost: 15000.00,
   planName: 'COHORT 6',
-  planCode: "PLN_8emy7jc98u2y9nm",
+  
   benefits: [
     { title: 'Malaria', privileges:  0, limited: false },
     { title: 'URTI', privileges:  0, limited: false },
@@ -189,9 +189,9 @@ exports.six = {
 };
 
 exports.seven = {
-  cost: 35000,
+  cost: 20833,
   planName: 'COHORT 7',
-  planCode: "PLN_8emy7jc98u2y9nm",
+  
   benefits: [
     { title: 'Malaria', privileges:  0, limited: false },
     { title: 'URTI', privileges:  0, limited: false },
@@ -218,9 +218,64 @@ exports.seven = {
 };
 
 exports.eight = {
-  cost: 40000,
+  cost: 25833,
   planName: 'COHORT 8',
-  planCode: "PLN_8emy7jc98u2y9nm",
+  
+  benefits: [
+    { title: 'Malaria', privileges:  0, limited: false },
+    { title: 'URTI', privileges:  0, limited: false },
+    { title: 'enteric fever', privileges:  0, limited: false },
+    { title: 'gastroenteritis', privileges:  0, limited: false },
+    { title: 'minor cuts and bruises', privileges:  0, limited: false },
+    { title: 'OPD', privileges:  0, limited: false },
+    {
+      title: 'baseline investigations(MP, urinalysis, rbs ,pcv)',
+      privileges:  0, limited: false,
+    },
+    { title: 'antimalarial treatment', privileges:  0, limited: false },
+    { title: 'GP consultation ', privileges: 4 },
+    { title: 'Urianry tract infection', privileges:  0, limited: false },
+    { title: 'Asthma/sicklecell anaemia', privileges:  0, limited: false },
+    { title: 'Urinary tract infection', privileges:  0, limited: false },
+    {
+      title: 'Simple skin diseases such - T. Vesicolor, T. Capitas',
+      privileges:  0, limited: false,
+    },
+    { title: 'Worm infestation (Helminthiasis)', privileges:  0, limited: false },
+    { title: 'Dog bite, Snake bite, Scorpion sting', privileges:  0, limited: false },
+  ],
+};
+exports.nine = {
+  cost: 6500,
+  planName: 'PEDIATRIC',
+  
+  benefits: [
+    { title: 'Malaria', privileges:  0, limited: false },
+    { title: 'URTI', privileges:  0, limited: false },
+    { title: 'enteric fever', privileges:  0, limited: false },
+    { title: 'gastroenteritis', privileges:  0, limited: false },
+    { title: 'minor cuts and bruises', privileges:  0, limited: false },
+    { title: 'OPD', privileges:  0, limited: false },
+    {
+      title: 'baseline investigations(MP, urinalysis, rbs ,pcv)',
+      privileges:  0, limited: false,
+    },
+    { title: 'antimalarial treatment', privileges:  0, limited: false },
+    { title: 'GP consultation ', privileges: 4 },
+    { title: 'Urianry tract infection', privileges:  0, limited: false },
+    { title: 'Asthma/sicklecell anaemia', privileges:  0, limited: false },
+    { title: 'Urinary tract infection', privileges:  0, limited: false },
+    {
+      title: 'Simple skin diseases such - T. Vesicolor, T. Capitas',
+      privileges:  0, limited: false,
+    },
+    { title: 'Worm infestation (Helminthiasis)', privileges:  0, limited: false },
+    { title: 'Dog bite, Snake bite, Scorpion sting', privileges:  0, limited: false },
+  ],
+};
+exports.ten = {
+  cost: 9995.90,
+  planName: 'OBGYN',
   benefits: [
     { title: 'Malaria', privileges:  0, limited: false },
     { title: 'URTI', privileges:  0, limited: false },

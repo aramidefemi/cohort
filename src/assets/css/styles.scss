@@ -503,6 +503,7 @@ button {
 
 				.ant-radio-wrapper {
 					display: block;
+					text-transform: capitalize;
 				}
 
 				.col {
@@ -1742,4 +1743,7 @@ button {
 .centered {
 	display: flex;
 	justify-content: center;
+}
+.flex {
+	display: flex; 
 }

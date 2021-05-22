@@ -10,6 +10,12 @@ const api = (store) => (next) => async (action) => {
       action.payload = response?.data; 
       
       return next(action);
+    case 'ACTIVATE_PLAN': 
+      response = await get('/activate-plan',token); 
+      action.type = 'GET_SUBSCRIPTION'; 
+      action.payload = response?.data; 
+      
+      return next(action);
     default:
       return next(action);
   }

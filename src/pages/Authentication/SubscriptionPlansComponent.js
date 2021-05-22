@@ -13,14 +13,15 @@ import {
   six,
   seven,
   eight,
+  nine,
+  ten,
 } from '../../common/plans';
 import { usePaystackPayment } from 'react-paystack';
 import { Link } from 'react-router-dom';
-const { Panel } = Collapse;
+
 const SubscriptionPlansComponent = () => {
   const {
     auth: { user },
-    subscriber: { subscription },
   } = useSelector((state) => state);
   const [show, toggleShow] = useState(false);
   const [config, setConfig] = useState({ init: false });
@@ -36,9 +37,9 @@ const SubscriptionPlansComponent = () => {
   const dispatch = useDispatch();
   const initializePayment = usePaystackPayment(config);
 
-  const startPaystack = (amount, plan) => {
+  const startPaystack = (amount, planName) => {
     amount = amount * 100;
-    const reference = new Date().getTime();
+    const reference = new Date().getTime() +''+ Math.floor(Math.random() * 100000000).toString();
     const metadata = user;
     const email = user.email;
 
@@ -46,28 +47,33 @@ const SubscriptionPlansComponent = () => {
       publicKey: 'pk_test_a1fcc1525836d8ca7c23abb658d0a99d3c3ce067',
       reference,
       metadata,
+      planName,
       amount,
       email,
-      plan,
       init: true,
     });
   };
 
   useEffect(() => {
-    if (config.init) { 
+    if (config.init) {
       initializePayment(onSuccess, onClose);
     }
   });
 
   const onSuccess = (reference) => {
     // Implementation for whatever you want to do with reference and after success call.
-  
+    console.log('reference', reference);
     setConfig({
       reference,
       init: false,
     });
     dispatch({
-      type: 'GET_SUBSCRIPTION',
+      type: 'ACTIVATE_PLAN',
+      payload: {
+        payment: reference,
+        user,
+        planName: config.planName,
+      },
     });
     toggleModal();
   };
@@ -94,17 +100,18 @@ const SubscriptionPlansComponent = () => {
           </section>
           <div className="btn-st">
             <button className="btn primary btn-block " onClick={handleClick}>
-              Show { show ? 'Less' : 'More' } Plans <CaretDownOutlined style={{ color: '#ffffff' }} />
+              Show {show ? 'Less' : 'All'} Plans{' '}
+              <CaretDownOutlined style={{ color: '#ffffff' }} />
             </button>
           </div>
 
           {show ? (
             <section>
-              <Plan {...four} startPaystack={startPaystack} />
-              <Plan startPaystack={startPaystack} {...five} />
-              <Plan startPaystack={startPaystack} {...six} />
-              <Plan startPaystack={startPaystack} {...seven} />
-              <Plan startPaystack={startPaystack} {...eight} />
+              {[one, two, three, four, five, six, seven, eight, nine, ten].map(
+                (item, key) => (
+                  <Plan key={key} {...item} startPaystack={startPaystack} />
+                )
+              )}
             </section>
           ) : (
             <></>
@@ -145,6 +152,7 @@ const Plan = ({
   const handleClick = () => {
     toggleShow(!show);
   };
+  const rev = benefits.reverse();
   return (
     <div className={`plan  ${isBest ? 'best' : ''}`}>
       {isBest ? (
@@ -161,19 +169,28 @@ const Plan = ({
       </h2>
 
       <h6>Designed to give access to a good quality healthcare.</h6>
-      <div className="benefits" style={{height: `${show ? 'auto' : '206px'}`}}>
-        {benefits.map(({ title }) => (
+      <div
+        className="benefits"
+        style={{ height: `${show ? 'auto' : '206px'}` }}
+      >
+        
+        {rev.map(({ title }) => (
           <div className="benefit">
             <CheckCircleFilled style={{ fontSize: '20px' }} /> <p>{title}</p>
           </div>
         ))}{' '}
       </div>
 
-      <h6 onClick={handleClick} style={{cursor: 'pointer', marginTop: '10px'}}>Show { show ? 'less' : 'more' } ...</h6>
+      <h6
+        onClick={handleClick}
+        style={{ cursor: 'pointer', marginTop: '10px' }}
+      >
+        Show {show ? 'less' : 'more'} ...
+      </h6>
 
       <button
         className="btn primary btn-block"
-        onClick={() => startPaystack(cost, planCode)}
+        onClick={() => startPaystack(cost, planName)}
       >
         {isBest ? 'Proceed with Plan' : 'Select Plan'}
       </button>
