@@ -22,7 +22,7 @@ export const logger = (store) => (next) => (action) => {
 export const errorNotification = (error) => {
   message.error(error)
 };
-const local =  'https://my-cohort-api.herokuapp.com';
+const local = 'http://localhost:4000' // 'https://my-cohort-api.herokuapp.com';
 
 
 const handleError = (e) => {

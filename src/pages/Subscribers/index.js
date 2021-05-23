@@ -29,7 +29,7 @@ function callback(key) {
 const SubscribersDashboard = () => {
   const {
     auth: { user },
-    subscriber: { subscription },
+    subscriber: { subscription, plan },
   } = useSelector((state) => state);
 
   return (
@@ -78,10 +78,11 @@ const SubscribersDashboard = () => {
             <Card className="benefits-card">
               <div className="balance">
                 <div className="col">
+                 
                   <label>Total Medical Plan Cost</label>
                   <h4>
                     <strong>₦</strong>
-                    {accounting.formatMoney(subscription.cost * 12, '')}
+                    {accounting.formatMoney(subscription?.cost * 12, '')}
                   </h4>
                 </div>
                 <Tooltip
@@ -96,7 +97,7 @@ const SubscribersDashboard = () => {
                   <label>Total Amount Paid</label>
                   <h4>
                     <strong>₦</strong>
-                    {accounting.formatMoney(subscription.cost, '')}
+                    {accounting.formatMoney(subscription?.cost, '')}
                     <h5>/month</h5>
                   </h4> </div>
                 
@@ -117,7 +118,7 @@ const SubscribersDashboard = () => {
                 <strong>
                   {moment(subscription.expiryDate).format('DD-MM-YYYY')}
                 </strong>{' '}
-                Months Covered <b>(12)</b>
+                Months Covered <b>({plan.durationCovered})</b>
               </p>
             </Card>
           </Col>

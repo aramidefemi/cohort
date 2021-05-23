@@ -1,7 +1,8 @@
 const initialState = {
   subscription: {
     active: false,
-  }
+  },
+  plan: null
 };
 
 export default function applicationReducer(
@@ -10,7 +11,7 @@ export default function applicationReducer(
 ) {
   switch (type) {
     case 'GET_SUBSCRIPTION':
-      const GET_SUBSCRIPTION = { ...state, subscription: payload };
+      const GET_SUBSCRIPTION = { ...state, ...payload };
       return GET_SUBSCRIPTION;
     default:
       return state;

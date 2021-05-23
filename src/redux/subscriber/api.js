@@ -11,7 +11,7 @@ const api = (store) => (next) => async (action) => {
       
       return next(action);
     case 'ACTIVATE_PLAN': 
-      response = await get('/activate-plan',token); 
+      response = await post('/activate-plan',action.payload,token); 
       action.type = 'GET_SUBSCRIPTION'; 
       action.payload = response?.data; 
       

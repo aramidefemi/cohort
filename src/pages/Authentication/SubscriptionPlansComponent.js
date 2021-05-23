@@ -62,7 +62,7 @@ const SubscriptionPlansComponent = () => {
 
   const onSuccess = (reference) => {
     // Implementation for whatever you want to do with reference and after success call.
-    console.log('reference', reference);
+    console.log('reference from onSuccess', reference);
     setConfig({
       reference,
       init: false,
