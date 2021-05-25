@@ -161,7 +161,7 @@ const EvaluationRates = ({ step, next }) => {
 
   if (step !== 2) return null;
 
-  return  !Plan ?<Skeleton active /> : (
+  return   (
     <Result
       status="success"
       title="Health Evaluation Successful"

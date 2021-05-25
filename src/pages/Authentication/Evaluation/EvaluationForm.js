@@ -2,7 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Input, Button, Radio } from 'antd';
 import { questions } from './data';
 
-const EvaluationForm = ({ state, step, back, next, handleChangeEvaluation }) => {
+const EvaluationForm = ({
+  state,
+  step,
+  back,
+  next,
+  handleChangeEvaluation,
+}) => {
   const [question, setQuestion] = useState(null);
   const [prev, setPrev] = useState('0');
 
@@ -17,8 +23,15 @@ const EvaluationForm = ({ state, step, back, next, handleChangeEvaluation }) => 
   };
 
   const handleNextAnswer = () => {
-    const value = state[question]; 
+    const current = questions[question];
+
+    const value = state[question] || current.type === 'select' ? current?.values[0] : -1;
     const obj = questions[question];
+
+    handleChangeEvaluation({
+      target: { name: question, value },
+    });
+
     if (obj.final) {
       next();
     } else {
@@ -31,7 +44,9 @@ const EvaluationForm = ({ state, step, back, next, handleChangeEvaluation }) => 
   if (step !== 1) return null;
   if (state['0'] === 'Company') return <ForCompany />;
   const inputType = {
-    input: () => <Input name={question} onChange={handleChangeEvaluation} />,
+    input: () => (
+      <Input name={question} required onChange={handleChangeEvaluation} />
+    ),
     select: () => {
       const options = questions[question]?.values?.map((label) => {
         return { label, value: label };
@@ -39,6 +54,7 @@ const EvaluationForm = ({ state, step, back, next, handleChangeEvaluation }) => 
       return (
         <div className="radios">
           <Radio.Group
+            defaultValue={options[0].label}
             name={question}
             options={options}
             direction="vertical"
@@ -56,15 +72,15 @@ const EvaluationForm = ({ state, step, back, next, handleChangeEvaluation }) => 
       <h4>{questions[question]?.name}</h4>
 
       {inputType[questions[question]?.type]()}
-      <div className='flex'>
-       {state[question]}
-      <Button disabled={!state[question]} className="btn primary btn-sm " onClick={handleNextAnswer}>
-        Submit
-      </Button>   <Button type="link" onClick={handlePrevAnswer}>
-        Back
-      </Button>
+      <div className="flex">
+        
+        <Button className="btn primary btn-sm " onClick={handleNextAnswer}>
+          Submit
+        </Button>{' '}
+        <Button type="link" onClick={handlePrevAnswer}>
+          Back
+        </Button>
       </div>
-    
     </div>
   );
 };
