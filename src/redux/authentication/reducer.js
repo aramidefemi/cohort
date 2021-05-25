@@ -1,7 +1,11 @@
 const initialState = {
 	form: {},
 	user: JSON.parse(window.localStorage.getItem('user')) || {},
-	token: window.localStorage.getItem('token') || null
+	token: window.localStorage.getItem('token') || null,
+	computation: { 
+		Plan: null,
+		Pricing: null,
+	}
 };
 
 export default function authenticationReducer(state = initialState, { type, payload }) {
@@ -15,6 +19,9 @@ export default function authenticationReducer(state = initialState, { type, payl
 		case 'SAVE_USER':
 			 const SAVE_USER = { ...state, ...payload}
 			return SAVE_USER;
+		case 'SUBMIT_FOR_COMPUTATION':
+			 const SUBMIT_FOR_COMPUTATION = { ...state, ...payload}
+			return SUBMIT_FOR_COMPUTATION;
 		default:
 			return state;
 	}

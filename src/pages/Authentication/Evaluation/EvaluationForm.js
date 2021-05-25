@@ -17,8 +17,7 @@ const EvaluationForm = ({ state, step, back, next, handleChangeEvaluation }) => 
   };
 
   const handleNextAnswer = () => {
-    const value = state[question];
-    console.log('state', state, value);
+    const value = state[question]; 
     const obj = questions[question];
     if (obj.final) {
       next();
@@ -58,8 +57,8 @@ const EvaluationForm = ({ state, step, back, next, handleChangeEvaluation }) => 
 
       {inputType[questions[question]?.type]()}
       <div className='flex'>
-       
-      <Button className="btn primary btn-sm " onClick={handleNextAnswer}>
+       {state[question]}
+      <Button disabled={!state[question]} className="btn primary btn-sm " onClick={handleNextAnswer}>
         Submit
       </Button>   <Button type="link" onClick={handlePrevAnswer}>
         Back

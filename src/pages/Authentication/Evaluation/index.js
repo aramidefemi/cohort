@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import AuthWrapper from '../Components/AuthWrapper';
 import { Steps } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Radio, Result } from 'antd';
-import { typeOptions } from './data';
+import { Button, Radio, Result, Skeleton } from 'antd';
+import { typeOptions, questionsArray, questionsComputation } from './data';
 import SignUpForm from './SignUpForm';
 import EvaluationForm from './EvaluationForm';
 
@@ -11,7 +11,12 @@ const { Step } = Steps;
 const Evaluation = () => {
   const [current, setCurrent] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState({}); 
+  const [data, setData] = useState({});
+  const [evaluationData, setEvaluationData] = useState(questionsComputation);
+  const {
+    auth: { computation },
+  } = useSelector((state) => state);
+
   const dispatch = useDispatch();
   const handleClick = () => {
     setLoading(!loading);
@@ -36,12 +41,27 @@ const Evaluation = () => {
     foo[name] = value;
 
     const newData = { ...data, ...foo };
+
     setData(newData);
-    handleChange({ target: { name: 'data', value: newData } });
+    const comp = {};
+    comp[questionsArray[name]] = value;
+    const compute = { ...evaluationData, ...comp };
+    setEvaluationData(compute);
+
+    handleChange({
+      target: { name: 'data', value: newData },
+    });
   };
 
   const next = () => {
     setCurrent(current + 1);
+  };
+  const submitForComputaion = () => {
+    dispatch({
+      type: 'SUBMIT_FOR_COMPUTATION',
+      payload: evaluationData,
+    });
+    next();
   };
 
   const prev = () => {
@@ -80,7 +100,7 @@ const Evaluation = () => {
               title="Health Plan Evaluation"
               description={
                 <EvaluationForm
-                  next={next}
+                  next={submitForComputaion}
                   step={current}
                   back={prev}
                   state={data}
@@ -132,12 +152,20 @@ const WhoHasIt = ({ step, handleChangeEvaluation, next }) => {
 };
 
 const EvaluationRates = ({ step, next }) => {
+ 
+  const {
+    auth: {
+      computation: { Plan, Pricing },
+    },
+  } = useSelector((state) => state);
+
   if (step !== 2) return null;
-  return (
+
+  return  !Plan ?<Skeleton active /> : (
     <Result
       status="success"
       title="Health Evaluation Successful"
-      subTitle="We recommend our health care plan of 3750.00 Naira only monthly"
+      subTitle={`We recommend our ${Plan} health care plan  of ${Pricing} Naira only monthly`}
       extra={[
         <Button className="btn primary btn-sm " onClick={next} key="console">
           Get Started
@@ -146,8 +174,5 @@ const EvaluationRates = ({ step, next }) => {
     />
   );
 };
-
-
-
 
 export default Evaluation;

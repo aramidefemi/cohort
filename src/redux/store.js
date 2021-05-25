@@ -57,6 +57,15 @@ export const post = async (url, body, token) => {
     return { success: false };
   }
 };
+export const postWithoutUrl = async (url, body, options) => {
+  try {
+    const { data } = await axios.post(url, body, options);
+    return { success: true, data };
+  } catch (error) {
+    handleError(error)
+    return { success: false };
+  }
+};
 export const put = async (url, body, token) => {
   try {
     const response = await axios.put(local + url, body, {

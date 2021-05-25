@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import accounting from 'accounting';
 import DashboardWrapper from '../../components/DashboardWrapper';
@@ -14,6 +14,7 @@ import {
   Col,
   Button,
   Divider,
+  InputNumber
 } from 'antd';
 import { UserOutlined, SearchOutlined, EyeFilled } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
@@ -31,6 +32,67 @@ const SubscribersDashboard = () => {
     auth: { user },
     subscriber: { subscription, plan },
   } = useSelector((state) => state);
+  const [config, setConfig] = useState({ init: false });
+  const [topUpAmount, setTopUpAmount] = useState(0);
+  const dispatch = useDispatch();
+  
+
+  const initializePayment = usePaystackPayment(config);
+
+  const handleValueChange = (multiple) => {
+    const amount = (subscription.cost * multiple) * 100;
+    setTopUpAmount(amount)
+  };
+
+ 
+  const startPaystack = () => { 
+    const reference = new Date().getTime() +''+ Math.floor(Math.random() * 100000000).toString();
+    const metadata = user;
+    const email = user.email;
+
+    setConfig({ 
+      publicKey: 'pk_test_a1fcc1525836d8ca7c23abb658d0a99d3c3ce067',
+      reference,
+      metadata,
+      planName: subscription.planName, 
+      email,
+      amount: topUpAmount,
+      init: true,
+      
+    });
+  };
+
+  useEffect(() => {
+    if (config.init) {
+      initializePayment(onSuccess, onClose);
+    }
+  }, [config.init]);
+
+  const onSuccess = (reference) => {
+    // Implementation for whatever you want to do with reference and after success call.
+    console.log('reference from onSuccess', reference);
+    setConfig({
+      reference,
+      init: false,
+    });
+    dispatch({
+      type: 'ACTIVATE_PLAN',
+      payload: {
+        payment: reference,
+        user,
+        planName: config.planName,
+      },
+    });
+   
+  };
+
+  // you can call this function anything
+  const onClose = (e) => {
+    setConfig({
+      ...config,
+      init: false,
+    });
+  };
 
   return (
     <DashboardWrapper type="subscriber">
@@ -78,7 +140,6 @@ const SubscribersDashboard = () => {
             <Card className="benefits-card">
               <div className="balance">
                 <div className="col">
-                 
                   <label>Total Medical Plan Cost</label>
                   <h4>
                     <strong>₦</strong>
@@ -99,17 +160,31 @@ const SubscribersDashboard = () => {
                     <strong>₦</strong>
                     {accounting.formatMoney(subscription?.cost, '')}
                     <h5>/month</h5>
-                  </h4> </div>
-                
-               
-               
+                  </h4>{' '}
+                </div>
               </div>
-              <p>
-                    <Tooltip title="Make Payments">
-                      <Button type="dashed" shape="circle" icon={'+'} />
-                    </Tooltip> <br/>
-                    Click here to make payments
-                  </p>
+              <div className="dashboard-payment-area">
+                <label htmlFor="">Click here to make payments</label>
+                <div className="form-group">
+                <InputNumber
+                  min={1}
+                  max={12 - (plan || {})?.durationCovered || 0 }
+                  defaultValue={1}
+                  onChange={handleValueChange}
+                />
+              
+                  <Tooltip title="Make Payments">
+                    <Button
+                      type="dashed"
+                      onClick={startPaystack}
+                      shape="circle"
+                      icon={'+'}
+                    />
+                  </Tooltip>
+                  </div>
+                
+              </div>
+
               <p>
                 Plan Name: <b>{subscription.planName}</b>
               </p>
@@ -118,7 +193,7 @@ const SubscribersDashboard = () => {
                 <strong>
                   {moment(subscription.expiryDate).format('DD-MM-YYYY')}
                 </strong>{' '}
-                Months Covered <b>({plan.durationCovered})</b>
+                Months Covered <b>({plan?.durationCovered})</b>
               </p>
             </Card>
           </Col>
