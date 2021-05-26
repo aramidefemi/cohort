@@ -24,9 +24,11 @@ const EvaluationForm = ({
 
   const handleNextAnswer = () => {
     const current = questions[question];
-
+    current.values = current.values || [];
+ 
     const value = state[question] || current.type === 'select' ? current?.values[0] : -1;
     const obj = questions[question];
+    console.log('state[question]',  { name: question, value } );
 
     handleChangeEvaluation({
       target: { name: question, value },
@@ -51,10 +53,13 @@ const EvaluationForm = ({
       const options = questions[question]?.values?.map((label) => {
         return { label, value: label };
       });
+
+      const defaults = options[0].label;
+
       return (
         <div className="radios">
           <Radio.Group
-            defaultValue={options[0].label}
+            defaultValue={defaults}
             name={question}
             options={options}
             direction="vertical"

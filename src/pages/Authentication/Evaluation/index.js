@@ -57,10 +57,10 @@ const Evaluation = () => {
     setCurrent(current + 1);
   };
   const submitForComputaion = () => {
-    dispatch({
-      type: 'SUBMIT_FOR_COMPUTATION',
-      payload: evaluationData,
-    });
+    // dispatch({
+    //   type: 'SUBMIT_FOR_COMPUTATION',
+    //   payload: evaluationData,
+    // });
     next();
   };
 
@@ -165,7 +165,7 @@ const EvaluationRates = ({ step, next }) => {
     <Result
       status="success"
       title="Health Evaluation Successful"
-      subTitle={`We recommend our ${Plan} health care plan  of ${Pricing} Naira only monthly`}
+      subTitle={`We recommend our  health care plan  of 3750 Naira only monthly`}
       extra={[
         <Button className="btn primary btn-sm " onClick={next} key="console">
           Get Started
