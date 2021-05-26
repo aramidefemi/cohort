@@ -186,12 +186,12 @@ const SubscribersDashboard = () => {
               </div>
 
               <p>
-                Plan Name: <b>{subscription.planName}</b>
+                Plan Name: <b>{subscription?.planName}</b>
               </p>
               <p>
                 Next payment due on{' '}
                 <strong>
-                  {moment(subscription.expiryDate).format('DD-MM-YYYY')}
+                  {moment(subscription?.expiryDate).format('DD-MM-YYYY')}
                 </strong>{' '}
                 Months Covered <b>({plan?.durationCovered})</b>
               </p>

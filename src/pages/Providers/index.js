@@ -125,13 +125,13 @@ const SubscribersDashboard = () => {
                     >
                       Re-open
                     </Button>
-                    <Button
+                    {/* <Button
                       loading={loading}
                       onClick={() => handleReopen(id,{id: _id, benefits})}
                       className="btn primary"
                     >
                       Upload Encounter CSV
-                    </Button>
+                    </Button> */}
                     </>
                   ) : (
                     <p></p>
