@@ -988,7 +988,9 @@ button {
 							display: inline;
 						}
 					}
-
+b{
+	color: #329978;
+}
 					p {
 						font-style: normal;
 						font-weight: 500;
@@ -997,7 +999,7 @@ button {
 						color: rgba(34, 34, 34, 0.8);
 						opacity: 0.8;
 						margin-left: 20px;
-						margin-bottom: 20px;
+						margin-bottom: 10px;
 
 						strong {
 							opacity: 1;
@@ -1740,7 +1742,7 @@ button {
 }
 .dashboard-payment-area {
 	margin-left: 20px;
-
+    margin-bottom: 20px;
 	label {
 		font-weight: 500 !important;
 		font-size: 12px !important;
@@ -1751,10 +1753,17 @@ button {
 	.form-group {
 		
 		button {
-			margin-left: 20px;
-
+			margin-left: 10px;
+			height: 30px;
+			font-size: 12px;
+			padding: 5px 10px;
+			position: relative;
+			bottom: 2px;
 		}
 	}
+}
+.ant-card {
+	box-shadow:  0px 0px 10px rgba(0, 0, 0, 0.05);
 }
 // utilities 
 .centered {

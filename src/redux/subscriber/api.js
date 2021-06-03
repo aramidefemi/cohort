@@ -16,6 +16,12 @@ const api = (store) => (next) => async (action) => {
       action.payload = response?.data; 
       
       return next(action);
+    case 'RECORD_PAYMENT': 
+      response = await post('/record-payment',action.payload,token); 
+      return next(action);
+    case 'PAYMENT_RECORDS': 
+      response = await get('/payment/records',action.payload,token); 
+      return next(action);
     default:
       return next(action);
   }

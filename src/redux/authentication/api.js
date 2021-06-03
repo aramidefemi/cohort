@@ -51,7 +51,12 @@ const api = (store) => (next) => async (action) => {
     return next(action);
     case 'SUBMIT_FOR_COMPUTATION':  
     
-    response = await postWithoutUrl('https://fathomless-falls-56866.herokuapp.com/predict', action.payload);
+    response = await postWithoutUrl('https://fathomless-falls-56866.herokuapp.com/predict', action.payload,{
+      crossDomain: true,
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      }
+    });
     if(response.success) {
       console.log('response',response)
       action.payload = response.data;

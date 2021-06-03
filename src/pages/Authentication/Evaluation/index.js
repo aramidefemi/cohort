@@ -57,10 +57,10 @@ const Evaluation = () => {
     setCurrent(current + 1);
   };
   const submitForComputaion = () => {
-    // dispatch({
-    //   type: 'SUBMIT_FOR_COMPUTATION',
-    //   payload: evaluationData,
-    // });
+    dispatch({
+      type: 'SUBMIT_FOR_COMPUTATION',
+      payload: evaluationData,
+    });
     next();
   };
 

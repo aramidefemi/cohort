@@ -14,7 +14,7 @@ import {
   Col,
   Button,
   Divider,
-  InputNumber
+  InputNumber,
 } from 'antd';
 import { UserOutlined, SearchOutlined, EyeFilled } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
@@ -35,30 +35,30 @@ const SubscribersDashboard = () => {
   const [config, setConfig] = useState({ init: false });
   const [topUpAmount, setTopUpAmount] = useState(0);
   const dispatch = useDispatch();
-  
 
   const initializePayment = usePaystackPayment(config);
 
   const handleValueChange = (multiple) => {
-    const amount = (subscription.cost * multiple) * 100;
-    setTopUpAmount(amount)
+    const amount = subscription.cost * multiple * 100;
+    setTopUpAmount(amount);
   };
 
- 
-  const startPaystack = () => { 
-    const reference = new Date().getTime() +''+ Math.floor(Math.random() * 100000000).toString();
+  const startPaystack = () => {
+    const reference =
+      new Date().getTime() +
+      '' +
+      Math.floor(Math.random() * 100000000).toString();
     const metadata = user;
     const email = user.email;
 
-    setConfig({ 
+    setConfig({
       publicKey: 'pk_test_a1fcc1525836d8ca7c23abb658d0a99d3c3ce067',
       reference,
       metadata,
-      planName: subscription.planName, 
+      planName: subscription.planName,
       email,
       amount: topUpAmount,
       init: true,
-      
     });
   };
 
@@ -83,7 +83,6 @@ const SubscribersDashboard = () => {
         planName: config.planName,
       },
     });
-   
   };
 
   // you can call this function anything
@@ -98,7 +97,7 @@ const SubscribersDashboard = () => {
     <DashboardWrapper type="subscriber">
       <div className="container">
         <Row>
-          <Col className="gutter-row" span={12}>
+          <Col className="gutter-row" md={24} lg={12}>
             <Card className="subscriber-card">
               <h4>Your E-Card</h4>
               <div className="row">
@@ -136,14 +135,16 @@ const SubscribersDashboard = () => {
               </div>
             </Card>
           </Col>
-          <Col className="gutter-row" span={12}>
+          <Col className="gutter-row" md={24} lg={12}>
             <Card className="benefits-card">
               <div className="balance">
                 <div className="col">
-                  <label>Total Medical Plan Cost</label>
+                  <label>Subscription Plan</label>
+                  <b>{subscription?.planName}</b>
                   <h4>
                     <strong>₦</strong>
-                    {accounting.formatMoney(subscription?.cost * 12, '')}
+                    {accounting.formatMoney(subscription?.cost, '')}
+                    <h5>/month</h5>
                   </h4>
                 </div>
                 <Tooltip
@@ -155,51 +156,39 @@ const SubscribersDashboard = () => {
               </div>
               <div className="plan">
                 <div className="col">
-                  <label>Total Amount Paid</label>
+                  <label>Total Medical Plan Cost</label>
                   <h4>
                     <strong>₦</strong>
-                    {accounting.formatMoney(subscription?.cost, '')}
-                    <h5>/month</h5>
-                  </h4>{' '}
+                    {accounting.formatMoney(subscription?.cost * 12, '')}
+                  </h4>
                 </div>
               </div>
+              <p>
+                Benefits last until 
+                <b> {moment(subscription?.expiryDate).format('DD-MM-YYYY')}
+                </b>
+              </p>
               <div className="dashboard-payment-area">
-                <label htmlFor="">Click here to make payments</label>
                 <div className="form-group">
-                <InputNumber
-                  min={1}
-                  max={12 - (plan || {})?.durationCovered || 0 }
-                  defaultValue={1}
-                  onChange={handleValueChange}
-                />
-              
-                  <Tooltip title="Make Payments">
-                    <Button
-                      type="dashed"
-                      onClick={startPaystack}
-                      shape="circle"
-                      icon={'+'}
-                    />
-                  </Tooltip>
-                  </div>
-                
-              </div>
+                  <InputNumber
+                    min={1}
+                    max={12 - (plan || {})?.durationCovered || 0}
+                    defaultValue={1}
+                    onChange={handleValueChange}
+                  />
 
-              <p>
-                Plan Name: <b>{subscription?.planName}</b>
-              </p>
-              <p>
-                Next payment due on{' '}
-                <strong>
-                  {moment(subscription?.expiryDate).format('DD-MM-YYYY')}
-                </strong>{' '}
-                Months Covered <b>({plan?.durationCovered})</b>
-              </p>
+                  <Tooltip title="Make Payments">
+                    <Button onClick={startPaystack}  className='btn primary'>
+                      Add Money
+                    </Button>
+                  </Tooltip>
+                </div>
+              </div>
             </Card>
           </Col>
         </Row>
         <Row>
-          <Col className="gutter-row" span={12}>
+          <Col className="gutter-row" md={24} lg={12}>
             <Card className="history-card">
               <div className="header">
                 <h4>History</h4>
@@ -244,7 +233,7 @@ const SubscribersDashboard = () => {
               />
             </Card>
           </Col>
-          <Col className="gutter-row" span={12}>
+          <Col className="gutter-row" md={24} lg={12}>
             <Card className="medical-benefits-usage-card">
               <h4>Other Medical Benfits</h4>
               <Tabs defaultActiveKey="1" className="tabs" onChange={callback}>
