@@ -6,73 +6,80 @@ import {
   Table,
   Row,
   Col,
-  Input,
+  Button,
   Modal,
   Statistic,
-  Button,
   Space,
 } from 'antd';
 import { SearchOutlined, UserOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 
+import accounting from 'accounting';
+
 const columns = [
   {
-    title: 'Subscriber',
-    dataIndex: 'fullname',
-    key: 'subscriber',
+    title: 'Payee',
+    dataIndex: 'subscriber',
+    key: 4,
     render: (text, record) => (
       <>
-        <h6>{record.fullname}</h6>
+        <h6>{text.fullname}</h6>
         <p>
-          {record.policyNumber} | {record.email}
+          {text.policyNumber} | {text.email}
         </p>
       </>
     ),
   },
   {
-    title: 'Contact Details',
-    dataIndex: 'email',
-    key: 'email',
-    render: (text, record) => (
-      <>
-        <h6>{record.phone}</h6>
-        <p>{record.address}</p>
-      </>
-    ),
+    title: 'Amount Paid',
+    dataIndex: 'amount',
+    key: 1,
+    render: (text) => accounting.formatMoney(text, 'N'),
   },
+  {
+    title: 'Plan Name',
+    dataIndex: 'planName',
+    key: 2,
+  },
+  {
+    title: 'Trn. Reference',
+    dataIndex: 'reference',
+    key: 3,
+  },
+
   {
     title: 'Date Registered',
     dataIndex: 'createdAt',
     key: 'createdAt',
     render: (text, record) => moment(text).format('lll'),
   },
-  // {
-  //   title: 'Action',
-  //   dataIndex: '',
-  //   key: 'x',
-  //   fixed: 'right',
-  //   width: 100,
-  //   render: () => <a>Suspend</a>,
-  // },
+  {
+    title: 'Action',
+    dataIndex: '',
+    key: 'x',
+    fixed: 'right',
+    width: 100,
+    render: () =><Button type="link" href={'mailTo:admin@hadiel.com.ng'} danger>Dispute</Button>,
+  },
 ];
 
 const GroupMembers = () => {
   const {
-    admin: { providers },
+    subscriber: { payment_history },
   } = useSelector((state) => state);
   const [search, setSearch] = useState('');
   const dispatch = useDispatch();
-  console.log('providers', providers);
 
   useEffect(() => {
     dispatch({
-      type: 'GET_PROVIDERS',
+      type: 'PAYMENT_RECORDS',
     });
-  }, []); 
+  }, []);
+
   const handleReload = () => {
     dispatch({
-      type: 'GET_PROVIDERS',
+      type: 'PAYMENT_RECORDS',
       payload: {
         search,
       },
@@ -93,42 +100,8 @@ const GroupMembers = () => {
           <h4>Payments History </h4>
 
           <Table
-            columns={columns}
-            expandRowByClick
-            expandable={{
-              expandedRowRender: (record) => (
-                <div className="expandedTable">
-                  <Row>
-                    <Col span={12}>
-                      <Statistic
-                        title="Total Hospital Sessions"
-                        value={record.visits}
-                        
-                      />
-                    </Col>
-                    <Col span={6} push={2}>
-                      <Statistic
-                        title="Last Hospital Session"
-                        value={moment(record.lastVisit).format('lll')}
-                        
-                      />
-                    </Col>
-                  </Row>
-                  <br />
-
-                  <br />
-
-                  <Row>
-                    <Col span={3}>
-                      <Link to={'/admin/provider/:id'}>View More</Link>
-                    </Col>
-                  </Row>
-                </div>
-              ),
-              expandIcon: ({ expanded, onExpand, record }) =>
-                expanded ? '-' : '+', 
-            }}
-            dataSource={providers}
+            columns={columns} 
+            dataSource={payment_history}
           />
         </Card>
       </div>

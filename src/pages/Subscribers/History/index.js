@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import DashboardWrapper from '../../../components/DashboardWrapper';
 import { Link } from 'react-router-dom';
-import { Card, Table, Input } from 'antd';
+import { Card, Table, Input,Button } from 'antd';
 import { SearchOutlined, UserOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
@@ -30,17 +30,20 @@ const columns = [
     key: 'createdAt',
     render: (text, record) => moment(text).format('LT')
   },
-  // {
-  //   title: 'Allowance Spent',
-  //   dataIndex: 'createdAt',
-  //   key: 'createdAt',
-  //   render: (text, record) => moment(text).format('LT')
-  // },
+
   {
     title: 'Benefits Used',
     dataIndex: 'benefits',
     key: 'benefits',
     render: (text, record) => text.map(({ title }) => <p>- {title}</p>),
+  },
+  {
+    title: 'Action',
+    dataIndex: '',
+    key: 'x',
+    fixed: 'right',
+    width: 100,
+    render: () =><Button type="link" href={'mailTo:admin@hadiel.com.ng'} danger>Report</Button>,
   },
 ];
 

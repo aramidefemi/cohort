@@ -39,7 +39,7 @@ const SubscribersDashboard = () => {
   const initializePayment = usePaystackPayment(config);
 
   const handleValueChange = (multiple) => {
-    const amount = subscription.cost * multiple * 100;
+    const amount = plan.subscriptionPayments * multiple * 100;
     setTopUpAmount(amount);
   };
 
@@ -76,11 +76,12 @@ const SubscribersDashboard = () => {
       init: false,
     });
     dispatch({
-      type: 'ACTIVATE_PLAN',
+      type: 'RECORD_PAYMENT',
       payload: {
+        user: user._id,
+        plan,
+        durationPaidFor: topUpAmount / plan.subscriptionPayments,
         payment: reference,
-        user,
-        planName: config.planName,
       },
     });
   };
@@ -140,10 +141,10 @@ const SubscribersDashboard = () => {
               <div className="balance">
                 <div className="col">
                   <label>Subscription Plan</label>
-                  <b>{subscription?.planName}</b>
+                  <b>{plan?.planName}</b>
                   <h4>
                     <strong>₦</strong>
-                    {accounting.formatMoney(subscription?.cost, '')}
+                    {accounting.formatMoney(plan?.subscriptionPayments, '')}
                     <h5>/month</h5>
                   </h4>
                 </div>
@@ -159,7 +160,7 @@ const SubscribersDashboard = () => {
                   <label>Total Medical Plan Cost</label>
                   <h4>
                     <strong>₦</strong>
-                    {accounting.formatMoney(subscription?.cost * 12, '')}
+                    {accounting.formatMoney(plan?.cost, '')}
                   </h4>
                 </div>
               </div>
@@ -170,9 +171,10 @@ const SubscribersDashboard = () => {
               </p>
               <div className="dashboard-payment-area">
                 <div className="form-group">
+                 
                   <InputNumber
                     min={1}
-                    max={12 - (plan || {})?.durationCovered || 0}
+                    max={12}
                     defaultValue={1}
                     onChange={handleValueChange}
                   />

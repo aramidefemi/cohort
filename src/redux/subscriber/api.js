@@ -1,5 +1,6 @@
 
 import {   post, get } from '../store';
+import { message } from 'antd';
 
 const api = (store) => (next) => async (action) => {
   let response;
@@ -7,20 +8,26 @@ const api = (store) => (next) => async (action) => {
   switch (action.type) {
     case 'GET_SUBSCRIPTION': 
       response = await get('/subscriptions',token); 
+      action.type = 'UPDATE_SUBSCRIBER_STATE'; 
       action.payload = response?.data; 
       
       return next(action);
     case 'ACTIVATE_PLAN': 
       response = await post('/activate-plan',action.payload,token); 
-      action.type = 'GET_SUBSCRIPTION'; 
+      action.type = 'UPDATE_SUBSCRIBER_STATE'; 
       action.payload = response?.data; 
       
       return next(action);
     case 'RECORD_PAYMENT': 
       response = await post('/record-payment',action.payload,token); 
+      if(response.success) message.success('Wallet Top Up Successful')
+      action.type = 'UPDATE_SUBSCRIBER_STATE'; 
+      action.payload = response?.data; 
       return next(action);
     case 'PAYMENT_RECORDS': 
-      response = await get('/payment/records',action.payload,token); 
+      response = await get('/payment/records',token); 
+      action.type = 'UPDATE_SUBSCRIBER_STATE'; 
+      action.payload = response?.data; 
       return next(action);
     default:
       return next(action);
