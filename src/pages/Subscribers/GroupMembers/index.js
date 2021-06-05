@@ -6,7 +6,9 @@ import {
   Table,
   Row,
   Col,
+  InputNumber,
   Input,
+  Form,
   Modal,
   Statistic,
   Button,
@@ -47,32 +49,32 @@ const columns = [
     key: 'createdAt',
     render: (text, record) => moment(text).format('lll'),
   },
-  // {
-  //   title: 'Action',
-  //   dataIndex: '',
-  //   key: 'x',
-  //   fixed: 'right',
-  //   width: 100,
-  //   render: () => <a>Suspend</a>,
-  // },
+  {
+    title: 'Action',
+    dataIndex: 'hasSubscription',
+    key: 9,
+    fixed: 'right',
+    width: 100,
+    render: (text) => !text ? <Button type="link" info>Active Account</Button> : <Button type="link" info>Top Up Wallet</Button>,
+  },
 ];
 
 const SubscriberPayments = () => {
   const {
-    admin: { providers },
+    subscriber: { group },
   } = useSelector((state) => state);
   const [search, setSearch] = useState('');
   const dispatch = useDispatch();
-  console.log('providers', providers);
+  console.log('group', group);
 
   useEffect(() => {
-    // dispatch({
-    //   type: 'GET_PROVIDERS',
-    // });
-  }, []); 
+    dispatch({
+      type: 'GET_GROUP_MEMBERS',
+    });
+  }, []);
   const handleReload = () => {
     dispatch({
-      type: 'GET_PROVIDERS',
+      type: 'GET_GROUP_MEMBERS',
       payload: {
         search,
       },
@@ -98,41 +100,7 @@ const SubscriberPayments = () => {
 
           <Table
             columns={columns}
-            expandRowByClick
-            expandable={{
-              expandedRowRender: (record) => (
-                <div className="expandedTable">
-                  <Row>
-                    <Col span={12}>
-                      <Statistic
-                        title="Total Hospital Sessions"
-                        value={record.visits}
-                        
-                      />
-                    </Col>
-                    <Col span={6} push={2}>
-                      <Statistic
-                        title="Last Hospital Session"
-                        value={moment(record.lastVisit).format('lll')}
-                        
-                      />
-                    </Col>
-                  </Row>
-                  <br />
-
-                  <br />
-
-                  <Row>
-                    <Col span={3}>
-                      <Link to={'/admin/provider/:id'}>View More</Link>
-                    </Col>
-                  </Row>
-                </div>
-              ),
-              expandIcon: ({ expanded, onExpand, record }) =>
-                expanded ? '-' : '+', 
-            }}
-            dataSource={providers}
+            dataSource={group}
           />
         </Card>
       </div>
@@ -144,40 +112,26 @@ const SubscriberPayments = () => {
   );
 };
 
-const data = [
-  {
-    key: 1,
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-    description:
-      'My name is John Brown, I am 32 years old, living in New York No. 1 Lake Park.',
+const layout = {
+  labelCol: { span: 8 },
+  wrapperCol: { span: 16 },
+};
+
+/* eslint-disable no-template-curly-in-string */
+const validateMessages = {
+  required: '${label} is required!',
+  types: {
+    email: '${label} is not a valid email!',
+    number: '${label} is not a valid number!',
   },
-  {
-    key: 2,
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-    description:
-      'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.',
+  number: {
+    range: '${label} must be between ${min} and ${max}',
   },
-  {
-    key: 3,
-    name: 'Not Expandabcle',
-    age: 29,
-    address: 'Jiangsu No. 1 Lake Park',
-    description: 'This not expandable',
-  },
-  {
-    key: 4,
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
-    description:
-      'My name is Joe Black, I am 32 years old, living in Sidney No. 1 Lake Park.',
-  },
-];
+};
+/* eslint-enable no-template-curly-in-string */
 const AddSubscriberModal = ({ isModalVisible, setIsModalVisible }) => {
+  const dispatch = useDispatch();
+ 
   const handleOk = () => {
     setIsModalVisible(false);
   };
@@ -185,18 +139,59 @@ const AddSubscriberModal = ({ isModalVisible, setIsModalVisible }) => {
   const handleCancel = () => {
     setIsModalVisible(false);
   };
-
+  const onFinish = (values) => {
+    console.log('values',values);
+    dispatch({
+      type: 'ADD_GROUP_MEMBER',
+      payload: values
+    });
+    dispatch({
+      type: 'GET_GROUP_MEMBERS',
+    });
+    handleCancel()
+  };
   return (
     <>
       <Modal
-        title="Basic Modal"
+        title="Add User"
         visible={isModalVisible}
         onOk={handleOk}
+        footer={null}
         onCancel={handleCancel}
       >
-        <p>Some contents...</p>
-        <p>Some contents...</p>
-        <p>Some contents...</p>
+        <Form
+          {...layout}
+          name="nest-messages"
+          onFinish={onFinish}
+          validateMessages={validateMessages}
+        >
+          <Form.Item
+            name={['user', 'fullname']}
+            label="Enter fullname"
+            rules={[{ required: true }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name={['user', 'email']}
+            label="Enter Email Address"
+            rules={[{ type: 'email' }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name={['user', 'phone']}
+            label="Enter Phone number" 
+          >
+            <Input />
+          </Form.Item>
+        
+          <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
+            <Button className='btn primary' htmlType="submit">
+              Submit
+            </Button>
+          </Form.Item>
+        </Form>
       </Modal>
     </>
   );
