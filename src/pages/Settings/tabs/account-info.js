@@ -34,12 +34,12 @@ const AccountSettingsComponent = () => {
         <br />
         <br />
         <br />
-        <button onClick={showModal} className="btn primary btn-block">
+        {/* <button onClick={showModal} className="btn primary btn-block">
           Change Password
         </button>
         <br />
         <br />
-        <br />
+        <br /> */}
         <Button
           loading={loading}
           onClick={handleSignOut}
@@ -83,29 +83,34 @@ const ChangePassword = ({ close }) => {
   return (
     <div className="settings-modal">
       <h4>Change Password</h4>
-
+      <br />
+        
+        <br />
       <div className="form">
         <div className="form-group">
           <label htmlFor="">Current Password</label>
           <Input
-            name="password"
+            name="old"
             onChange={handleChange}
             placeholder="Password"
-            suffix={
-              <Button
-              loading={loading}
-              onClick={handleClick}
-              className="btn primary"
-            >
-              Send OTP
-            </Button>
-            }
+            // suffix={
+            //   <Button
+            //   loading={loading}
+            //   onClick={handleClick}
+            //   className="btn primary"
+            // >
+            //   Send OTP
+            // </Button>
+            // }
           />
         </div>
+        <br />
+      
+        
         <div className="form-group">
           <label htmlFor="">New Password</label>
           <Input.Password
-            name="password"
+            name="new"
             onChange={handleChange}
             placeholder="Password"
             iconRender={(visible) =>
@@ -114,6 +119,9 @@ const ChangePassword = ({ close }) => {
           />
         </div>
       </div>
+      <br />
+        <br />
+        <br />
       <Button
         loading={loading}
         onClick={handleClick}

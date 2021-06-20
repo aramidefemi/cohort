@@ -16,53 +16,16 @@ import {
 } from 'antd';
 import { SearchOutlined, UserOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
+import { usePaystackPayment } from 'react-paystack';
 import moment from 'moment';
-
-const columns = [
-  {
-    title: 'Subscriber',
-    dataIndex: 'fullname',
-    key: 'subscriber',
-    render: (text, record) => (
-      <>
-        <h6>{record.fullname}</h6>
-        <p>
-          {record.policyNumber} | {record.email}
-        </p>
-      </>
-    ),
-  },
-  {
-    title: 'Contact Details',
-    dataIndex: 'email',
-    key: 'email',
-    render: (text, record) => (
-      <>
-        <h6>{record.phone}</h6>
-        <p>{record.address}</p>
-      </>
-    ),
-  },
-  {
-    title: 'Date Registered',
-    dataIndex: 'createdAt',
-    key: 'createdAt',
-    render: (text, record) => moment(text).format('lll'),
-  },
-  {
-    title: 'Action',
-    dataIndex: 'hasSubscription',
-    key: 9,
-    fixed: 'right',
-    width: 100,
-    render: (text) => !text ? <Button type="link" info>Active Account</Button> : <Button type="link" info>Top Up Wallet</Button>,
-  },
-];
 
 const SubscriberPayments = () => {
   const {
     subscriber: { group },
+    auth: { user },
+    subscriber: { subscription, plan },
   } = useSelector((state) => state);
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [search, setSearch] = useState('');
   const dispatch = useDispatch();
   console.log('group', group);
@@ -72,22 +35,118 @@ const SubscriberPayments = () => {
       type: 'GET_GROUP_MEMBERS',
     });
   }, []);
+  const initializePayment = usePaystackPayment({
+    publicKey: 'pk_test_a1fcc1525836d8ca7c23abb658d0a99d3c3ce067',
+    reference:
+      new Date().getTime() +
+      '' +
+      Math.floor(Math.random() * 100000000).toString(),
+    metadata: user,
+    planName: plan?.planName,
+    email: user?.email,
+    amount: plan?.subscriptionAmount * 100,
+  });
   const handleReload = () => {
     dispatch({
       type: 'GET_GROUP_MEMBERS',
-      payload: {
-        search,
-      },
     });
   };
   const handleForm = ({ target: { value } }) => {
     setSearch(value);
     handleReload();
   };
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const activateAccount = (user,reference) => {
+    dispatch({
+      type: 'ACTIVATE_PLAN',
+      payload: {
+        payment: reference,
+        user,
+        planName: plan.planName,
+      },
+    });
+    setTimeout(handleReload, 2000);
+  };
+  const recordPayments = (user,reference) => {
+    dispatch({
+      type: 'RECORD_PAYMENT',
+      payload: {
+        user: user._id, 
+        durationPaidFor: 1,
+        payment: reference,
+      },
+    });
+    setTimeout(handleReload, 500);
+  };
+
   const showModal = () => {
     setIsModalVisible(true);
   };
+  const onClose = (e) => {
+    console.log(e);
+  };
+
+  const columns = [
+    {
+      title: 'Subscriber',
+      dataIndex: 'fullname',
+      key: 'subscriber',
+      render: (text, record) => (
+        <>
+          <h6>{record.fullname}</h6>
+          <p>
+            {record.policyNumber} | {record.email}
+          </p>
+        </>
+      ),
+    },
+    {
+      title: 'Contact Details',
+      dataIndex: 'email',
+      key: 'email',
+      render: (text, record) => (
+        <>
+          <h6>{record.phone}</h6>
+          <p>{record.address}</p>
+        </>
+      ),
+    },
+    {
+      title: 'Subscription Amount',
+      dataIndex: 'email',
+      key: 'email',
+      render: (text, record) => plan?.subscriptionAmount,
+    },
+    {
+      title: 'Date Registered',
+      dataIndex: 'createdAt',
+      key: 'createdAt',
+      render: (text, record) => moment(text).format('lll'),
+    },
+    {
+      title: 'Action',
+      dataIndex: 'hasSubscription',
+      key: 9,
+      fixed: 'right',
+      width: 100,
+      render: (text,record) =>
+        !text ? (
+          <Button
+            onClick={() => initializePayment((ref)=>activateAccount(record,ref), onClose)}
+            type="link"
+            info
+          >
+            Activate Plan
+          </Button>
+        ) : (
+          <Button
+          onClick={() => initializePayment((ref)=>recordPayments(record,ref), onClose)}
+           type="link" info>
+            Top Up Wallet
+          </Button>
+        ),
+    },
+  ];
+
   return (
     <DashboardWrapper type="admin">
       <div className="container">
@@ -95,13 +154,9 @@ const SubscriberPayments = () => {
           <h4>Members </h4>
           <Space style={{ margin: '16px 0', float: 'right' }}>
             <Button onClick={showModal}>Add Member</Button>
-            <Button>Add Members</Button>
           </Space>
 
-          <Table
-            columns={columns}
-            dataSource={group}
-          />
+          <Table columns={columns} dataSource={group} />
         </Card>
       </div>
       <AddSubscriberModal
@@ -131,7 +186,7 @@ const validateMessages = {
 /* eslint-enable no-template-curly-in-string */
 const AddSubscriberModal = ({ isModalVisible, setIsModalVisible }) => {
   const dispatch = useDispatch();
- 
+
   const handleOk = () => {
     setIsModalVisible(false);
   };
@@ -140,15 +195,15 @@ const AddSubscriberModal = ({ isModalVisible, setIsModalVisible }) => {
     setIsModalVisible(false);
   };
   const onFinish = (values) => {
-    console.log('values',values);
+    console.log('values', values);
     dispatch({
       type: 'ADD_GROUP_MEMBER',
-      payload: values
+      payload: values,
     });
     dispatch({
       type: 'GET_GROUP_MEMBERS',
     });
-    handleCancel()
+    handleCancel();
   };
   return (
     <>
@@ -179,15 +234,12 @@ const AddSubscriberModal = ({ isModalVisible, setIsModalVisible }) => {
           >
             <Input />
           </Form.Item>
-          <Form.Item
-            name={['user', 'phone']}
-            label="Enter Phone number" 
-          >
+          <Form.Item name={['user', 'phone']} label="Enter Phone number">
             <Input />
           </Form.Item>
-        
+
           <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
-            <Button className='btn primary' htmlType="submit">
+            <Button className="btn primary" htmlType="submit">
               Submit
             </Button>
           </Form.Item>

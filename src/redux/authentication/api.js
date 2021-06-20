@@ -1,8 +1,10 @@
 import axios from 'axios';
 import { post, get, put, postWithoutUrl } from '../store';
+import { message } from 'antd';
 
 const api = (store) => (next) => async (action) => {
   let response;
+  const token = store.getState()?.auth?.token;
   switch (action.type) {
     case 'SIGN_UP':
       const user = store.getState().auth.form;
@@ -45,9 +47,15 @@ const api = (store) => (next) => async (action) => {
 
     return next(action);
     case 'SAVE_USER': 
-    const token = store.getState()?.auth?.token;
+    
     await put('/profile',action.payload,token);
     window.localStorage.setItem('user', JSON.stringify(action.payload));
+    return next(action);
+    case 'CHANGE_PASSWORD':  
+    response= await put('/change-password',action.payload,token); 
+    if (response.success) { 
+      message.success('Password changed successfully!');
+    }
     return next(action);
     case 'SUBMIT_FOR_COMPUTATION':  
     

@@ -31,67 +31,39 @@ const SubscribersDashboard = () => {
   const {
     auth: { user },
     subscriber: { subscription, plan },
-  } = useSelector((state) => state);
-  const [config, setConfig] = useState({ init: false });
-  const [topUpAmount, setTopUpAmount] = useState(0);
+    history: { history }
+  } = useSelector((state) => state);  
   const dispatch = useDispatch();
 
-  const initializePayment = usePaystackPayment(config);
-
-  const handleValueChange = (multiple) => {
-    const amount = plan.subscriptionPayments * multiple * 100;
-    setTopUpAmount(amount);
-  };
-
-  const startPaystack = () => {
-    const reference =
+  const initializePayment = usePaystackPayment({
+    publicKey: 'pk_test_a1fcc1525836d8ca7c23abb658d0a99d3c3ce067',
+    reference:
       new Date().getTime() +
       '' +
-      Math.floor(Math.random() * 100000000).toString();
-    const metadata = user;
-    const email = user.email;
+      Math.floor(Math.random() * 100000000).toString(),
+    metadata: user,
+    planName: plan?.planName,
+    email: user?.email,
+    amount: plan?.subscriptionAmount * 100,
+  });
 
-    setConfig({
-      publicKey: 'pk_test_a1fcc1525836d8ca7c23abb658d0a99d3c3ce067',
-      reference,
-      metadata,
-      planName: subscription.planName,
-      email,
-      amount: topUpAmount,
-      init: true,
-    });
-  };
-
-  useEffect(() => {
-    if (config.init) {
-      initializePayment(onSuccess, onClose);
-    }
-  }, [config.init]);
-
+ 
   const onSuccess = (reference) => {
     // Implementation for whatever you want to do with reference and after success call.
     console.log('reference from onSuccess', reference);
-    setConfig({
-      reference,
-      init: false,
-    });
+  
     dispatch({
       type: 'RECORD_PAYMENT',
       payload: {
         user: user._id,
-        plan,
-        durationPaidFor: topUpAmount / plan.subscriptionPayments,
+        durationPaidFor: 1,
         payment: reference,
       },
     });
   };
-
-  // you can call this function anything
+ 
   const onClose = (e) => {
-    setConfig({
-      ...config,
-      init: false,
-    });
+  console.log(e)
   };
 
   return (
@@ -165,27 +137,24 @@ const SubscribersDashboard = () => {
                 </div>
               </div>
               <p>
-                Benefits last until 
-                <b> {moment(subscription?.expiryDate).format('DD-MM-YYYY')}
-                </b>
+                Benefits last until
+                <b> {moment(subscription?.expiryDate).format('DD-MM-YYYY')}</b>
               </p>
-              <div className="dashboard-payment-area">
-                <div className="form-group">
-                 
-                  <InputNumber
-                    min={1}
-                    max={12}
-                    defaultValue={1}
-                    onChange={handleValueChange}
-                  />
-
-                  <Tooltip title="Make Payments">
-                    <Button onClick={startPaystack}  className='btn primary'>
-                      Add Money
-                    </Button>
-                  </Tooltip>
+              {
+                plan?.durationCovered < 12 ? (
+                  <div className="dashboard-payment-area">
+                  <div className="form-group">
+                   
+                    <Tooltip title="Make Payments">
+                      <Button onClick={()=>initializePayment(onSuccess, onClose)} className="btn primary">
+                        Add Money
+                      </Button>
+                    </Tooltip>
+                  </div>
                 </div>
-              </div>
+                ) :  (<></>)
+              }
+             
             </Card>
           </Col>
         </Row>
@@ -212,14 +181,16 @@ const SubscribersDashboard = () => {
                 header={null}
                 footer={null}
                 bordered
-                dataSource={[]}
-                renderItem={(item) => (
+                dataSource={ history || []}
+                renderItem={({ provider: {fullname}, createdAt }) =>{
+                  console.log()
+                  return (
                   <List.Item>
                     <div className="benefits">
-                      <p>{item}</p>
+                      <p>{fullname}</p>
                       <small>
-                        02/28/2021
-                        <Link to="history">
+                        {moment(createdAt).format('lll')}
+                        <Link to="/subscriber/history">
                           <EyeFilled
                             style={{
                               marginLeft: '20px',
@@ -231,13 +202,13 @@ const SubscribersDashboard = () => {
                       </small>
                     </div>
                   </List.Item>
-                )}
+                )}}
               />
             </Card>
           </Col>
           <Col className="gutter-row" md={24} lg={12}>
             <Card className="medical-benefits-usage-card">
-              <h4>Other Medical Benfits</h4>
+              <h4>Medical Benfits</h4>
               <Tabs defaultActiveKey="1" className="tabs" onChange={callback}>
                 <TabPane tab="Unlimited Benefits" key="1">
                   <div className="searchbar">

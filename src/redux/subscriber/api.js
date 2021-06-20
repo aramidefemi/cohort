@@ -7,6 +7,7 @@ const api = (store) => (next) => async (action) => {
   switch (action.type) {
     case 'GET_SUBSCRIPTION':
       response = await get('/subscriptions', token);
+      console.log('response',response)
       action.type = 'UPDATE_SUBSCRIBER_STATE';
       action.payload = response?.data;
 

@@ -100,6 +100,15 @@ const PersonalInfoSettingsComponent = () => {
             />
           </div>
           <div className="form-group">
+            <label htmlFor="">Phone Number</label>
+            <Input
+              placeholder="Phone Number"
+              name="phone"
+              defaultValue={user.phone}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="form-group">
             <label htmlFor="">Address</label>
             <Input
               placeholder="Enter Address"

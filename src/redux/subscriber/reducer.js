@@ -13,6 +13,7 @@ export default function applicationReducer(
 ) {
   switch (type) {
     case 'UPDATE_SUBSCRIBER_STATE': 
+    console.log('payload',payload)
       const new_state = { ...state, ...payload };
       return new_state;
     default:
