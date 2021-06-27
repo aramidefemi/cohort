@@ -2,7 +2,7 @@ const initialState = {
 	form: {},
 	user: JSON.parse(window.localStorage.getItem('user')) || {},
 	token: window.localStorage.getItem('token') || null,
-	computation: { 
+	computation: {
 		Plan: null,
 		Pricing: null,
 	}
